@@ -7,18 +7,20 @@ import 'package:gtoserviceapp/screens/calculator_result/trials.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 
 class Result extends StatelessWidget {
-  final Future<TrialsModel> trials;
+  final Future<TrialsModel> _trials;
+  final int _age;
+  final Gender _gender;
 
-  Result(int age, Gender gender)
-      : trials = GetIt.I<API>().fetchTrials(age, gender);
+  Result(this._age, this._gender)
+      : _trials = GetIt.I<API>().fetchTrials(_age, _gender);
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: trials,
+      future: _trials,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Trials(snapshot.data);
+          return Trials(snapshot.data, _age, _gender);
         }
         if (snapshot.hasError) {
           return Text(snapshot.error.toString());

@@ -5,6 +5,19 @@ enum Gender {
   Female,
 }
 
+String genderToString(Gender gender) {
+  switch (gender) {
+    case Gender.Male:
+      return "Мужской";
+      break;
+    case Gender.Female:
+      return "Женский";
+      break;
+    default:
+      throw Exception("Invalid gender value");
+  }
+}
+
 class CalculatorModel extends ChangeNotifier {
   Gender _gender;
   int _age;
