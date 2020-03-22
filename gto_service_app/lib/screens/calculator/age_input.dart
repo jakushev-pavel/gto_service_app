@@ -6,10 +6,11 @@ import 'package:provider/provider.dart';
 class AgeInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    var calc = Provider.of<CalculatorModel>(context);
+    return TextFormField(
+      initialValue: calc.age.toString(),
       decoration: InputDecoration(hintText: "Возраст"),
       keyboardType: TextInputType.number,
-      onSubmitted: (text) => _onChanged(context, text),
       onChanged: (text) => _onChanged(context, text),
     );
   }

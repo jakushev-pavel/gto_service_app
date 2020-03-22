@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gtoserviceapp/common/nav_bar.dart';
 import 'package:gtoserviceapp/screens/calculator/age_input.dart';
 import 'package:gtoserviceapp/screens/calculator/gender_selector.dart';
 import 'package:gtoserviceapp/screens/calculator/submit_button.dart';
@@ -23,6 +24,7 @@ class CalculatorScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
         ),
       ),
+      bottomNavigationBar: NavigationBar(),
     );
   }
 }
