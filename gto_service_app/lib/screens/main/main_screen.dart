@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/common/nav_bar.dart';
+import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
+import 'package:gtoserviceapp/components/navigation/tabs.dart';
 
 class MainScreen extends StatelessWidget {
   @override
@@ -8,7 +8,7 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text("GTO Service")),
       body: Center(child: CircularProgressIndicator()),
-      bottomNavigationBar: NavigationBar(),
+      bottomNavigationBar: NavigationBar(Tabs.Main),
     );
   }
 }

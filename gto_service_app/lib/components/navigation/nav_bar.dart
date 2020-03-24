@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/models/app_model.dart';
 import 'package:gtoserviceapp/screens/calculator/calculator.dart';
 import 'package:gtoserviceapp/screens/main/main_screen.dart';
-import 'package:provider/provider.dart';
+
+import 'tabs.dart';
 
 class NavigationBar extends StatelessWidget {
+  final Tabs _tab;
+
+  NavigationBar(this._tab);
+
   @override
   Widget build(BuildContext context) {
-    var appModel = Provider.of<AppModel>(context);
     return BottomNavigationBar(
       items: _buildItems(context),
       onTap: (value) => _onTap(context, value),
-      currentIndex: appModel.navBarSelection,
+      currentIndex: _tab.toInt(),
     );
   }
 
@@ -29,19 +32,21 @@ class NavigationBar extends StatelessWidget {
   }
 
   _onTap(BuildContext context, int value) {
-    var appModel = Provider.of<AppModel>(context, listen: false);
-    appModel.navBarSelection = value;
-    switch (value) {
-      case 0:
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => MainScreen(),
-        ));
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => _buildTab(TabsEx.fromInt(value)),
+    ));
+  }
+
+  Widget _buildTab(Tabs tab) {
+    switch (tab) {
+      case Tabs.Main:
+        return MainScreen();
         break;
-      case 1:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => CalculatorScreen(),
-        ));
+      case Tabs.Calculator:
+        return CalculatorScreen();
         break;
+      default:
+        return null;
     }
   }
 }
