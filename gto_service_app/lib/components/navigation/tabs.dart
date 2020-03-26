@@ -1,6 +1,7 @@
 enum Tabs {
   Main,
   Calculator,
+  Login,
 }
 
 extension TabsEx on Tabs {
@@ -8,6 +9,7 @@ extension TabsEx on Tabs {
     return {
       0: Tabs.Main,
       1: Tabs.Calculator,
+      2: Tabs.Login,
     }[value];
   }
 
@@ -15,6 +17,7 @@ extension TabsEx on Tabs {
     return {
       Tabs.Main: 0,
       Tabs.Calculator: 1,
+      Tabs.Login: 2,
     }[this];
   }
 }

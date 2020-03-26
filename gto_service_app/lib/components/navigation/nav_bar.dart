@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/screens/calculator/calculator.dart';
+import 'package:gtoserviceapp/screens/login/login.dart';
 import 'package:gtoserviceapp/screens/main/main_screen.dart';
 
 import 'tabs.dart';
@@ -28,6 +29,10 @@ class NavigationBar extends StatelessWidget {
         icon: Icon(Icons.directions_run),
         title: Text("Калькулятор"),
       ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.vpn_key),
+        title: Text("Вход"),
+      ),
     ];
   }
 
@@ -44,6 +49,9 @@ class NavigationBar extends StatelessWidget {
         break;
       case Tabs.Calculator:
         return CalculatorScreen();
+        break;
+      case Tabs.Login:
+        return LoginScreen();
         break;
       default:
         return null;
