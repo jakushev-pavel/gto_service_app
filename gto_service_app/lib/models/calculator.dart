@@ -5,6 +5,15 @@ enum Gender {
   Female,
 }
 
+extension GenderEx on Gender {
+  int toInt() {
+    return {
+      Gender.Male: 1,
+      Gender.Female: 0
+    }[this];
+  }
+}
+
 String genderToString(Gender gender) {
   switch (gender) {
     case Gender.Male:
