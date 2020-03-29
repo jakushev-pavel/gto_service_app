@@ -8,8 +8,8 @@ class Auth {
     return GetIt.I<Auth>();
   }
 
-  Future<bool> get isLoggedIn async {
-    return await Storage.I.has(Keys.accessToken) == true;
+  Future<bool> get isLoggedIn {
+    return Storage.I.has(Keys.accessToken);
   }
 
   Future<void> login(String email, String password) async {

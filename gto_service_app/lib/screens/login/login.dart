@@ -14,6 +14,18 @@ class LoginScreenState extends State<LoginScreen> {
   String _email;
   String _password;
 
+  _updatePassword(String password) {
+    setState(() {
+      _password = password;
+    });
+  }
+
+  _updateEmail(String email) {
+    setState(() {
+      _email = email;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -41,7 +53,7 @@ class LoginScreenState extends State<LoginScreen> {
           hintText: "Email",
           prefixIcon: Icon(Icons.email),
         ),
-        onChanged: (value) => {_email = value},
+        onChanged: _updateEmail,
       );
 
   Widget _buildPasswordField() => TextFormField(
@@ -50,18 +62,27 @@ class LoginScreenState extends State<LoginScreen> {
           hintText: "Пароль",
           prefixIcon: Icon(Icons.vpn_key),
         ),
-        onChanged: (value) => {_password = value},
+        onChanged: _updatePassword,
+//        onFieldSubmitted: (value) => {_password = value},
       );
 
   Widget _buildButton(context) => RaisedButton(
         child: Text("Войти"),
-        onPressed: () => _onButtonPressed(context),
+        onPressed: _onButtonPressed(context),
         disabledColor: Colors.grey.shade400,
         disabledTextColor: Colors.black,
       );
 
-  _onButtonPressed(context) {
-    Auth.I
+  Function() _onButtonPressed(context) {
+    const passwordMinLen = 6;
+    if (_email == null ||
+        _email.isEmpty ||
+        _password == null ||
+        _password.length < passwordMinLen) {
+      return null;
+    }
+
+    return () => Auth.I
         .login(_email, _password)
         .then((_) => _onSuccess(context))
         .catchError((error) => _onError(context, error));
