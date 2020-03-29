@@ -14,6 +14,7 @@ class CalculatorScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text("Калькулятор"),
+          automaticallyImplyLeading: false,
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),

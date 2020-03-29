@@ -12,7 +12,7 @@ class Result extends StatelessWidget {
   final Gender _gender;
 
   Result(this._age, this._gender)
-      : _trials = GetIt.I<API>().fetchTrials(_age, _gender);
+      : _trials = API.I.fetchTrials(_age, _gender);
 
   @override
   Widget build(BuildContext context) {

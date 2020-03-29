@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/screens/calculator/calculator.dart';
-import 'package:gtoserviceapp/screens/login/login.dart';
 import 'package:gtoserviceapp/screens/main/main_screen.dart';
+import 'package:gtoserviceapp/screens/profile/profile.dart';
 
 import 'tabs.dart';
 
@@ -30,8 +30,8 @@ class NavigationBar extends StatelessWidget {
         title: Text("Калькулятор"),
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.vpn_key),
-        title: Text("Вход"),
+        icon: Icon(Icons.account_circle),
+        title: Text("Профиль"),
       ),
     ];
   }
@@ -50,8 +50,8 @@ class NavigationBar extends StatelessWidget {
       case Tabs.Calculator:
         return CalculatorScreen();
         break;
-      case Tabs.Login:
-        return LoginScreen();
+      case Tabs.Profile:
+        return ProfileScreen();
         break;
       default:
         return null;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:gtoserviceapp/models/trials.dart';
 import 'package:gtoserviceapp/screens/calculator_result/trial_result.dart';
 
@@ -14,7 +15,6 @@ class Trial extends StatelessWidget {
       children: <Widget>[
         Text(_trial.trialName),
         Row(
-//          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             TrialResult(_trial.resultForGold, Colors.yellow),
             TrialResult(_trial.resultForSilver, Colors.grey),

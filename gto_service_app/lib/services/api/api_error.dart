@@ -1,9 +1,13 @@
-class Errors implements Exception {
+class APIErrors implements Exception {
   List<APIError> errors;
 
-  Errors.fromJson(Map<String, dynamic> json) {
+  APIErrors.fromJson(Map<String, dynamic> json) {
+    errors = new List<APIError>();
+    if (json['error'] != null) {
+      // TODO: недокументировано
+      errors.add(APIError.fromJson(json['error']));
+    }
     if (json['errors'] != null) {
-      errors = new List<APIError>();
       json['errors'].forEach((v) {
         errors.add(APIError.fromJson(v));
       });

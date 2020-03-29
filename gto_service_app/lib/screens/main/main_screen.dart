@@ -6,7 +6,10 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("GTO Service")),
+      appBar: AppBar(
+        title: Text("GTO Service"),
+        automaticallyImplyLeading: false,
+      ),
       body: Center(child: CircularProgressIndicator()),
       bottomNavigationBar: NavigationBar(Tabs.Main),
     );
