@@ -26,14 +26,16 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Профиль"),
         automaticallyImplyLeading: false,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.arrow_forward),
-            onPressed: () => _onLogoutButtonPressed(context),
-          )
-        ],
+        actions: <Widget>[_buildLogoutButton(context)],
       ),
       bottomNavigationBar: NavigationBar(Tabs.Profile),
+    );
+  }
+
+  Widget _buildLogoutButton(context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_forward),
+      onPressed: () => _onLogoutButtonPressed(context),
     );
   }
 

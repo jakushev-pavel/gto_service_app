@@ -10,7 +10,6 @@ class MainScreen extends StatelessWidget {
         title: Text("GTO Service"),
         automaticallyImplyLeading: false,
       ),
-      body: Center(child: CircularProgressIndicator()),
       bottomNavigationBar: NavigationBar(Tabs.Main),
     );
   }
