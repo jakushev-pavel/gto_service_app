@@ -12,18 +12,12 @@ extension GenderEx on Gender {
       Gender.Female: 0
     }[this];
   }
-}
 
-String genderToString(Gender gender) {
-  switch (gender) {
-    case Gender.Male:
-      return "Мужской";
-      break;
-    case Gender.Female:
-      return "Женский";
-      break;
-    default:
-      throw Exception("Invalid gender value");
+  String toStr() {
+    return {
+      Gender.Male: "Мужской",
+      Gender.Female: "Женский"
+    }[this];
   }
 }
 

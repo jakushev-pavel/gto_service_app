@@ -15,7 +15,7 @@ class Trials extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text("Пол: ${genderToString(_gender)}"),
+        Text("Пол: ${_gender.toStr()}"),
         Text("Возраст: $_age"),
         Text(_trials.ageCategory),
         Expanded(child: _buildList()),
