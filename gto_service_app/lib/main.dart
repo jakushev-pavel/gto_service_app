@@ -8,7 +8,6 @@ import 'package:gtoserviceapp/services/storage/storage.dart';
 import 'package:gtoserviceapp/theme/theme.dart';
 import 'package:provider/provider.dart';
 
-
 void setup() {
   GetIt.I.registerSingleton<API>(API());
   GetIt.I.registerSingleton<Storage>(Storage());

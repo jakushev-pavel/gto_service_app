@@ -22,7 +22,7 @@ class SubmitButton extends StatelessWidget {
     }
 
     return () => Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => CalculatorResultScreen(),
-    ));
+          builder: (_) => CalculatorResultScreen(),
+        ));
   }
 }

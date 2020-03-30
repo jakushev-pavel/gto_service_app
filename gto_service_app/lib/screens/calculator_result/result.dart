@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:gtoserviceapp/models/calculator.dart';
 import 'package:gtoserviceapp/models/trials.dart';
 import 'package:gtoserviceapp/screens/calculator_result/trials.dart';
@@ -11,8 +10,7 @@ class Result extends StatelessWidget {
   final int _age;
   final Gender _gender;
 
-  Result(this._age, this._gender)
-      : _trials = API.I.fetchTrials(_age, _gender);
+  Result(this._age, this._gender) : _trials = API.I.fetchTrials(_age, _gender);
 
   @override
   Widget build(BuildContext context) {
