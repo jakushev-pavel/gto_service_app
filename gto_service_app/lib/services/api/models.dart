@@ -30,3 +30,31 @@ class LoginResponse {
     organizationID = json['organizationId'];
   }
 }
+
+class RefreshResponse {
+  String accessToken;
+  String refreshToken;
+
+  RefreshResponse({this.accessToken, this.refreshToken});
+
+  RefreshResponse.fromJson(Map<String, dynamic> json) {
+    accessToken = json['accessToken'];
+    refreshToken = json['refreshToken'];
+  }
+}
+
+class GetUserInfoResponse {
+  String email;
+  String name;
+  String gender;
+  String dateOfBirth;
+
+  GetUserInfoResponse({this.email, this.name, this.gender, this.dateOfBirth});
+
+  GetUserInfoResponse.fromJson(Map<String, dynamic> json) {
+    email = json['email'];
+    name = json['name'];
+    gender = json['gender'];
+    dateOfBirth = json['dateOfBirth'];
+  }
+}
