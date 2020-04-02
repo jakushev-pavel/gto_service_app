@@ -13,40 +13,20 @@ class TrialsModel {
     }
     ageCategory = json['ageCategory'];
   }
-
-  int get length {
-    int result = 0;
-
-    for (int index = 0; index < groups.length; index++) {
-      result += groups[index].group.length;
-    }
-
-    return result;
-  }
-
-  TrialModel at(int index) {
-    int current = 0;
-    while (groups[current].group.length <= index) {
-      index -= groups[current].group.length;
-      current++;
-    }
-
-    return groups[current].group[index];
-  }
 }
 
 class GroupModel {
   bool necessary;
-  List<TrialModel> group;
+  List<TrialModel> trials;
 
-  GroupModel({this.necessary, this.group});
+  GroupModel({this.necessary, this.trials});
 
   GroupModel.fromJson(Map<String, dynamic> json) {
     necessary = json['necessary'];
     if (json['group'] != null) {
-      group = List<TrialModel>();
+      trials = List<TrialModel>();
       json['group'].forEach((v) {
-        group.add(TrialModel.fromJson(v));
+        trials.add(TrialModel.fromJson(v));
       });
     }
   }

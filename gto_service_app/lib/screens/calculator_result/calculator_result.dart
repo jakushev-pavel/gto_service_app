@@ -43,16 +43,37 @@ class CalculatorResultScreen extends StatelessWidget {
     );
   }
 
-  ListView _buildList(trials) {
+  ListView _buildList(TrialsModel trials) {
     return ListView.builder(
       itemBuilder: (context, index) {
-        if (index >= trials.length) {
+        if (index >= trials.groups.length) {
           return null;
         }
         return ListTile(
-          title: _buildTrial(trials.at(index)),
+          title: _buildGroup(trials.groups[index]),
         );
       },
+    );
+  }
+
+  Widget _buildGroup(GroupModel group) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text("Группа:"),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            if (index >= group.trials.length) {
+              return null;
+            }
+            return ListTile(
+              title: _buildTrial(group.trials[index]),
+            );
+          },
+        ),
+      ],
     );
   }
 
