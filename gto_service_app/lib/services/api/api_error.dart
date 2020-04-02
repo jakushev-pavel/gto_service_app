@@ -19,6 +19,11 @@ class APIErrors implements Exception {
     var messages = errors.map((e) => e.toString());
     return messages.join(", ");
   }
+
+  String toText() {
+    var messages = errors.map((e) => e.toText());
+    return messages.join(", ");
+  }
 }
 
 class APIError {
@@ -32,5 +37,9 @@ class APIError {
 
   String toString() {
     return "$type: $description";
+  }
+
+  String toText() {
+    return description;
   }
 }

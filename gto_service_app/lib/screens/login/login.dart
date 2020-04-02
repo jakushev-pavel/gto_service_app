@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/dialogs/ok_dialog.dart';
+import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
 import 'package:gtoserviceapp/screens/profile/profile.dart';
@@ -99,13 +99,10 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  _onError(context, error) {
+  _onError(BuildContext context, error) {
     showDialog(
       context: context,
-      child: OkDialog(
-        "Ошибка",
-        text: error.toString(),
-      ),
+      child: ErrorDialog.fromError(error)
     );
   }
 }
