@@ -4,7 +4,7 @@ class TrialsModel {
 
   TrialsModel({this.groups, this.ageCategory});
 
-  TrialsModel.fromJSON(Map<String, dynamic> json) {
+  TrialsModel.fromJson(Map<String, dynamic> json) {
     if (json['groups'] != null) {
       groups = new List<GroupModel>();
       json['groups'].forEach((v) {

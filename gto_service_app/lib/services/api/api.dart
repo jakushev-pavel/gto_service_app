@@ -98,15 +98,22 @@ class API {
     ).then((json) => RefreshResponse.fromJson(json));
   }
 
-  Future<TrialsModel> fetchTrials(int age, Gender gender) {
-    return _get(Routes.Trial.withArgs(age: age, gender: gender))
-        .then((json) => TrialsModel.fromJSON(json));
-  }
-
   Future<GetUserInfoResponse> getUserInfo() async {
     return _post(
       Routes.Info.toStr(),
       headers: await _buildPostAuthHeaders(),
     ).then((json) => GetUserInfoResponse.fromJson(json));
+  }
+
+  Future<TrialsModel> fetchTrials(int age, Gender gender) {
+    return _get(Routes.Trial.withArgs(age: age, gender: gender))
+        .then((json) => TrialsModel.fromJson(json));
+  }
+
+  Future<SecondaryResultResponse> fetchSecondaryResult(int trialId, int primaryResult) {
+    return _get(Routes.TrialSecondaryResult.withArgs(
+      trialId: trialId,
+      primaryResult: primaryResult,
+    )).then((json) => SecondaryResultResponse.fromJson(json));
   }
 }

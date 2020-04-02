@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/models/calculator.dart';
 import 'package:gtoserviceapp/models/trials.dart';
+import 'package:gtoserviceapp/screens/calculator_result/trial.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +30,6 @@ class CalculatorResultScreen extends StatelessWidget {
       },
     );
   }
-
 
   Widget _buildTrials(TrialsModel trials, int age, Gender gender) {
     return Column(
@@ -69,42 +69,11 @@ class CalculatorResultScreen extends StatelessWidget {
               return null;
             }
             return ListTile(
-              title: _buildTrial(group.trials[index]),
+              title: Trial(group.trials[index]),
             );
           },
         ),
       ],
-    );
-  }
-
-  Widget _buildTrial(TrialModel trial) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(trial.trialName),
-        Row(
-          children: <Widget>[
-            _buildTrialResult(trial.resultForGold, Colors.yellow),
-            _buildTrialResult(trial.resultForSilver, Colors.grey),
-            _buildTrialResult(trial.resultForBronze, Colors.brown.shade300),
-          ],
-        )
-      ],
-    );
-  }
-
-  Widget _buildTrialResult(String value, Color color) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Row(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: Icon(Icons.brightness_1, color: color),
-          ),
-          Text(value),
-        ],
-      ),
     );
   }
 }

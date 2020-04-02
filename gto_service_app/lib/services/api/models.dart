@@ -58,3 +58,14 @@ class GetUserInfoResponse {
     dateOfBirth = json['dateOfBirth'];
   }
 }
+
+class SecondaryResultResponse {
+  int secondaryResult;
+
+  SecondaryResultResponse({this.secondaryResult});
+
+  SecondaryResultResponse.fromJson(Map<String, dynamic> json) {
+    secondaryResult = json['secondResult'];
+  }
+}
+
