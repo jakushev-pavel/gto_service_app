@@ -6,6 +6,7 @@ import 'package:gtoserviceapp/models/trials.dart';
 import 'package:gtoserviceapp/services/api/api_error.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
+import 'package:gtoserviceapp/services/auth/auth.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 import 'package:http/http.dart';
@@ -50,11 +51,11 @@ class API {
     final response =
         await _httpClient.post(url, body: jsonEncode(args), headers: headers);
 
-    if (response.statusCode == 401 && refresh) {
-      return _post(path, args: args, headers: headers, refresh: false);
-    }
-
     if (response.statusCode != 200) {
+      if (refresh) {
+        await Auth.I.refresh();
+        return _post(path, args: args, headers: headers, refresh: false);
+      }
       return _processResponseError(response, url);
     }
 
@@ -82,10 +83,18 @@ class API {
     ).then((json) => LoginResponse.fromJson(json));
   }
 
+  Future<Map<String, String>> _buildPostRefreshHeaders() async {
+    return {
+      ...await _buildPostHeaders(),
+      "Authorization": await Storage.I.read(Keys.refreshToken),
+    };
+  }
+
   Future<RefreshResponse> refresh() async {
     return _post(
       Routes.Refresh.toStr(),
-      headers: await _buildPostAuthHeaders(),
+      headers: await _buildPostRefreshHeaders(),
+      refresh: false,
     ).then((json) => RefreshResponse.fromJson(json));
   }
 

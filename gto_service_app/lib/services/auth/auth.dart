@@ -23,6 +23,20 @@ class Auth {
     ]);
   }
 
+  Future<void> refresh() async {
+    try {
+      var response = await API.I.refresh();
+
+      return Future.wait([
+        Storage.I.write(Keys.accessToken, response.accessToken),
+        Storage.I.write(Keys.refreshToken, response.refreshToken),
+      ]);
+    } catch (e) {
+      logout();
+      throw e;
+    }
+  }
+
   Future<void> logout() async {
     return Future.wait([
       Storage.I.delete(Keys.accessToken),
