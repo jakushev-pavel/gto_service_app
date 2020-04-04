@@ -130,4 +130,10 @@ class API {
       headers: _buildPostAuthHeaders,
     ).then((json) => CreateOrgResponse.fromJson(json));
   }
+
+  Future<Organisation> getOrg(String id) {
+    return _get(
+      Routes.Organization.withArgs(orgId: id),
+    ).then((json) => Organisation.fromJson(json));
+  }
 }

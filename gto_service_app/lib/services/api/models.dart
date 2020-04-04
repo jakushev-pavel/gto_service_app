@@ -99,15 +99,18 @@ class Organisation {
   int countOfActiveEvents;
 
   Organisation(
-      {this.name,
-        this.address,
-        this.leader,
-        this.phoneNumber,
-        this.oQRN,
-        this.paymentAccount,
-        this.branch,
-        this.bik,
-        this.correspondentAccount});
+      {this.id,
+      this.name,
+      this.address,
+      this.leader,
+      this.phoneNumber,
+      this.oQRN,
+      this.paymentAccount,
+      this.branch,
+      this.bik,
+      this.correspondentAccount,
+      this.countOfAllEvents,
+      this.countOfActiveEvents});
 
   Organisation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -115,6 +118,7 @@ class Organisation {
     address = json['address'];
     leader = json['leader'];
     phoneNumber = json['phone_number'];
+    phoneNumber ??= json['phoneNumber'];
     oQRN = json['OQRN'];
     paymentAccount = json['payment_account'];
     branch = json['branch'];
@@ -126,15 +130,22 @@ class Organisation {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['name'] = this.name;
     data['address'] = this.address;
     data['leader'] = this.leader;
     data['phoneNumber'] = this.phoneNumber;
     data['oqrn'] = this.oQRN;
+    data['OQRN'] = this.oQRN;
     data['paymentAccount'] = this.paymentAccount;
+    data['payment_account'] = this.paymentAccount;
     data['branch'] = this.branch;
     data['bik'] = this.bik;
     data['correspondentAccount'] = this.correspondentAccount;
+    data['correspondent_account'] = this.correspondentAccount;
+    data['leader'] = this.leader;
+    data['countOfAllEvents'] = this.countOfAllEvents;
+    data['countOfActiveEvents'] = this.countOfActiveEvents;
     return data;
   }
 }
