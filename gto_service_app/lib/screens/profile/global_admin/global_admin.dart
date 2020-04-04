@@ -4,6 +4,7 @@ import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
 import 'package:gtoserviceapp/screens/profile/app_bar.dart';
+import 'package:gtoserviceapp/screens/profile/global_admin/add_org.dart';
 import 'package:gtoserviceapp/screens/profile/header.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
@@ -16,7 +17,7 @@ class GlobalAdminProfileScreen extends StatelessWidget {
       body: _buildBody(context),
       bottomNavigationBar: NavigationBar(Tabs.Profile),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: () => _onFabPressed(context),
         child: Icon(Icons.add),
       ),
     );
@@ -34,12 +35,12 @@ class GlobalAdminProfileScreen extends StatelessWidget {
 
   Widget _buildOrgListHeader(context) {
     return Padding(
-        padding: const EdgeInsets.only(left: 16, bottom: 4),
-        child: Text(
-          "Организации:",
-          style: Theme.of(context).textTheme.headline,
-        ),
-      );
+      padding: const EdgeInsets.only(left: 16, bottom: 4),
+      child: Text(
+        "Организации:",
+        style: Theme.of(context).textTheme.headline,
+      ),
+    );
   }
 
   Widget _buildFutureOrgList(context) {
@@ -89,5 +90,12 @@ class GlobalAdminProfileScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _onFabPressed(context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return AddOrgScreen();
+    }));
   }
 }
