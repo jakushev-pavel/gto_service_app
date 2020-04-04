@@ -5,6 +5,7 @@ import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
 import 'package:gtoserviceapp/screens/profile/app_bar.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_org.dart';
+import 'package:gtoserviceapp/screens/profile/global_admin/org.dart';
 import 'package:gtoserviceapp/screens/profile/header.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
@@ -74,19 +75,22 @@ class GlobalAdminProfileScreen extends StatelessWidget {
   }
 
   Widget _buildOrg(context, Organisation org) {
-    return Card(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(org.name),
-            Text(
-              org.address,
-              style: Theme.of(context).textTheme.caption,
-            ),
-          ],
+    return InkWell(
+      onTap: () => _onOrgTapped(context, org.id),
+      child: Card(
+        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(org.name),
+              Text(
+                org.address,
+                style: Theme.of(context).textTheme.caption,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -97,5 +101,11 @@ class GlobalAdminProfileScreen extends StatelessWidget {
         .push(MaterialPageRoute(builder: (BuildContext context) {
       return AddOrgScreen();
     }));
+  }
+
+  _onOrgTapped(context, String id) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => OrganisationScreen(id),
+    ));
   }
 }
