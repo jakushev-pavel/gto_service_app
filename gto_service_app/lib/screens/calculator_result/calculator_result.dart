@@ -42,44 +42,55 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
   }
 
   Widget _buildTrials(TrialsModel trials, int age, Gender gender) {
-    return Column(
+    return ListView(
       children: <Widget>[
         _buildHeader(gender, age, trials),
+        Divider(color: Colors.black),
         _buildTrialsList(trials),
       ],
-      crossAxisAlignment: CrossAxisAlignment.stretch,
     );
   }
 
   Widget _buildHeader(Gender gender, int age, TrialsModel trials) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text("Пол: ${gender.toStr()}"),
-          SizedBox(height: 2),
-          Text("Возраст: $age"),
-          SizedBox(height: 2),
-          Text("Возрастная ступень: ${trials.ageCategory}"),
-        ],
+    return Card(
+      margin: EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 8,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text("Пол: ${gender.toStr()}"),
+            SizedBox(height: 2),
+            Text("Возраст: $age"),
+            SizedBox(height: 2),
+            Text("Возрастная ступень: ${trials.ageCategory}"),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildTrialsList(TrialsModel trials) {
-    return Expanded(
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          if (index >= trials.groups.length) {
-            return null;
-          }
-          return ListTile(
-            contentPadding: EdgeInsets.zero,
-            title: _buildGroup(trials.groups[index]),
-          );
-        },
-      ),
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        if (index >= trials.groups.length) {
+          return null;
+        }
+        return ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: _buildGroup(trials.groups[index]),
+        );
+      },
+      separatorBuilder: (_, __) => Divider(color: Colors.black),
+      itemCount: trials.groups.length,
     );
   }
 
@@ -101,7 +112,7 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
 
   Widget _buildTrial(BuildContext context, TrialModel trial) {
     return Card(
-      margin: EdgeInsets.fromLTRB(16, 8, 16, 0),
+      margin: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Column(
