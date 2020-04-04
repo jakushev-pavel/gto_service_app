@@ -38,6 +38,10 @@ class NavigationBar extends StatelessWidget {
   }
 
   _onTap(BuildContext context, int value) {
+    if (TabsEx.fromInt(value) == _tab) {
+      return;
+    }
+
     Navigator.of(context).push(PageRouteBuilder(
       pageBuilder: (BuildContext context, _, __) =>
           _buildTab(TabsEx.fromInt(value)),
