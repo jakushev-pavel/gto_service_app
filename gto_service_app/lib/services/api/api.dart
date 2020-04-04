@@ -72,7 +72,7 @@ class API {
   Future<Map<String, String>> _buildPostAuthHeaders() async {
     return {
       ...await _buildPostHeaders(),
-      "Authorization": await Storage.I.read(Keys.accessToken),
+      "Authorization": Storage.I.read(Keys.accessToken),
     };
   }
 
@@ -87,7 +87,7 @@ class API {
   Future<Map<String, String>> _buildPostRefreshHeaders() async {
     return {
       ...await _buildPostHeaders(),
-      "Authorization": await Storage.I.read(Keys.refreshToken),
+      "Authorization": Storage.I.read(Keys.refreshToken),
     };
   }
 
