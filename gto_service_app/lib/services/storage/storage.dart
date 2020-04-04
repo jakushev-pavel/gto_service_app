@@ -13,8 +13,8 @@ class Storage {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  String read(Keys key)  {
-    return  _prefs.getString(key.toStr());
+  String read(Keys key) {
+    return _prefs.getString(key.toStr());
   }
 
   bool has(Keys key) {

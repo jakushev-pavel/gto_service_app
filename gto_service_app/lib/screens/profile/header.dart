@@ -10,20 +10,18 @@ import 'package:gtoserviceapp/services/storage/storage.dart';
 class ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ShrunkVertically(
-      child: Card(
-        margin: EdgeInsets.all(16),
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: ExpandedHorizontally(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _buildUserName(context),
-                _buildRole(context),
-              ],
-            ),
+    return Card(
+      margin: EdgeInsets.all(16),
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: ExpandedHorizontally(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _buildUserName(context),
+              _buildRole(context),
+            ],
           ),
         ),
       ),

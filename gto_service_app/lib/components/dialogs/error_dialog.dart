@@ -7,7 +7,7 @@ class ErrorDialog extends OkDialog {
 
   ErrorDialog.fromText(text) : super(_title, text: text);
 
-  static _errorToText(Exception e) {
+  static _errorToText(e) {
     if (e is APIErrors) {
       return e.toText();
     }

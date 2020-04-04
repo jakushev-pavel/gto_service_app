@@ -44,6 +44,7 @@ class Auth {
       Storage.I.delete(Keys.refreshToken),
       Storage.I.delete(Keys.role),
       Storage.I.delete(Keys.organisationId),
+      Storage.I.delete(Keys.userId),
     ]);
   }
 }

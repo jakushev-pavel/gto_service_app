@@ -71,3 +71,45 @@ class SecondaryResultResponse {
   }
 }
 
+class FetchOrganisationsResponse {
+  List<Organisation> organisations;
+
+  FetchOrganisationsResponse.fromJson(List<dynamic> json) {
+    if (json != null) {
+      organisations = new List<Organisation>();
+      json.forEach((v) {
+        organisations.add(new Organisation.fromJson(v));
+      });
+    }
+  }
+}
+
+class Organisation {
+  String id;
+  String name;
+  String address;
+  String leader;
+  String phoneNumber;
+  String oQRN;
+  String paymentAccount;
+  String branch;
+  String bik;
+  String correspondentAccount;
+  int countOfAllEvents;
+  int countOfActiveEvents;
+
+  Organisation.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    address = json['address'];
+    leader = json['leader'];
+    phoneNumber = json['phone_number'];
+    oQRN = json['OQRN'];
+    paymentAccount = json['payment_account'];
+    branch = json['branch'];
+    bik = json['bik'];
+    correspondentAccount = json['correspondent_account'];
+    countOfAllEvents = json['countOfAllEvents'];
+    countOfActiveEvents = json['countOfActiveEvents'];
+  }
+}

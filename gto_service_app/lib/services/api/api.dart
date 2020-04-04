@@ -49,8 +49,8 @@ class API {
   }) async {
     final url = Uri.parse("$baseURL$path");
     args ??= <String, dynamic>{};
-    final response =
-        await _httpClient.post(url, body: jsonEncode(args), headers: await headers());
+    final response = await _httpClient.post(url,
+        body: jsonEncode(args), headers: await headers());
 
     if (response.statusCode != 200) {
       if (refresh) {
@@ -111,10 +111,16 @@ class API {
         .then((json) => TrialsModel.fromJson(json));
   }
 
-  Future<SecondaryResultResponse> fetchSecondaryResult(int trialId, int primaryResult) {
+  Future<SecondaryResultResponse> fetchSecondaryResult(
+      int trialId, int primaryResult) {
     return _get(Routes.TrialSecondaryResult.withArgs(
       trialId: trialId,
       primaryResult: primaryResult,
     )).then((json) => SecondaryResultResponse.fromJson(json));
+  }
+
+  Future<FetchOrganisationsResponse> fetchOrganisations() {
+    return _get(Routes.Organizations.toStr())
+        .then((json) => FetchOrganisationsResponse.fromJson(json));
   }
 }
