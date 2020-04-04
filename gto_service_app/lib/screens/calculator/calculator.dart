@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
 import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
 import 'package:gtoserviceapp/models/calculator.dart';
@@ -21,22 +22,24 @@ class CalculatorScreen extends StatelessWidget {
     );
   }
 
-  Padding _buildBody(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 8,
-        ),
-        child: Column(
-          children: <Widget>[
-            _buildGenderRow(context),
-            _buildAgeRow(context),
-            SizedBox(height: 12),
-            _buildSubmitButton(context),
-          ],
-          crossAxisAlignment: CrossAxisAlignment.start,
-        ),
-      );
+  Widget _buildBody(BuildContext context) {
+    return ShrunkVertically(
+      child: Card(
+        margin: EdgeInsets.all(16),
+        child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: <Widget>[
+                _buildGenderRow(context),
+                _buildAgeRow(context),
+                SizedBox(height: 12),
+                _buildSubmitButton(context),
+              ],
+              crossAxisAlignment: CrossAxisAlignment.start,
+            ),
+          ),
+      ),
+    );
   }
 
   Row _buildAgeRow(BuildContext context) {

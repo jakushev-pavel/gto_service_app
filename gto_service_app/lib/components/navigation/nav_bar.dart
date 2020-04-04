@@ -13,6 +13,7 @@ class NavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      backgroundColor: Colors.white,
       items: _buildItems(context),
       onTap: (value) => _onTap(context, value),
       currentIndex: _tab.toInt(),

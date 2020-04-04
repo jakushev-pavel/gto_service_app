@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/components/layout/expanded_horizontally.dart';
+import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
 import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
 import 'package:gtoserviceapp/screens/login/login.dart';
@@ -32,25 +35,44 @@ class ProfileScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         actions: <Widget>[_buildLogoutButton(context)],
       ),
-      body: Column(
-        children: <Widget>[
-          _buildUserName(),
-          _buildRole(),
-        ],
-      ),
+      body: _buildBody(context),
       bottomNavigationBar: NavigationBar(Tabs.Profile),
     );
   }
 
-  FutureBuilder<GetUserInfoResponse> _buildUserName() {
+  Widget _buildBody(context) {
+    return ShrunkVertically(
+      child: Card(
+        margin: EdgeInsets.all(16),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: ExpandedHorizontally(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _buildUserName(context),
+                _buildRole(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  FutureBuilder<GetUserInfoResponse> _buildUserName(context) {
+    var future = API.I.getUserInfo();
+    ErrorDialog.showOnFutureError(context, future);
+
     return FutureBuilder(
-      future: API.I.getUserInfo(),
+      future: future,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Text(snapshot.data.name);
-        }
-        if (snapshot.hasError) {
-          return Text(snapshot.error.toString());
+          return Text(
+            snapshot.data.name,
+            style: Theme.of(context).textTheme.headline,
+          );
         }
 
         return CircularProgressIndicator();
@@ -66,7 +88,10 @@ class ProfileScreen extends StatelessWidget {
           return CircularProgressIndicator();
         }
 
-        return Text(snapshot.data);
+        return Text(
+          snapshot.data,
+          style: Theme.of(context).textTheme.caption,
+        );
       },
     );
   }
