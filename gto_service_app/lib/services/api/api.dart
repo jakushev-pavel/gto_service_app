@@ -119,8 +119,16 @@ class API {
     )).then((json) => SecondaryResultResponse.fromJson(json));
   }
 
-  Future<FetchOrganisationsResponse> fetchOrganisations() {
+  Future<FetchOrgsResponse> fetchOrgs() {
     return _get(Routes.Organizations.toStr())
-        .then((json) => FetchOrganisationsResponse.fromJson(json));
+        .then((json) => FetchOrgsResponse.fromJson(json));
+  }
+
+  Future<CreateOrgResponse> createOrg(Organisation org) {
+    return _post(
+      Routes.Organizations.toStr(),
+      args: org.toJson(),
+      headers: _buildPostAuthHeaders,
+    ).then((json) => CreateOrgResponse.fromJson(json));
   }
 }

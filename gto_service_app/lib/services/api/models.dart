@@ -71,10 +71,10 @@ class SecondaryResultResponse {
   }
 }
 
-class FetchOrganisationsResponse {
+class FetchOrgsResponse {
   List<Organisation> organisations;
 
-  FetchOrganisationsResponse.fromJson(List<dynamic> json) {
+  FetchOrgsResponse.fromJson(List<dynamic> json) {
     if (json != null) {
       organisations = new List<Organisation>();
       json.forEach((v) {
@@ -98,6 +98,17 @@ class Organisation {
   int countOfAllEvents;
   int countOfActiveEvents;
 
+  Organisation(
+      {this.name,
+        this.address,
+        this.leader,
+        this.phoneNumber,
+        this.oQRN,
+        this.paymentAccount,
+        this.branch,
+        this.bik,
+        this.correspondentAccount});
+
   Organisation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
@@ -111,5 +122,27 @@ class Organisation {
     correspondentAccount = json['correspondent_account'];
     countOfAllEvents = json['countOfAllEvents'];
     countOfActiveEvents = json['countOfActiveEvents'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['address'] = this.address;
+    data['leader'] = this.leader;
+    data['phoneNumber'] = this.phoneNumber;
+    data['oqrn'] = this.oQRN;
+    data['paymentAccount'] = this.paymentAccount;
+    data['branch'] = this.branch;
+    data['bik'] = this.bik;
+    data['correspondentAccount'] = this.correspondentAccount;
+    return data;
+  }
+}
+
+class CreateOrgResponse {
+  int id;
+
+  CreateOrgResponse.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
   }
 }

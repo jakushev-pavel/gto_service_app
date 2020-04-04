@@ -44,10 +44,10 @@ class GlobalAdminProfileScreen extends StatelessWidget {
   }
 
   Widget _buildFutureOrgList(context) {
-    var response = API.I.fetchOrganisations();
+    var response = API.I.fetchOrgs();
     ErrorDialog.showOnFutureError(context, response);
 
-    return FutureBuilder<FetchOrganisationsResponse>(
+    return FutureBuilder<FetchOrgsResponse>(
       future: response,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
