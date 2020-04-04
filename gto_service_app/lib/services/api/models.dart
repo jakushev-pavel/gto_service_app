@@ -19,6 +19,7 @@ class LoginResponse {
   String refreshToken;
   String role;
   int organizationID;
+  int userID;
 
   LoginResponse(
       {this.accessToken, this.refreshToken, this.role, this.organizationID});
@@ -28,6 +29,7 @@ class LoginResponse {
     refreshToken = json['refreshToken'];
     role = json['role'];
     organizationID = json['organizationId'];
+    userID = json['userId'];
   }
 }
 

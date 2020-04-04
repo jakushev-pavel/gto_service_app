@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/text_placeholder/text_placeholder.dart';
 import 'package:gtoserviceapp/models/calculator.dart';
+import 'package:gtoserviceapp/models/gender.dart';
 import 'package:gtoserviceapp/models/trials.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:provider/provider.dart';

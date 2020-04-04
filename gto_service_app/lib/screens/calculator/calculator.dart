@@ -3,6 +3,7 @@ import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
 import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
 import 'package:gtoserviceapp/models/calculator.dart';
+import 'package:gtoserviceapp/models/gender.dart';
 import 'package:gtoserviceapp/screens/calculator_result/calculator_result.dart';
 import 'package:provider/provider.dart';
 
