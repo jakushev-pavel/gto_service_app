@@ -43,13 +43,13 @@ class API {
   Future<dynamic> _post(
     String path, {
     dynamic args,
-    Map<String, String> headers,
+    Future<Map<String, String>> Function() headers,
     bool refresh = true,
   }) async {
     final url = Uri.parse("$baseURL$path");
     args ??= <String, dynamic>{};
     final response =
-        await _httpClient.post(url, body: jsonEncode(args), headers: headers);
+        await _httpClient.post(url, body: jsonEncode(args), headers: await headers());
 
     if (response.statusCode != 200) {
       if (refresh) {
@@ -79,7 +79,7 @@ class API {
     return _post(
       Routes.Login.toStr(),
       args: LoginArgs(email: email, password: password).toJson(),
-      headers: await _buildPostHeaders(),
+      headers: _buildPostHeaders,
     ).then((json) => LoginResponse.fromJson(json));
   }
 
@@ -93,7 +93,7 @@ class API {
   Future<RefreshResponse> refresh() async {
     return _post(
       Routes.Refresh.toStr(),
-      headers: await _buildPostRefreshHeaders(),
+      headers: _buildPostRefreshHeaders,
       refresh: false,
     ).then((json) => RefreshResponse.fromJson(json));
   }
@@ -101,7 +101,7 @@ class API {
   Future<GetUserInfoResponse> getUserInfo() async {
     return _post(
       Routes.Info.toStr(),
-      headers: await _buildPostAuthHeaders(),
+      headers: _buildPostAuthHeaders,
     ).then((json) => GetUserInfoResponse.fromJson(json));
   }
 
