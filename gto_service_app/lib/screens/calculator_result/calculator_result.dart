@@ -44,95 +44,144 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
   Widget _buildTrials(TrialsModel trials, int age, Gender gender) {
     return Column(
       children: <Widget>[
-        Text("Пол: ${gender.toStr()}"),
-        Text("Возраст: $age"),
-        Text(trials.ageCategory),
-        Expanded(child: _buildList(trials)),
+        _buildHeader(gender, age, trials),
+        _buildTrialsList(trials),
       ],
       crossAxisAlignment: CrossAxisAlignment.stretch,
     );
   }
 
-  ListView _buildList(TrialsModel trials) {
+  Widget _buildHeader(Gender gender, int age, TrialsModel trials) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Пол: ${gender.toStr()}"),
+          SizedBox(height: 2),
+          Text("Возраст: $age"),
+          SizedBox(height: 2),
+          Text("Возрастная ступень: ${trials.ageCategory}"),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTrialsList(TrialsModel trials) {
+    return Expanded(
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          if (index >= trials.groups.length) {
+            return null;
+          }
+          return ListTile(
+            contentPadding: EdgeInsets.zero,
+            title: _buildGroup(trials.groups[index]),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildGroup(GroupModel group) {
     return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        if (index >= trials.groups.length) {
+        if (index >= group.trials.length) {
           return null;
         }
         return ListTile(
-          title: _buildGroup(trials.groups[index]),
+          contentPadding: EdgeInsets.zero,
+          title: _buildTrial(context, group.trials[index]),
         );
       },
     );
   }
 
-  Widget _buildGroup(GroupModel group) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text("Группа:"),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            if (index >= group.trials.length) {
-              return null;
-            }
-            return ListTile(
-              title: _buildTrial(context, group.trials[index]),
-            );
-          },
+  Widget _buildTrial(BuildContext context, TrialModel trial) {
+    return Card(
+      margin: EdgeInsets.fromLTRB(16, 8, 16, 0),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(trial.trialName),
+            SizedBox.fromSize(size: Size.fromHeight(4)),
+            _buildTrialResults(trial),
+            SizedBox.fromSize(size: Size.fromHeight(4)),
+            _buildPrimarySecondaryResults(trial, context),
+          ],
         ),
-      ],
+      ),
     );
   }
 
-  Widget _buildTrial(BuildContext context, TrialModel trial) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildTrialResults(TrialModel trial) {
+    return Row(
       children: <Widget>[
-        Text(trial.trialName),
-        Row(
-          children: <Widget>[
-            _buildTrialResult(trial.resultForGold, Colors.yellow),
-            _buildTrialResult(trial.resultForSilver, Colors.grey),
-            _buildTrialResult(trial.resultForBronze, Colors.brown.shade300),
-          ],
-        ),
-        Wrap(
-          children: <Widget>[
-            _buildPrimaryResult(trial.trialId),
-            _buildSecondaryResult(context, trial.trialId),
-          ],
-        )
+        _buildTrialResult(trial.resultForGold, Colors.yellow),
+        _buildTrialResult(trial.resultForSilver, Colors.grey),
+        _buildTrialResult(trial.resultForBronze, Colors.brown.shade300),
       ],
     );
   }
 
   Widget _buildTrialResult(String value, Color color) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
       child: Row(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: Icon(Icons.brightness_1, color: color),
-          ),
+          Icon(Icons.brightness_1, color: color),
           Text(value),
         ],
       ),
     );
   }
 
+  Widget _buildPrimarySecondaryResults(TrialModel trial, BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top: 14.0),
+          child: Text("Баллы: "),
+        ),
+        SizedBox(width: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Text("Первичный: "),
+                _buildPrimaryResult(trial.trialId),
+              ],
+            ),
+            SizedBox(
+              height: 4,
+            ),
+            _buildSecondaryResult(context, trial.trialId),
+          ]..removeWhere((x) => x == null),
+        ),
+      ],
+    );
+  }
+
   Widget _buildPrimaryResult(trialId) {
-    return SizedBox(
-      height: 32,
-      width: 128,
-      child: TextFormField(
-        initialValue: _primaryResults[trialId]?.toString(),
-        onChanged: (value) => _onPrimaryResultChanged(trialId, value),
-        keyboardType: TextInputType.number,
-      ),
+    return Row(
+      children: <Widget>[
+        SizedBox(
+          width: 32,
+          height: 48,
+          child: TextFormField(
+            textAlign: TextAlign.center,
+            initialValue: _primaryResults[trialId]?.toString(),
+            onChanged: (value) => _onPrimaryResultChanged(trialId, value),
+            keyboardType: TextInputType.number,
+          ),
+        ),
+      ],
     );
   }
 
@@ -144,7 +193,7 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
 
   Widget _buildSecondaryResult(BuildContext context, int trialId) {
     if (_primaryResults[trialId] == null) {
-      return TextPlaceholder.empty();
+      return null;
     }
 
     var future = API.I.fetchSecondaryResult(trialId, _primaryResults[trialId]);
@@ -154,7 +203,17 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
         future: future,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Text(snapshot.data.secondaryResult.toString());
+            return Row(
+              children: <Widget>[
+                Text("Вторичный: "),
+                Text(
+                  snapshot.data.secondaryResult.toString(),
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            );
           }
 
           return TextPlaceholder.progress();
