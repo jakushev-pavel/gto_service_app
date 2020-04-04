@@ -37,8 +37,9 @@ class NavigationBar extends StatelessWidget {
   }
 
   _onTap(BuildContext context, int value) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => _buildTab(TabsEx.fromInt(value)),
+    Navigator.of(context).push(PageRouteBuilder(
+      pageBuilder: (BuildContext context, _, __) =>
+          _buildTab(TabsEx.fromInt(value)),
     ));
   }
 
