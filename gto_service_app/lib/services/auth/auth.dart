@@ -8,7 +8,7 @@ class Auth {
     return GetIt.I<Auth>();
   }
 
-  Future<bool> get isLoggedIn {
+  bool get isLoggedIn {
     return Storage.I.has(Keys.accessToken);
   }
 

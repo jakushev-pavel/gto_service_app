@@ -14,18 +14,10 @@ import 'package:gtoserviceapp/services/storage/storage.dart';
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Auth.I.isLoggedIn,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
-        }
-        if (!snapshot.data) {
-          return LoginScreen();
-        }
-        return _build(context);
-      },
-    );
+    if (!Auth.I.isLoggedIn) {
+      return LoginScreen();
+    }
+    return _build(context);
   }
 
   Widget _build(context) {
@@ -52,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 _buildUserName(context),
-                _buildRole(),
+                _buildRole(context),
               ],
             ),
           ),
@@ -80,19 +72,10 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRole() {
-    return FutureBuilder(
-      future: Storage.I.read(Keys.role),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return CircularProgressIndicator();
-        }
-
-        return Text(
-          snapshot.data,
-          style: Theme.of(context).textTheme.caption,
-        );
-      },
+  Widget _buildRole(context) {
+    return Text(
+      Storage.I.read(Keys.role),
+      style: Theme.of(context).textTheme.caption,
     );
   }
 

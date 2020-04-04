@@ -8,20 +8,24 @@ import 'package:gtoserviceapp/services/storage/storage.dart';
 import 'package:gtoserviceapp/theme/theme.dart';
 import 'package:provider/provider.dart';
 
-void setup() {
-  GetIt.I.registerSingleton<API>(API());
-  GetIt.I.registerSingleton<Storage>(Storage());
-  GetIt.I.registerSingleton<Auth>(Auth());
-}
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setup();
 
-void main() {
-  setup();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<CalculatorModel>(create: (_) => CalculatorModel()),
     ],
     child: GTOServiceApp(),
   ));
+}
+
+setup() async {
+  GetIt.I.registerSingleton<API>(API());
+  GetIt.I.registerSingleton<Storage>(Storage());
+  GetIt.I.registerSingleton<Auth>(Auth());
+
+  await Storage.I.init();
 }
 
 class GTOServiceApp extends StatelessWidget {
