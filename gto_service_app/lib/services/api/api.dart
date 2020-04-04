@@ -19,13 +19,9 @@ class API {
     return GetIt.I<API>();
   }
 
-  Future _processResponseError(Response response, Uri url) {
-    try {
-      var json = jsonDecode(response.body);
-      return Future.error(APIErrors.fromJson(json));
-    } on FormatException catch (_) {
-      return Future.error("GET $url request failed");
-    }
+  _processResponseError(Response response, Uri url) {
+    var json = jsonDecode(response.body);
+    throw APIErrors.fromJson(json);
   }
 
   Future<dynamic> _get<Out>(String path) async {
@@ -34,10 +30,30 @@ class API {
     final response = await _httpClient.get(url);
 
     if (response.statusCode != 200) {
-      return _processResponseError(response, url);
+      _processResponseError(response, url);
     }
 
     return jsonDecode(response.body);
+  }
+
+  Future _delete(
+    String path, {
+    Future<Map<String, String>> Function() headers,
+    bool refresh = true,
+  }) async {
+    print(path);
+    final url = Uri.parse("$baseURL$path");
+    final response = await _httpClient.delete(url, headers: await headers());
+
+    if (response.statusCode != 200) {
+      if (refresh) {
+        await Auth.I.refresh();
+        return _delete(path, headers: headers, refresh: false);
+      }
+      _processResponseError(response, url);
+    }
+
+    return;
   }
 
   Future<dynamic> _post(
@@ -56,7 +72,7 @@ class API {
         await Auth.I.refresh();
         return _post(path, args: args, headers: headers, refresh: false);
       }
-      return _processResponseError(response, url);
+      _processResponseError(response, url);
     }
 
     return jsonDecode(response.body);
@@ -68,10 +84,16 @@ class API {
     };
   }
 
+  Future<Map<String, String>> _buildAuthHeaders() async {
+    return {
+      "Authorization": Storage.I.read(Keys.accessToken),
+    };
+  }
+
   Future<Map<String, String>> _buildPostAuthHeaders() async {
     return {
       ...await _buildPostHeaders(),
-      "Authorization": Storage.I.read(Keys.accessToken),
+      ...await _buildAuthHeaders(),
     };
   }
 
@@ -135,5 +157,12 @@ class API {
     return _get(
       Routes.Organization.withArgs(orgId: id),
     ).then((json) => Organisation.fromJson(json));
+  }
+
+  Future deleteOrg(String id) {
+    return _delete(
+      Routes.Organization.withArgs(orgId: id),
+      headers: _buildAuthHeaders,
+    );
   }
 }

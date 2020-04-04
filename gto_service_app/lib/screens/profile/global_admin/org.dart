@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/components/dialogs/yes_no_dialog.dart';
 import 'package:gtoserviceapp/components/layout/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
@@ -13,7 +14,15 @@ class OrganisationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Организация")),
+      appBar: AppBar(
+        title: Text("Организация"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () => _onDeletePressed(context),
+          )
+        ],
+      ),
       body: _buildFutureOrg(context),
     );
   }
@@ -59,5 +68,18 @@ class OrganisationScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _onDeletePressed(context) {
+    showDialog(context: context, child: _buildConfirmDeleteDialog(context));
+  }
+
+  Widget _buildConfirmDeleteDialog(context) {
+    return YesNoDialog("Вы уверены?", () {
+      var result = API.I.deleteOrg(this._id);
+      ErrorDialog.showOnFutureError(context, result);
+
+      Navigator.of(context).pop();
+    });
   }
 }
