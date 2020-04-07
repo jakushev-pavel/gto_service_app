@@ -21,21 +21,27 @@ class _AddOrgScreenState extends State<AddOrgScreen> {
   }
 
   Widget _buildForm() {
-    return Form(
-      key: _formKey,
-      child: ListView(
-        children: <Widget>[
-          _buildNameField(),
-          _buildAddressField(),
-          _buildLeaderField(),
-          _buildPhoneNumberField(),
-          _buildOqrnField(),
-          _buildPaymentAccountField(),
-          _buildBranchField(),
-          _buildBikField(),
-          _buildCorrespondentAccountField(),
-          _buildSubmitButton(),
-        ],
+    return Card(
+      margin: EdgeInsets.all(16),
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: <Widget>[
+              _buildNameField(),
+              _buildAddressField(),
+              _buildLeaderField(),
+              _buildPhoneNumberField(),
+              _buildOqrnField(),
+              _buildPaymentAccountField(),
+              _buildBranchField(),
+              _buildBikField(),
+              _buildCorrespondentAccountField(),
+              _buildSubmitButton(),
+            ],
+          ),
+        ),
       ),
     );
   }
