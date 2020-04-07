@@ -3,20 +3,61 @@ import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
 
-class AddOrgScreen extends StatefulWidget {
+class AddEditOrgScreen extends StatefulWidget {
+  final String _orgId;
+
+  AddEditOrgScreen({String orgId}) : _orgId = orgId;
+
   @override
-  _AddOrgScreenState createState() => _AddOrgScreenState();
+  _AddEditOrgScreenState createState() => _AddEditOrgScreenState(_orgId);
 }
 
-class _AddOrgScreenState extends State<AddOrgScreen> {
+class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _org = Organisation();
+  var _org = Organisation();
+  String _orgId;
+
+  _AddEditOrgScreenState(this._orgId);
+
+  bool get _isEditing {
+    return _orgId != null;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Создание организации")),
-      body: _buildForm(),
+    return GestureDetector(
+      onTap: FocusScope.of(context).unfocus,
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: _buildBody(),
+      ),
+    );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      title: Text("${_isEditing ? "Редактирование" : "Создание"} организации"),
+    );
+  }
+
+  Widget _buildBody() {
+    if (!_isEditing) {
+      return _buildForm();
+    }
+
+    var futureOrg = API.I.getOrg(_orgId);
+    ErrorDialog.showOnFutureError(context, futureOrg);
+
+    return FutureBuilder(
+      future: futureOrg,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          _org = snapshot.data;
+          return _buildForm();
+        }
+
+        return CircularProgressIndicator();
+      },
     );
   }
 
@@ -48,14 +89,15 @@ class _AddOrgScreenState extends State<AddOrgScreen> {
 
   RaisedButton _buildSubmitButton() {
     return RaisedButton(
-        child: Text("Создать"),
+        child: Text(_isEditing ? "Сохранить" : "Создать"),
         onPressed: () async {
           var form = _formKey.currentState;
 
           if (form.validate()) {
             form.save();
 
-            var result = API.I.createOrg(_org);
+            var result =
+                _isEditing ? API.I.updateOrg(_org) : API.I.createOrg(_org);
             ErrorDialog.showOnFutureError(context, result);
             await result;
 
@@ -66,6 +108,7 @@ class _AddOrgScreenState extends State<AddOrgScreen> {
 
   TextFormField _buildNameField() {
     return TextFormField(
+      initialValue: _org.name,
       decoration: InputDecoration(
         labelText: "Название",
       ),
@@ -83,6 +126,7 @@ class _AddOrgScreenState extends State<AddOrgScreen> {
 
   TextFormField _buildAddressField() {
     return TextFormField(
+      initialValue: _org.address,
       decoration: InputDecoration(
         labelText: "Адрес",
       ),
@@ -100,6 +144,7 @@ class _AddOrgScreenState extends State<AddOrgScreen> {
 
   TextFormField _buildLeaderField() {
     return TextFormField(
+      initialValue: _org.leader,
       decoration: InputDecoration(
         labelText: "Ответственное лицо",
       ),
@@ -117,6 +162,7 @@ class _AddOrgScreenState extends State<AddOrgScreen> {
 
   TextFormField _buildPhoneNumberField() {
     return TextFormField(
+      initialValue: _org.phoneNumber,
       decoration: InputDecoration(
         labelText: "Номер телефона",
       ),
@@ -134,6 +180,7 @@ class _AddOrgScreenState extends State<AddOrgScreen> {
 
   TextFormField _buildOqrnField() {
     return TextFormField(
+      initialValue: _org.oQRN,
       decoration: InputDecoration(
         labelText: "ОГРН",
       ),
@@ -151,6 +198,7 @@ class _AddOrgScreenState extends State<AddOrgScreen> {
 
   TextFormField _buildPaymentAccountField() {
     return TextFormField(
+      initialValue: _org.paymentAccount,
       decoration: InputDecoration(
         labelText: "Лицевой счет",
       ),
@@ -168,6 +216,7 @@ class _AddOrgScreenState extends State<AddOrgScreen> {
 
   TextFormField _buildBranchField() {
     return TextFormField(
+      initialValue: _org.branch,
       decoration: InputDecoration(
         labelText: "Филиал",
       ),
@@ -185,6 +234,7 @@ class _AddOrgScreenState extends State<AddOrgScreen> {
 
   TextFormField _buildBikField() {
     return TextFormField(
+      initialValue: _org.bik,
       decoration: InputDecoration(
         labelText: "БИК",
       ),
@@ -202,6 +252,7 @@ class _AddOrgScreenState extends State<AddOrgScreen> {
 
   TextFormField _buildCorrespondentAccountField() {
     return TextFormField(
+      initialValue: _org.correspondentAccount,
       decoration: InputDecoration(
         labelText: "Расчётный счет",
       ),

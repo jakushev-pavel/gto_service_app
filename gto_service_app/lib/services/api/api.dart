@@ -56,6 +56,28 @@ class API {
     return;
   }
 
+  Future _put(
+    String path, {
+    dynamic args,
+    Map<String, String> Function() headers,
+    bool refresh = true,
+  }) async {
+    final url = Uri.parse("$baseURL$path");
+    args ??= <String, dynamic>{};
+    final response =
+        await _httpClient.put(url, body: jsonEncode(args), headers: headers());
+
+    if (response.statusCode != 200) {
+      if (refresh) {
+        await Auth.I.refresh();
+        return _put(path, args: args, headers: headers, refresh: false);
+      }
+      return _processResponseError(response, url);
+    }
+
+    return;
+  }
+
   Future<Map<String, dynamic>> _post(
     String path, {
     dynamic args,
@@ -64,8 +86,8 @@ class API {
   }) async {
     final url = Uri.parse("$baseURL$path");
     args ??= <String, dynamic>{};
-    final response = await _httpClient.post(url,
-        body: jsonEncode(args), headers: headers());
+    final response =
+        await _httpClient.post(url, body: jsonEncode(args), headers: headers());
 
     if (response.statusCode != 200) {
       if (refresh) {
@@ -157,6 +179,14 @@ class API {
       headers: _buildPostAuthHeaders,
     );
     return CreateOrgResponse.fromJson(json);
+  }
+
+  Future updateOrg(Organisation org) async {
+    await _put(
+      Routes.Organization.withArgs(orgId: org.id),
+      args: org.toJson(),
+      headers: _buildPostAuthHeaders,
+    );
   }
 
   Future<Organisation> getOrg(String id) async {

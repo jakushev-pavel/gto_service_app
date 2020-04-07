@@ -4,7 +4,7 @@ import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
 import 'package:gtoserviceapp/screens/profile/app_bar.dart';
-import 'package:gtoserviceapp/screens/profile/global_admin/add_org.dart';
+import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/org.dart';
 import 'package:gtoserviceapp/screens/profile/header.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
@@ -99,7 +99,7 @@ class GlobalAdminProfileScreen extends StatelessWidget {
   _onFabPressed(context) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
-      return AddOrgScreen();
+      return AddEditOrgScreen();
     }));
   }
 

@@ -3,6 +3,7 @@ import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/dialogs/yes_no_dialog.dart';
 import 'package:gtoserviceapp/components/layout/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
+import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
 
@@ -14,16 +15,24 @@ class OrganisationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Организация"),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () => _onDeletePressed(context),
-          )
-        ],
-      ),
+      appBar: _buildAppBar(context),
       body: _buildFutureOrg(context),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      title: Text("Организация"),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.edit),
+          onPressed: () => _onEditPressed(context),
+        ),
+        IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () => _onDeletePressed(context),
+        ),
+      ],
     );
   }
 
@@ -68,6 +77,12 @@ class OrganisationScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _onEditPressed(context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return AddEditOrgScreen(orgId: _id);
+    }));
   }
 
   _onDeletePressed(context) {

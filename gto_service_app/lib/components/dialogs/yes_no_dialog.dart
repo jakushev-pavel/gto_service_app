@@ -12,15 +12,15 @@ class YesNoDialog extends StatelessWidget {
       title: Text(_title),
       actions: <Widget>[
         FlatButton(
-          child: Text("Да"),
+          child: Text("Нет"),
           onPressed: () {
-            _onYes();
             Navigator.of(context).pop();
           },
         ),
         FlatButton(
-          child: Text("Нет"),
+          child: Text("Да"),
           onPressed: () {
+            _onYes();
             Navigator.of(context).pop();
           },
         ),
