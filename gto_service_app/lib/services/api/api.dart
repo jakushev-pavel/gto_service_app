@@ -24,7 +24,7 @@ class API {
     throw APIErrors.fromJson(json);
   }
 
-  Future<dynamic> _get<Out>(String path) async {
+  Future<dynamic> _get(String path) async {
     print(path);
     final url = Uri.parse("$baseURL$path");
     final response = await _httpClient.get(url);
@@ -38,12 +38,12 @@ class API {
 
   Future _delete(
     String path, {
-    Future<Map<String, String>> Function() headers,
+    Map<String, String> Function() headers,
     bool refresh = true,
   }) async {
     print(path);
     final url = Uri.parse("$baseURL$path");
-    final response = await _httpClient.delete(url, headers: await headers());
+    final response = await _httpClient.delete(url, headers: headers());
 
     if (response.statusCode != 200) {
       if (refresh) {
@@ -56,44 +56,44 @@ class API {
     return;
   }
 
-  Future<dynamic> _post(
+  Future<Map<String, dynamic>> _post(
     String path, {
     dynamic args,
-    Future<Map<String, String>> Function() headers,
+    Map<String, String> Function() headers,
     bool refresh = true,
   }) async {
     final url = Uri.parse("$baseURL$path");
     args ??= <String, dynamic>{};
     final response = await _httpClient.post(url,
-        body: jsonEncode(args), headers: await headers());
+        body: jsonEncode(args), headers: headers());
 
     if (response.statusCode != 200) {
       if (refresh) {
         await Auth.I.refresh();
         return _post(path, args: args, headers: headers, refresh: false);
       }
-      _processResponseError(response, url);
+      return _processResponseError(response, url);
     }
 
     return jsonDecode(response.body);
   }
 
-  Future<Map<String, String>> _buildPostHeaders() async {
+  Map<String, String> _buildPostHeaders() {
     return {
       "Content-Type": "application/json;charset=UTF-8",
     };
   }
 
-  Future<Map<String, String>> _buildAuthHeaders() async {
+  Map<String, String> _buildAuthHeaders() {
     return {
       "Authorization": Storage.I.read(Keys.accessToken),
     };
   }
 
-  Future<Map<String, String>> _buildPostAuthHeaders() async {
+  Map<String, String> _buildPostAuthHeaders() {
     return {
-      ...await _buildPostHeaders(),
-      ...await _buildAuthHeaders(),
+      ..._buildPostHeaders(),
+      ..._buildAuthHeaders(),
     };
   }
 
@@ -105,62 +105,67 @@ class API {
     ).then((json) => LoginResponse.fromJson(json));
   }
 
-  Future<Map<String, String>> _buildPostRefreshHeaders() async {
+  Map<String, String> _buildPostRefreshHeaders() {
     return {
-      ...await _buildPostHeaders(),
+      ..._buildPostHeaders(),
       "Authorization": Storage.I.read(Keys.refreshToken),
     };
   }
 
   Future<RefreshResponse> refresh() async {
-    return _post(
+    var json = await _post(
       Routes.Refresh.toStr(),
       headers: _buildPostRefreshHeaders,
       refresh: false,
-    ).then((json) => RefreshResponse.fromJson(json));
+    );
+    return RefreshResponse.fromJson(json);
   }
 
   Future<GetUserInfoResponse> getUserInfo() async {
-    return _post(
+    var json = await _post(
       Routes.Info.toStr(),
       headers: _buildPostAuthHeaders,
-    ).then((json) => GetUserInfoResponse.fromJson(json));
+    );
+    return GetUserInfoResponse.fromJson(json);
   }
 
-  Future<TrialsModel> fetchTrials(int age, Gender gender) {
-    return _get(Routes.Trial.withArgs(age: age, gender: gender))
-        .then((json) => TrialsModel.fromJson(json));
+  Future<TrialsModel> fetchTrials(int age, Gender gender) async {
+    var json = await _get(Routes.Trial.withArgs(age: age, gender: gender));
+    return TrialsModel.fromJson(json);
   }
 
   Future<SecondaryResultResponse> fetchSecondaryResult(
-      int trialId, int primaryResult) {
-    return _get(Routes.TrialSecondaryResult.withArgs(
+    int trialId,
+    int primaryResult,
+  ) async {
+    var json = await _get(Routes.TrialSecondaryResult.withArgs(
       trialId: trialId,
       primaryResult: primaryResult,
-    )).then((json) => SecondaryResultResponse.fromJson(json));
+    ));
+    return SecondaryResultResponse.fromJson(json);
   }
 
-  Future<FetchOrgsResponse> fetchOrgs() {
-    return _get(Routes.Organizations.toStr())
-        .then((json) => FetchOrgsResponse.fromJson(json));
+  Future<FetchOrgsResponse> fetchOrgs() async {
+    var json = await _get(Routes.Organizations.toStr());
+    return FetchOrgsResponse.fromJson(json);
   }
 
-  Future<CreateOrgResponse> createOrg(Organisation org) {
-    return _post(
+  Future<CreateOrgResponse> createOrg(Organisation org) async {
+    var json = await _post(
       Routes.Organizations.toStr(),
       args: org.toJson(),
       headers: _buildPostAuthHeaders,
-    ).then((json) => CreateOrgResponse.fromJson(json));
+    );
+    return CreateOrgResponse.fromJson(json);
   }
 
-  Future<Organisation> getOrg(String id) {
-    return _get(
-      Routes.Organization.withArgs(orgId: id),
-    ).then((json) => Organisation.fromJson(json));
+  Future<Organisation> getOrg(String id) async {
+    var json = await _get(Routes.Organization.withArgs(orgId: id));
+    return Organisation.fromJson(json);
   }
 
-  Future deleteOrg(String id) {
-    return _delete(
+  Future deleteOrg(String id) async {
+    await _delete(
       Routes.Organization.withArgs(orgId: id),
       headers: _buildAuthHeaders,
     );

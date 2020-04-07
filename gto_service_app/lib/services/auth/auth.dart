@@ -33,8 +33,8 @@ class Auth {
         Storage.I.write(Keys.refreshToken, response.refreshToken),
       ]);
     } catch (e) {
-      logout();
-      throw e;
+      await logout();
+      rethrow;
     }
   }
 
