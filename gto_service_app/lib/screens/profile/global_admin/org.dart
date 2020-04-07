@@ -3,6 +3,7 @@ import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/dialogs/yes_no_dialog.dart';
 import 'package:gtoserviceapp/components/layout/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
+import 'package:gtoserviceapp/components/text/caption.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
@@ -44,7 +45,7 @@ class OrganisationScreen extends StatelessWidget {
       future: org,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          return _buildOrg(snapshot.data);
+          return _buildOrg(context, snapshot.data);
         }
 
         return CircularProgressIndicator();
@@ -52,7 +53,7 @@ class OrganisationScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildOrg(Organisation org) {
+  Widget _buildOrg(context, Organisation org) {
     return ShrunkVertically(
       child: Card(
         margin: EdgeInsets.all(16),
@@ -62,19 +63,35 @@ class OrganisationScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(org.name ?? ""),
-                Text(org.address ?? ""),
-                Text(org.leader ?? ""),
-                Text(org.oQRN ?? ""),
-                Text(org.correspondentAccount ?? ""),
-                Text(org.bik ?? ""),
-                Text(org.branch ?? ""),
-                Text(org.phoneNumber ?? ""),
-                Text(org.paymentAccount ?? ""),
+                Text(
+                  org.name ?? "",
+                  style: Theme.of(context).textTheme.headline,
+                ),
+                _buildField("Aдрес", org.address),
+                _buildField("Ответственный", org.leader),
+                _buildField("Номер телефона", org.phoneNumber),
+                _buildField("ОГРН", org.oQRN),
+                _buildField("Лицевой счёт", org.paymentAccount),
+                _buildField("Филиал", org.branch),
+                _buildField("БИК", org.bik),
+                _buildField("Расчётный счёт", org.correspondentAccount),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildField(String caption, String value) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 3),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          CaptionText(caption),
+          Text(value ?? ""),
+        ],
       ),
     );
   }

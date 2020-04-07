@@ -200,11 +200,11 @@ class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
     return TextFormField(
       initialValue: _org.paymentAccount,
       decoration: InputDecoration(
-        labelText: "Лицевой счет",
+        labelText: "Лицевой счёт",
       ),
       validator: (value) {
         if (value.isEmpty) {
-          return "Введите лицевой счет";
+          return "Введите лицевой счёт";
         }
         return null;
       },
@@ -254,11 +254,11 @@ class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
     return TextFormField(
       initialValue: _org.correspondentAccount,
       decoration: InputDecoration(
-        labelText: "Расчётный счет",
+        labelText: "Расчётный счёт",
       ),
       validator: (value) {
         if (value.isEmpty) {
-          return "Введите расчётный счет";
+          return "Введите расчётный счёт";
         }
         return null;
       },
