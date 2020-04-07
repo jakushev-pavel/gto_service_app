@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
 import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
 import 'package:gtoserviceapp/screens/profile/profile.dart';
@@ -35,22 +37,34 @@ class LoginScreenState extends State<LoginScreen> {
           title: Text("Вход"),
           automaticallyImplyLeading: false,
         ),
-        body: Column(
-          children: <Widget>[
-            _buildEmailField(),
-            _buildPasswordField(),
-            _buildButton(context),
-          ],
-        ),
+        body: _buildBody(context),
         bottomNavigationBar: NavigationBar(Tabs.Profile),
       ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return ShrunkVertically(
+      child: Card(
+        margin: EdgeInsets.all(16),
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: <Widget>[
+                _buildEmailField(),
+                _buildPasswordField(),
+                _buildButton(context),
+              ],
+            ),
+          ),
+        ),
     );
   }
 
   Widget _buildEmailField() => TextFormField(
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
-          hintText: "Email",
+          labelText: "Email",
           prefixIcon: Icon(Icons.email),
         ),
         onChanged: _updateEmail,
@@ -59,7 +73,7 @@ class LoginScreenState extends State<LoginScreen> {
   Widget _buildPasswordField() => TextFormField(
         obscureText: true,
         decoration: InputDecoration(
-          hintText: "Пароль",
+          labelText: "Пароль",
           prefixIcon: Icon(Icons.vpn_key),
         ),
         onChanged: _updatePassword,
@@ -100,9 +114,6 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   _onError(BuildContext context, error) {
-    showDialog(
-      context: context,
-      child: ErrorDialog.fromError(error)
-    );
+    showDialog(context: context, child: ErrorDialog.fromError(error));
   }
 }
