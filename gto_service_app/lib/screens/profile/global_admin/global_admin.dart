@@ -9,6 +9,7 @@ import 'package:gtoserviceapp/screens/profile/global_admin/org.dart';
 import 'package:gtoserviceapp/screens/profile/header.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
+import 'package:gtoserviceapp/services/repo/org.dart';
 
 class GlobalAdminProfileScreen extends StatelessWidget {
   @override
@@ -45,7 +46,7 @@ class GlobalAdminProfileScreen extends StatelessWidget {
   }
 
   Widget _buildFutureOrgList(context) {
-    var response = API.I.fetchOrgs();
+    var response = OrgRepo.I.getAll();
     ErrorDialog.showOnFutureError(context, response);
 
     return FutureBuilder<FetchOrgsResponse>(

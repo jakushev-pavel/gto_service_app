@@ -7,6 +7,7 @@ import 'package:gtoserviceapp/components/text/caption.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
+import 'package:gtoserviceapp/services/repo/org.dart';
 
 class OrganisationScreen extends StatelessWidget {
   final String _id;
@@ -38,7 +39,7 @@ class OrganisationScreen extends StatelessWidget {
   }
 
   Widget _buildFutureOrg(context) {
-    var org = API.I.getOrg(_id);
+    var org = OrgRepo.I.get(_id);
     ErrorDialog.showOnFutureError(context, org);
 
     return FutureBuilder(
@@ -108,7 +109,7 @@ class OrganisationScreen extends StatelessWidget {
 
   Widget _buildConfirmDeleteDialog(context) {
     return YesNoDialog("Вы уверены?", () {
-      var result = API.I.deleteOrg(this._id);
+      var result = OrgRepo.I.delete(this._id);
       ErrorDialog.showOnFutureError(context, result);
 
       Navigator.of(context).pop();

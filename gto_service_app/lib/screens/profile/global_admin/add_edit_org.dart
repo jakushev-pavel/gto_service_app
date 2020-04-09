@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
+import 'package:gtoserviceapp/services/repo/org.dart';
 
 class AddEditOrgScreen extends StatefulWidget {
   final String _orgId;
@@ -45,7 +46,7 @@ class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
       return _buildForm();
     }
 
-    var futureOrg = API.I.getOrg(_orgId);
+    var futureOrg = OrgRepo.I.get(_orgId);
     ErrorDialog.showOnFutureError(context, futureOrg);
 
     return FutureBuilder(
@@ -97,7 +98,7 @@ class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
             form.save();
 
             var result =
-                _isEditing ? API.I.updateOrg(_org) : API.I.createOrg(_org);
+                _isEditing ? OrgRepo.I.update(_org) : OrgRepo.I.create(_org);
             ErrorDialog.showOnFutureError(context, result);
             await result;
 

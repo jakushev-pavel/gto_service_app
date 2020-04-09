@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
+import 'package:gtoserviceapp/services/api/models.dart';
+import 'package:gtoserviceapp/services/api/routes.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
@@ -13,7 +15,11 @@ class Auth {
   }
 
   Future<void> login(String email, String password) async {
-    var response = await API.I.login(email, password);
+    var json = await API.I.post(
+      Routes.Login.toStr(),
+      args: LoginArgs(email: email, password: password).toJson(),
+    );
+    var response = LoginResponse.fromJson(json);
 
     return Future.wait([
       Storage.I.write(Keys.accessToken, response.accessToken),
@@ -26,16 +32,24 @@ class Auth {
 
   Future<void> refresh() async {
     try {
-      var response = await API.I.refresh();
-
-      return Future.wait([
-        Storage.I.write(Keys.accessToken, response.accessToken),
-        Storage.I.write(Keys.refreshToken, response.refreshToken),
-      ]);
+      return await _refresh();
     } catch (e) {
       await logout();
       rethrow;
     }
+  }
+
+  _refresh() async {
+    var json = await API.I.post(
+      Routes.Refresh.toStr(),
+      refresh: true,
+    );
+    var response = RefreshResponse.fromJson(json);
+
+    return Future.wait([
+      Storage.I.write(Keys.accessToken, response.accessToken),
+      Storage.I.write(Keys.refreshToken, response.refreshToken),
+    ]);
   }
 
   Future<void> logout() async {
