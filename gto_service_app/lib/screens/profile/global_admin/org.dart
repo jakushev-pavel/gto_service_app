@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/dialogs/yes_no_dialog.dart';
+import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/components/layout/expanded_horizontally.dart';
-import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
 import 'package:gtoserviceapp/components/text/caption.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
@@ -50,14 +50,14 @@ class OrganisationScreen extends StatelessWidget {
   }
 
   Widget _buildFutureOrgCard(context) {
-    var org = OrgRepo.I.get(_id);
-    ErrorDialog.showOnFutureError(context, org);
-
     return FutureBuilder(
-      future: org,
+      future: OrgRepo.I.get(_id),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return _buildOrgCard(context, snapshot.data);
+        }
+        if (snapshot.hasError) {
+          return Failure(snapshot.error);
         }
 
         return CircularProgressIndicator();
@@ -123,10 +123,11 @@ class OrganisationScreen extends StatelessWidget {
   }
 
   Widget _buildConfirmDeleteDialog(context) {
-    return YesNoDialog("Вы уверены?", () {
+    return YesNoDialog("Вы уверены?", () async {
       var result = OrgRepo.I.delete(this._id);
       ErrorDialog.showOnFutureError(context, result);
 
+      await result;
       Navigator.of(context).pop();
     });
   }
@@ -150,14 +151,14 @@ class OrganisationScreen extends StatelessWidget {
   }
 
   Widget _buildFutureLocalAdminsList(context) {
-    var response = LocalAdminRepo.I.getAll(_id);
-    ErrorDialog.showOnFutureError(context, response);
-
     return FutureBuilder(
-      future: response,
+      future: LocalAdminRepo.I.getAll(_id),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return _buildLocalAdminsList(snapshot.data);
+        }
+        if (snapshot.hasError) {
+          return Failure(snapshot.error);
         }
 
         return SizedBox.shrink(child: CircularProgressIndicator());

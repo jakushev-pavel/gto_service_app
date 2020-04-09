@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
 
@@ -45,15 +46,15 @@ class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
       return _buildForm();
     }
 
-    var futureOrg = OrgRepo.I.get(_orgId);
-    ErrorDialog.showOnFutureError(context, futureOrg);
-
     return FutureBuilder(
-      future: futureOrg,
+      future: OrgRepo.I.get(_orgId),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           _org = snapshot.data;
           return _buildForm();
+        }
+        if (snapshot.hasError) {
+          return Failure(snapshot.error);
         }
 
         return CircularProgressIndicator();

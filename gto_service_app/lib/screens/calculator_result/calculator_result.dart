@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/components/text_placeholder/text_placeholder.dart';
 import 'package:gtoserviceapp/models/calculator.dart';
 import 'package:gtoserviceapp/models/gender.dart';
@@ -208,11 +209,8 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
       return null;
     }
 
-    var future = API.I.fetchSecondaryResult(trialId, _primaryResults[trialId]);
-    ErrorDialog.showOnFutureError(context, future);
-
     return FutureBuilder(
-        future: future,
+        future: API.I.fetchSecondaryResult(trialId, _primaryResults[trialId]),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Row(
@@ -226,6 +224,9 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
                 ),
               ],
             );
+          }
+          if (snapshot.hasError) {
+            return Failure(snapshot.error);
           }
 
           return TextPlaceholder.progress();

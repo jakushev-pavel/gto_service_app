@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/models.dart';

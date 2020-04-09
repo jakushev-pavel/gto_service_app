@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/components/layout/expanded_horizontally.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
@@ -18,7 +18,7 @@ class ProfileHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _buildUserName(context),
+              _buildFutureUserName(context),
               _buildRole(context),
             ],
           ),
@@ -27,22 +27,27 @@ class ProfileHeader extends StatelessWidget {
     );
   }
 
-  FutureBuilder<GetUserInfoResponse> _buildUserName(context) {
-    var future = API.I.getUserInfo();
-    ErrorDialog.showOnFutureError(context, future);
-
+  FutureBuilder<GetUserInfoResponse> _buildFutureUserName(context) {
     return FutureBuilder(
-      future: future,
+      future: API.I.getUserInfo(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Text(
-            snapshot.data.name,
-            style: Theme.of(context).textTheme.headline,
-          );
+          return _buildUserName(snapshot, context);
+        }
+        if (snapshot.hasError) {
+          return Failure(snapshot.error);
         }
 
         return CircularProgressIndicator();
       },
+    );
+  }
+
+  Text _buildUserName(
+      AsyncSnapshot<GetUserInfoResponse> snapshot, BuildContext context) {
+    return Text(
+      snapshot.data.name,
+      style: Theme.of(context).textTheme.headline,
     );
   }
 

@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
 import 'package:gtoserviceapp/screens/profile/app_bar.dart';
@@ -45,14 +44,14 @@ class GlobalAdminProfileScreen extends StatelessWidget {
   }
 
   Widget _buildFutureOrgList(context) {
-    var response = OrgRepo.I.getAll();
-    ErrorDialog.showOnFutureError(context, response);
-
     return FutureBuilder<FetchOrgsResponse>(
-      future: response,
+      future: OrgRepo.I.getAll(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return _buildOrgList(context, snapshot.data.organisations);
+        }
+        if (snapshot.hasError) {
+          return Failure(snapshot.error);
         }
 
         return SizedBox.shrink(child: CircularProgressIndicator());
