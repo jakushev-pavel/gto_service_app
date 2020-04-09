@@ -63,10 +63,9 @@ class OrganisationScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  org.name ?? "",
-                  style: Theme.of(context).textTheme.headline,
-                ),
+                _buildName(org, context),
+                _buildTotalEventsCount(org),
+                _buildActiveEventsCount(org),
                 _buildField("Aдрес", org.address),
                 _buildField("Ответственный", org.leader),
                 _buildField("Номер телефона", org.phoneNumber),
@@ -81,6 +80,13 @@ class OrganisationScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Text _buildName(Organisation org, context) {
+    return Text(
+                org.name ?? "",
+                style: Theme.of(context).textTheme.headline,
+              );
   }
 
   Widget _buildField(String caption, String value) {
@@ -113,5 +119,13 @@ class OrganisationScreen extends StatelessWidget {
 
       Navigator.of(context).pop();
     });
+  }
+
+  _buildTotalEventsCount(Organisation org) {
+    return Text("Всего мероприятий: ${org.countOfAllEvents}");
+  }
+
+  _buildActiveEventsCount(Organisation org) {
+    return Text("Активных мероприятий: ${org.countOfActiveEvents}");
   }
 }
