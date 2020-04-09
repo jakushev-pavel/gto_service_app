@@ -7,9 +7,9 @@ class ShrunkVertically extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
-    children: <Widget>[
-      _child,
-      Spacer(),
-    ],
-  );
+        children: <Widget>[
+          _child,
+          Spacer(),
+        ],
+      );
 }

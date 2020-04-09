@@ -28,17 +28,17 @@ class CalculatorScreen extends StatelessWidget {
       child: Card(
         margin: EdgeInsets.all(16),
         child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: <Widget>[
-                _buildGenderRow(context),
-                _buildAgeRow(context),
-                SizedBox(height: 12),
-                _buildSubmitButton(context),
-              ],
-              crossAxisAlignment: CrossAxisAlignment.start,
-            ),
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: <Widget>[
+              _buildGenderRow(context),
+              _buildAgeRow(context),
+              SizedBox(height: 12),
+              _buildSubmitButton(context),
+            ],
+            crossAxisAlignment: CrossAxisAlignment.start,
           ),
+        ),
       ),
     );
   }

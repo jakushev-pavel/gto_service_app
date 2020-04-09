@@ -47,17 +47,17 @@ class LoginScreenState extends State<LoginScreen> {
     return ShrunkVertically(
       child: Card(
         margin: EdgeInsets.all(16),
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: <Widget>[
-                _buildEmailField(),
-                _buildPasswordField(),
-                _buildButton(context),
-              ],
-            ),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            children: <Widget>[
+              _buildEmailField(),
+              _buildPasswordField(),
+              _buildButton(context),
+            ],
           ),
         ),
+      ),
     );
   }
 

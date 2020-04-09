@@ -7,7 +7,6 @@ import 'package:gtoserviceapp/screens/profile/app_bar.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/org.dart';
 import 'package:gtoserviceapp/screens/profile/header.dart';
-import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
 
