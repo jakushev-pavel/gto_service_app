@@ -4,6 +4,7 @@ import 'package:gtoserviceapp/models/calculator.dart';
 import 'package:gtoserviceapp/screens/main/main_screen.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/auth/auth.dart';
+import 'package:gtoserviceapp/services/repo/local_admin.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 import 'package:gtoserviceapp/theme/theme.dart';
@@ -26,6 +27,7 @@ setup() async {
   GetIt.I.registerSingleton<Storage>(Storage());
   GetIt.I.registerSingleton<Auth>(Auth());
   GetIt.I.registerSingleton<OrgRepo>(OrgRepo());
+  GetIt.I.registerSingleton<LocalAdminRepo>(LocalAdminRepo());
 
   await Storage.I.init();
 }

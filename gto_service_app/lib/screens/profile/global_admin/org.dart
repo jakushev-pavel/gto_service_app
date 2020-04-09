@@ -6,6 +6,7 @@ import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
 import 'package:gtoserviceapp/components/text/caption.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
+import 'package:gtoserviceapp/services/repo/local_admin.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
 
 class OrganisationScreen extends StatelessWidget {
@@ -17,7 +18,7 @@ class OrganisationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: _buildFutureOrg(context),
+      body: _buildBody(context),
     );
   }
 
@@ -37,7 +38,18 @@ class OrganisationScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFutureOrg(context) {
+  Widget _buildBody(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        _buildFutureOrgCard(context),
+        _buildLocalAdminsListHeader(context),
+        _buildFutureLocalAdminsList(context),
+      ],
+    );
+  }
+
+  Widget _buildFutureOrgCard(context) {
     var org = OrgRepo.I.get(_id);
     ErrorDialog.showOnFutureError(context, org);
 
@@ -45,7 +57,7 @@ class OrganisationScreen extends StatelessWidget {
       future: org,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          return _buildOrg(context, snapshot.data);
+          return _buildOrgCard(context, snapshot.data);
         }
 
         return CircularProgressIndicator();
@@ -53,29 +65,27 @@ class OrganisationScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildOrg(context, Organisation org) {
-    return ShrunkVertically(
-      child: Card(
-        margin: EdgeInsets.all(16),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: ExpandedHorizontally(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _buildName(org, context),
-                _buildTotalEventsCount(org),
-                _buildActiveEventsCount(org),
-                _buildField("Aдрес", org.address),
-                _buildField("Ответственный", org.leader),
-                _buildField("Номер телефона", org.phoneNumber),
-                _buildField("ОГРН", org.oQRN),
-                _buildField("Лицевой счёт", org.paymentAccount),
-                _buildField("Филиал", org.branch),
-                _buildField("БИК", org.bik),
-                _buildField("Расчётный счёт", org.correspondentAccount),
-              ],
-            ),
+  Widget _buildOrgCard(context, Organisation org) {
+    return Card(
+      margin: EdgeInsets.all(16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: ExpandedHorizontally(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _buildName(org, context),
+              _buildTotalEventsCount(org),
+              _buildActiveEventsCount(org),
+              _buildField("Aдрес", org.address),
+              _buildField("Ответственный", org.leader),
+              _buildField("Номер телефона", org.phoneNumber),
+              _buildField("ОГРН", org.oQRN),
+              _buildField("Лицевой счёт", org.paymentAccount),
+              _buildField("Филиал", org.branch),
+              _buildField("БИК", org.bik),
+              _buildField("Расчётный счёт", org.correspondentAccount),
+            ],
           ),
         ),
       ),
@@ -84,9 +94,9 @@ class OrganisationScreen extends StatelessWidget {
 
   Text _buildName(Organisation org, context) {
     return Text(
-                org.name ?? "",
-                style: Theme.of(context).textTheme.headline,
-              );
+      org.name ?? "",
+      style: Theme.of(context).textTheme.headline,
+    );
   }
 
   Widget _buildField(String caption, String value) {
@@ -127,5 +137,88 @@ class OrganisationScreen extends StatelessWidget {
 
   _buildActiveEventsCount(Organisation org) {
     return Text("Активных мероприятий: ${org.countOfActiveEvents}");
+  }
+
+  Widget _buildLocalAdminsListHeader(context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, bottom: 4),
+      child: Text(
+        "Администраторы:",
+        style: Theme.of(context).textTheme.headline,
+      ),
+    );
+  }
+
+  Widget _buildFutureLocalAdminsList(context) {
+    var response = LocalAdminRepo.I.getAll(_id);
+    ErrorDialog.showOnFutureError(context, response);
+
+    return FutureBuilder(
+      future: response,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return _buildLocalAdminsList(snapshot.data);
+        }
+
+        return SizedBox.shrink(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  Widget _buildLocalAdminsList(List<LocalAdmin> localAdmins) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemBuilder: (BuildContext context, int index) {
+        if (index >= localAdmins.length) {
+          return null;
+        }
+
+        return ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: _buildLocalAdmin(context, localAdmins[index]),
+        );
+      },
+    );
+  }
+
+  Widget _buildLocalAdmin(context, LocalAdmin localAdmin) {
+    return Card(
+      margin: EdgeInsets.all(16),
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(localAdmin.name),
+                CaptionText(localAdmin.email),
+              ],
+            ),
+            _buildDeleteLocalAdminButton(context, localAdmin),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDeleteLocalAdminButton(context, LocalAdmin localAdmin) {
+    return IconButton(
+      icon: Icon(Icons.delete),
+      onPressed: () {
+        showDialog(
+          context: context,
+          child: YesNoDialog(
+            "Удалить ${localAdmin.name} из списка администраторов?",
+            _onDeleteLocalAdminPressed(localAdmin),
+          ),
+        );
+      },
+    );
+  }
+
+  _onDeleteLocalAdminPressed(LocalAdmin localAdmin) {
+    LocalAdminRepo.I.delete(_id, localAdmin.localAdminId.toString());
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
+import 'package:gtoserviceapp/components/helpers/try_catch_log.dart';
 import 'package:gtoserviceapp/models/gender.dart';
 import 'package:gtoserviceapp/models/trials.dart';
 import 'package:gtoserviceapp/services/api/api_error.dart';
@@ -19,11 +20,24 @@ class API {
     return GetIt.I<API>();
   }
 
-  Future<dynamic> get(String path) async {
-    print("GET $path");
+  Future<dynamic> get(
+    String path, {
+    auth = false,
+  }) async {
+    return tryCatchLog(() async {
+      print("GET $path");
+      final response = await _sendRequest(false, () => _get(path, auth));
+      return jsonDecode(response.body);
+    });
+  }
+
+  Future<dynamic> _get(String path, bool auth) {
     final url = Uri.parse("$baseURL$path");
-    final response = await _sendRequest(false, () => _httpClient.get(url));
-    return jsonDecode(response.body);
+    var headers = buildHeaders(
+      auth: auth,
+    );
+
+    return _httpClient.get(url, headers: headers);
   }
 
   Future<dynamic> post(
@@ -32,12 +46,12 @@ class API {
     bool auth = false,
     bool refresh = false,
   }) async {
-    print(path);
-
-    Response response =
-        await _sendRequest(auth, () => _post(path, args, auth, refresh));
-
-    return jsonDecode(response.body);
+    return tryCatchLog(() async {
+      print("POST $path");
+      Response response =
+          await _sendRequest(auth, () => _post(path, args, auth, refresh));
+      return jsonDecode(response.body);
+    });
   }
 
   Future<Response> _post(
@@ -57,9 +71,11 @@ class API {
   }
 
   Future delete(String path) async {
-    print(path);
-    await _sendRequest(true, _withRefresh(() => _delete(path)));
-    return;
+    return tryCatchLog(() async {
+      print("DELETE $path");
+      await _sendRequest(true, _withRefresh(() => _delete(path)));
+      return;
+    });
   }
 
   Future<Response> _delete(String path) {
@@ -76,9 +92,11 @@ class API {
     args, {
     bool auth,
   }) async {
-    print(path);
-    await _sendRequest(true, _withRefresh(() => _put(path, args)));
-    return;
+    return tryCatchLog(() async {
+      print("PUT $path");
+      await _sendRequest(true, _withRefresh(() => _put(path, args)));
+      return;
+    });
   }
 
   Future<Response> _put(String path, dynamic args) async {

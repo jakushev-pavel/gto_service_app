@@ -157,3 +157,79 @@ class CreateOrgResponse {
     id = json['id'];
   }
 }
+
+class GetLocalAdminsResponse {
+  List<LocalAdmin> localAdmins;
+
+  GetLocalAdminsResponse({this.localAdmins});
+
+  GetLocalAdminsResponse.fromJson(List<dynamic> json) {
+    if (json != null) {
+      localAdmins = new List<LocalAdmin>();
+      json.forEach((v) {
+        localAdmins.add(new LocalAdmin.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.localAdmins != null) {
+      data['adm'] = this.localAdmins.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class LocalAdmin {
+  int userId;
+  String name;
+  String email;
+  int roleId;
+  String isActivity;
+  String dateOfBirth;
+  int gender;
+  String registrationDate;
+  String organizationId;
+  int localAdminId;
+
+  LocalAdmin(
+      {this.userId,
+      this.name,
+      this.email,
+      this.roleId,
+      this.isActivity,
+      this.dateOfBirth,
+      this.gender,
+      this.registrationDate,
+      this.organizationId,
+      this.localAdminId});
+
+  LocalAdmin.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    name = json['name'];
+    email = json['email'];
+    roleId = json['roleId'];
+//    isActivity = json['isActivity'];
+    dateOfBirth = json['dateOfBirth'];
+    gender = json['gender'];
+    registrationDate = json['registrationDate'];
+    organizationId = json['organizationId'].toString();
+    localAdminId = json['localAdminId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['userId'] = this.userId;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['roleId'] = this.roleId;
+    data['isActivity'] = this.isActivity;
+    data['dateOfBirth'] = this.dateOfBirth;
+    data['gender'] = this.gender;
+    data['registrationDate'] = this.registrationDate;
+    data['organizationId'] = this.organizationId;
+    data['localAdminId'] = this.localAdminId;
+    return data;
+  }
+}
