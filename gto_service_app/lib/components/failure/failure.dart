@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/services/api/api_error.dart';
 
@@ -25,6 +26,11 @@ class Failure extends StatelessWidget {
   }
 
   String _buildText() {
+    if (!kReleaseMode) {
+      // Debug
+      return _error.toString();
+    }
+
     if (_error is APIErrors) {
       return (_error as APIErrors).toText();
     } else if (_error is SocketException) {

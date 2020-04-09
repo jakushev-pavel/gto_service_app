@@ -144,8 +144,7 @@ class API {
       var response = await request();
 
       if (response.statusCode != 200) {
-        var json = jsonDecode(response.body);
-        throw APIErrors.fromJson(json);
+        throw APIErrors.fromResponse(response);
       }
 
       return response;

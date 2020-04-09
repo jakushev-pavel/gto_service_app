@@ -1,8 +1,18 @@
+import 'dart:convert';
+
+import 'package:http/http.dart';
+
 class APIErrors implements Exception {
+  int statusCode;
   List<APIError> errors;
 
-  APIErrors.fromJson(Map<String, dynamic> json) {
+  APIErrors(
+    Map<String, dynamic> json, {
+    int statusCode,
+  }) {
+    this.statusCode = statusCode;
     errors = new List<APIError>();
+
     if (json['error'] != null) {
       // TODO: недокументировано
       errors.add(APIError.fromJson(json['error']));
@@ -14,15 +24,31 @@ class APIErrors implements Exception {
     }
   }
 
+  APIErrors.fromJson(Map<String, dynamic> json) : this(json);
+
+  APIErrors.fromResponse(Response response)
+      : this(
+          jsonDecode(response.body),
+          statusCode: response.statusCode,
+        );
+
   @override
   String toString() {
-    var messages = errors.map((e) => e.toString());
-    return messages.join(", ");
+    String result = "";
+    if (statusCode != null) {
+      result += statusCode.toString() + ": ";
+    }
+
+    result += errors.map((e) => e.toString()).join(", ");
+    return result;
   }
 
   String toText() {
-    var messages = errors.map((e) => e.toText());
-    return messages.join(", ");
+    if (statusCode >= 500) {
+      return "Ошибка сервера";
+    } else /*if (statusCode >= 400)*/ {
+      return "Ошибка обращения к серверу";
+    }
   }
 }
 
@@ -37,9 +63,5 @@ class APIError {
 
   String toString() {
     return "$type: $description";
-  }
-
-  String toText() {
-    return description;
   }
 }
