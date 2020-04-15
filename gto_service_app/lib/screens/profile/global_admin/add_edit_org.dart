@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/failure/failure.dart';
+import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
 
@@ -63,26 +64,22 @@ class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
   }
 
   Widget _buildForm() {
-    return Card(
-      margin: EdgeInsets.all(16),
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: <Widget>[
-              _buildNameField(),
-              _buildAddressField(),
-              _buildLeaderField(),
-              _buildPhoneNumberField(),
-              _buildOqrnField(),
-              _buildPaymentAccountField(),
-              _buildBranchField(),
-              _buildBikField(),
-              _buildCorrespondentAccountField(),
-              _buildSubmitButton(),
-            ],
-          ),
+    return CardPadding(
+      child: Form(
+        key: _formKey,
+        child: ListView(
+          children: <Widget>[
+            _buildNameField(),
+            _buildAddressField(),
+            _buildLeaderField(),
+            _buildPhoneNumberField(),
+            _buildOqrnField(),
+            _buildPaymentAccountField(),
+            _buildBranchField(),
+            _buildBikField(),
+            _buildCorrespondentAccountField(),
+            _buildSubmitButton(),
+          ],
         ),
       ),
     );

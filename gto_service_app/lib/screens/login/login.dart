@@ -3,6 +3,7 @@ import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
 import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
+import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/screens/profile/profile.dart';
 import 'package:gtoserviceapp/services/auth/auth.dart';
 
@@ -44,17 +45,13 @@ class LoginScreenState extends State<LoginScreen> {
 
   Widget _buildBody(BuildContext context) {
     return ShrunkVertically(
-      child: Card(
-        margin: EdgeInsets.all(16),
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            children: <Widget>[
-              _buildEmailField(),
-              _buildPasswordField(),
-              _buildButton(context),
-            ],
-          ),
+      child: CardPadding(
+        child: Column(
+          children: <Widget>[
+            _buildEmailField(),
+            _buildPasswordField(),
+            _buildButton(context),
+          ],
         ),
       ),
     );

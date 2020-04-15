@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
 import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
+import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/models/calculator.dart';
 import 'package:gtoserviceapp/models/gender.dart';
 import 'package:gtoserviceapp/screens/calculator_result/calculator_result.dart';
@@ -25,19 +26,15 @@ class CalculatorScreen extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     return ShrunkVertically(
-      child: Card(
-        margin: EdgeInsets.all(16),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: <Widget>[
-              _buildGenderRow(context),
-              _buildAgeRow(context),
-              SizedBox(height: 12),
-              _buildSubmitButton(context),
-            ],
-            crossAxisAlignment: CrossAxisAlignment.start,
-          ),
+      child: CardPadding(
+        child: Column(
+          children: <Widget>[
+            _buildGenderRow(context),
+            _buildAgeRow(context),
+            SizedBox(height: 12),
+            _buildSubmitButton(context),
+          ],
+          crossAxisAlignment: CrossAxisAlignment.start,
         ),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
+import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/screens/profile/app_bar.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/org.dart';
@@ -76,20 +77,17 @@ class GlobalAdminProfileScreen extends StatelessWidget {
   Widget _buildOrg(context, Organisation org) {
     return InkWell(
       onTap: () => _onOrgTapped(context, org.id),
-      child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(org.name),
-              Text(
-                org.address,
-                style: Theme.of(context).textTheme.caption,
-              ),
-            ],
-          ),
+      child: CardPadding(
+        margin: ListMargin,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(org.name),
+            Text(
+              org.address,
+              style: Theme.of(context).textTheme.caption,
+            ),
+          ],
         ),
       ),
     );

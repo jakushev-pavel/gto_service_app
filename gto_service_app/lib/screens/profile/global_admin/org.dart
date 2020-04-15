@@ -4,6 +4,7 @@ import 'package:gtoserviceapp/components/dialogs/yes_no_dialog.dart';
 import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/components/layout/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/text/caption.dart';
+import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
 import 'package:gtoserviceapp/services/repo/local_admin.dart';
@@ -66,27 +67,23 @@ class OrganisationScreen extends StatelessWidget {
   }
 
   Widget _buildOrgCard(context, Organisation org) {
-    return Card(
-      margin: EdgeInsets.all(16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: ExpandedHorizontally(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _buildName(org, context),
-              _buildTotalEventsCount(org),
-              _buildActiveEventsCount(org),
-              _buildField("Aдрес", org.address),
-              _buildField("Ответственный", org.leader),
-              _buildField("Номер телефона", org.phoneNumber),
-              _buildField("ОГРН", org.oQRN),
-              _buildField("Лицевой счёт", org.paymentAccount),
-              _buildField("Филиал", org.branch),
-              _buildField("БИК", org.bik),
-              _buildField("Расчётный счёт", org.correspondentAccount),
-            ],
-          ),
+    return CardPadding(
+      child: ExpandedHorizontally(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _buildName(org, context),
+            _buildTotalEventsCount(org),
+            _buildActiveEventsCount(org),
+            _buildField("Aдрес", org.address),
+            _buildField("Ответственный", org.leader),
+            _buildField("Номер телефона", org.phoneNumber),
+            _buildField("ОГРН", org.oQRN),
+            _buildField("Лицевой счёт", org.paymentAccount),
+            _buildField("Филиал", org.branch),
+            _buildField("БИК", org.bik),
+            _buildField("Расчётный счёт", org.correspondentAccount),
+          ],
         ),
       ),
     );
@@ -183,23 +180,19 @@ class OrganisationScreen extends StatelessWidget {
   }
 
   Widget _buildLocalAdmin(context, LocalAdmin localAdmin) {
-    return Card(
-      margin: EdgeInsets.all(16),
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(localAdmin.name),
-                CaptionText(localAdmin.email),
-              ],
-            ),
-            _buildDeleteLocalAdminButton(context, localAdmin),
-          ],
-        ),
+    return CardPadding(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(localAdmin.name),
+              CaptionText(localAdmin.email),
+            ],
+          ),
+          _buildDeleteLocalAdminButton(context, localAdmin),
+        ],
       ),
     );
   }

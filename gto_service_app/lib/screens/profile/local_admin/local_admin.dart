@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
+import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/models/event.dart';
 import 'package:gtoserviceapp/screens/profile/app_bar.dart';
 import 'package:gtoserviceapp/screens/profile/header.dart';
@@ -75,20 +76,17 @@ class LocalAdminProfileScreen extends StatelessWidget {
 
   Widget _buildEvent(context, Event event) {
     return InkWell(
-      child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(event.name),
-              Text(
-                event.description,
-                style: Theme.of(context).textTheme.caption,
-              ),
-            ],
-          ),
+      child: CardPadding(
+        margin: ListMargin,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(event.name),
+            Text(
+              event.description,
+              style: Theme.of(context).textTheme.caption,
+            ),
+          ],
         ),
       ),
     );

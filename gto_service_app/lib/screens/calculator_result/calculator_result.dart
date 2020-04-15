@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/components/text_placeholder/text_placeholder.dart';
+import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/models/calculator.dart';
 import 'package:gtoserviceapp/models/gender.dart';
 import 'package:gtoserviceapp/models/trials.dart';
@@ -54,26 +54,16 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
   }
 
   Widget _buildHeader(Gender gender, int age, TrialsModel trials) {
-    return Card(
-      margin: EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 16,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text("Пол: ${gender.toStr()}"),
-            SizedBox(height: 2),
-            Text("Возраст: $age"),
-            SizedBox(height: 2),
-            Text("Возрастная ступень: ${trials.ageCategory}"),
-          ],
-        ),
+    return CardPadding(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Пол: ${gender.toStr()}"),
+          SizedBox(height: 2),
+          Text("Возраст: $age"),
+          SizedBox(height: 2),
+          Text("Возрастная ступень: ${trials.ageCategory}"),
+        ],
       ),
     );
   }
@@ -113,20 +103,17 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
   }
 
   Widget _buildTrial(BuildContext context, TrialModel trial) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(trial.trialName),
-            SizedBox.fromSize(size: Size.fromHeight(4)),
-            _buildTrialResults(trial),
-            SizedBox.fromSize(size: Size.fromHeight(4)),
-            _buildPrimarySecondaryResults(trial, context),
-          ],
-        ),
+    return CardPadding(
+      margin: ListMargin,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(trial.trialName),
+          SizedBox.fromSize(size: Size.fromHeight(4)),
+          _buildTrialResults(trial),
+          SizedBox.fromSize(size: Size.fromHeight(4)),
+          _buildPrimarySecondaryResults(trial, context),
+        ],
       ),
     );
   }
