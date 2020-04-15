@@ -5,6 +5,7 @@ import 'package:gtoserviceapp/models/role.dart';
 import 'package:gtoserviceapp/screens/login/login.dart';
 import 'package:gtoserviceapp/screens/profile/app_bar.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/global_admin.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/local_admin.dart';
 import 'package:gtoserviceapp/services/auth/auth.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
@@ -24,6 +25,8 @@ class ProfileScreen extends StatelessWidget {
     switch (role) {
       case Role.GlobalAdmin:
         return GlobalAdminProfileScreen();
+      case Role.LocalAdmin:
+        return LocalAdminProfileScreen();
       default:
         return _buildUnsupportedRole();
     }
