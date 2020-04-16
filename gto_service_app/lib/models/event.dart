@@ -2,8 +2,8 @@ class Event {
   int id;
   int organizationId;
   String name;
-  String startDate;
-  String expirationDate;
+  DateTime startDate;
+  DateTime expirationDate;
   String description;
   String status;
 
@@ -21,8 +21,8 @@ class Event {
     id = json['id'];
     organizationId = json['organizationId'];
     name = json['name'];
-    startDate = json['startDate'];
-    expirationDate = json['expirationDate'];
+    startDate = DateTime.parse(json['startDate']);
+    expirationDate = DateTime.parse(json['expirationDate']);
     description = json['description'];
     status = json['status'];
   }
@@ -32,8 +32,8 @@ class Event {
     data['id'] = this.id;
     data['organizationId'] = this.organizationId;
     data['name'] = this.name;
-    data['startDate'] = this.startDate;
-    data['expirationDate'] = this.expirationDate;
+    data['startDate'] = this.startDate.toUtc();
+    data['expirationDate'] = this.expirationDate.toUtc();
     data['description'] = this.description;
     data['status'] = this.status;
     return data;

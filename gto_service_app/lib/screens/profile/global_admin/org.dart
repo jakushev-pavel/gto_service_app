@@ -5,6 +5,7 @@ import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/components/layout/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/text/caption.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
+import 'package:gtoserviceapp/components/widgets/field.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
 import 'package:gtoserviceapp/services/repo/local_admin.dart';
@@ -75,14 +76,14 @@ class OrganisationScreen extends StatelessWidget {
             _buildName(org, context),
             _buildTotalEventsCount(org),
             _buildActiveEventsCount(org),
-            _buildField("Aдрес", org.address),
-            _buildField("Ответственный", org.leader),
-            _buildField("Номер телефона", org.phoneNumber),
-            _buildField("ОГРН", org.oQRN),
-            _buildField("Лицевой счёт", org.paymentAccount),
-            _buildField("Филиал", org.branch),
-            _buildField("БИК", org.bik),
-            _buildField("Расчётный счёт", org.correspondentAccount),
+            Field("Aдрес", child: Text(org.address)),
+            Field("Ответственный", child: Text(org.leader)),
+            Field("Номер телефона", child: Text(org.phoneNumber)),
+            Field("ОГРН", child: Text(org.oQRN)),
+            Field("Лицевой счёт", child: Text(org.paymentAccount)),
+            Field("Филиал", child: Text(org.branch)),
+            Field("БИК", child: Text(org.bik)),
+            Field("Расчётный счёт", child: Text(org.correspondentAccount)),
           ],
         ),
       ),
@@ -93,19 +94,6 @@ class OrganisationScreen extends StatelessWidget {
     return Text(
       org.name ?? "",
       style: Theme.of(context).textTheme.headline,
-    );
-  }
-
-  Widget _buildField(String caption, String value) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 3),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          CaptionText(caption),
-          Text(value ?? ""),
-        ],
-      ),
     );
   }
 

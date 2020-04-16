@@ -6,6 +6,7 @@ import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/models/event.dart';
 import 'package:gtoserviceapp/screens/profile/app_bar.dart';
 import 'package:gtoserviceapp/screens/profile/header.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/event.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
@@ -76,6 +77,7 @@ class LocalAdminProfileScreen extends StatelessWidget {
 
   Widget _buildEvent(context, Event event) {
     return InkWell(
+      onTap: () => _onEventTap(context, event.id),
       child: CardPadding(
         margin: ListMargin,
         child: Column(
@@ -90,5 +92,11 @@ class LocalAdminProfileScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _onEventTap(context, int eventId) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return EventScreen(eventId);
+    }));
   }
 }
