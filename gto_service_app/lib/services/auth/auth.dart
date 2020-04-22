@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
+import 'package:gtoserviceapp/services/navigation/navigation.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
@@ -34,9 +35,15 @@ class Auth {
     try {
       return await _refresh();
     } catch (e) {
-      await logout();
+      await _onRefreshError();
       rethrow;
     }
+  }
+
+  Future _onRefreshError() async {
+    await logout();
+    Navigation.I.popAll();
+    Navigation.I.pushLoginScreen();
   }
 
   _refresh() async {
