@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/components/forms/text_date_picker.dart';
 import 'package:gtoserviceapp/components/forms/gender_selector.dart';
 import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
@@ -138,34 +139,16 @@ class _AddLocalAdminScreenState extends State<AddLocalAdminScreen> {
   }
 
   Widget _buildBirthDateField(context) {
-    TextEditingController ctl = TextEditingController(
-      text: Utils.formatDate(_params.dateOfBirth),
-    );
-
-    return TextFormField(
-      controller: ctl,
-      readOnly: true,
-      decoration: InputDecoration(
-        labelText: "Дата рождения",
-        enabled: false,
-      ),
-      onTap: () => _onBirthDateFieldPressed(context, ctl),
-    );
-  }
-
-  Future _onBirthDateFieldPressed(context, TextEditingController ctl) async {
-    DateTime picked = await showDatePicker(
-      context: context,
+    return TextDatePicker(
+      (picked) {
+        setState(() {
+          this._params.dateOfBirth = picked;
+        });
+      },
       initialDate: _params.dateOfBirth,
-      initialDatePickerMode: DatePickerMode.year,
-      firstDate: DateTime.parse("19000101"),
       lastDate: DateTime.now(),
+      label: "Дата рождения",
     );
-
-    setState(() {
-      _params.dateOfBirth = picked ?? _params.dateOfBirth;
-      ctl.text = Utils.formatDate(_params.dateOfBirth);
-    });
   }
 
   _buildSubmitButton() {
