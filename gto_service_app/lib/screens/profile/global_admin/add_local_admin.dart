@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
-import 'package:gtoserviceapp/components/forms/text_date_picker.dart';
 import 'package:gtoserviceapp/components/forms/gender_selector.dart';
+import 'package:gtoserviceapp/components/forms/text_date_picker.dart';
 import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/models/gender.dart';
 import 'package:gtoserviceapp/services/repo/local_admin.dart';
 import 'package:gtoserviceapp/services/repo/user.dart';
-import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class AddLocalAdminScreen extends StatefulWidget {
   final String _orgId;

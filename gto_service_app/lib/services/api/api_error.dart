@@ -46,7 +46,8 @@ class APIErrors implements Exception {
   String toText() {
     if (statusCode >= 500) {
       return "Ошибка сервера";
-    } else /*if (statusCode >= 400)*/ {
+    } else
+    /*if (statusCode >= 400)*/ {
       return "Ошибка обращения к серверу";
     }
   }

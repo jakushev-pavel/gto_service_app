@@ -13,10 +13,7 @@ class Field extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 3),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          CaptionText(_caption),
-          _child
-        ],
+        children: <Widget>[CaptionText(_caption), _child],
       ),
     );
   }
