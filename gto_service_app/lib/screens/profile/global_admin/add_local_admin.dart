@@ -38,16 +38,16 @@ class _AddLocalAdminScreenState extends State<AddLocalAdminScreen> {
     return ShrunkVertically(
       child: CardPadding(
           child: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                _buildSwitchWithText(),
-                _buildForm(),
-                SizedBox(height: 8),
-                _buildSubmitButton(),
-              ],
-            ),
-          )),
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            _buildSwitchWithText(),
+            _buildForm(),
+            SizedBox(height: 8),
+            _buildSubmitButton(),
+          ],
+        ),
+      )),
     );
   }
 
@@ -178,18 +178,12 @@ class _AddLocalAdminScreenState extends State<AddLocalAdminScreen> {
             form.save();
 
             if (_newProfile) {
-              var future  = UserRepo.I.invite(InviteUserArgs(
-                name: _params.name,
-                email: _params.email,
-                dateOfBirth: _params.dateOfBirth,
-                gender: _params.gender,
-              ));
-
+              var future = UserRepo.I.invite(_params);
               ErrorDialog.showOnFutureError(context, future);
               await future;
             }
 
-            var future  = LocalAdminRepo.I.add(_orgId, _params.email);
+            var future = LocalAdminRepo.I.add(_orgId, _params.email);
             ErrorDialog.showOnFutureError(context, future);
             await future;
 
