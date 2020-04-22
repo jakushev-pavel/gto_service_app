@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/components/dialogs/yes_no_dialog.dart';
 import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/components/layout/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
@@ -12,7 +14,7 @@ import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class EventScreen extends StatelessWidget {
-  final int _id;
+  final String _id;
 
   EventScreen(this._id);
 
@@ -34,7 +36,7 @@ class EventScreen extends StatelessWidget {
         ),
         IconButton(
           icon: Icon(Icons.delete),
-          onPressed: null,
+          onPressed: () => _onDeletePressed(context),
         ),
       ],
     );
@@ -78,5 +80,16 @@ class EventScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _onDeletePressed(context) {
+    showDialog(context: context,
+    child: YesNoDialog("Удалить мероприятие?", () async {
+      var future = EventRepo.I.delete(Storage.I.read(Keys.organisationId), _id);
+      ErrorDialog.showOnFutureError(context, future);
+      await future;
+
+      Navigator.of(context).pop();
+    }));
   }
 }

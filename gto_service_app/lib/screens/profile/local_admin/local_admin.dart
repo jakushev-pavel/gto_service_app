@@ -95,7 +95,7 @@ class LocalAdminProfileScreen extends StatelessWidget {
 
   void _onEventTap(context, int eventId) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return EventScreen(eventId);
+      return EventScreen(eventId.toString());
     }));
   }
 
