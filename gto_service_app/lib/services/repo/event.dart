@@ -8,6 +8,14 @@ class EventRepo {
     return GetIt.I<EventRepo>();
   }
 
+  Future add(String orgId, Event event) async {
+    return API.I.post(
+      Routes.Events.withArgs(orgId: orgId),
+      args: event.toJson(),
+      auth: true,
+    );
+  }
+
   Future<List<Event>> getAll(String orgId) async {
     List<dynamic> json = await API.I.get(Routes.Events.withArgs(orgId: orgId));
     return json.map((eventJson) => Event.fromJson(eventJson)).toList();

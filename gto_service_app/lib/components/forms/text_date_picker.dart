@@ -7,6 +7,7 @@ class TextDatePicker extends StatelessWidget {
   final DateTime _lastDate;
   final String _label;
   final Function(DateTime) _onPicked;
+  final DatePickerMode _mode;
 
   static DateTime _fixInitialDate(
     DateTime initialDate,
@@ -30,11 +31,15 @@ class TextDatePicker extends StatelessWidget {
     DateTime initialDate,
     DateTime firstDate,
     DateTime lastDate,
+    DatePickerMode mode,
   })  : _label = label,
         _firstDate = firstDate ?? DateTime(1900),
         _lastDate = lastDate ?? DateTime(2100),
         _initialDate =
-            _fixInitialDate(initialDate ?? DateTime.now(), firstDate, lastDate);
+            _fixInitialDate(initialDate ?? DateTime.now(), firstDate, lastDate),
+        _mode = mode ?? DatePickerMode.day {
+    _onPicked(_initialDate);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +61,7 @@ class TextDatePicker extends StatelessWidget {
     DateTime picked = await showDatePicker(
       context: context,
       initialDate: _initialDate,
-      initialDatePickerMode: DatePickerMode.year,
+      initialDatePickerMode: _mode,
       firstDate: _firstDate,
       lastDate: _lastDate,
     );

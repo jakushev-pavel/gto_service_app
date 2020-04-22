@@ -148,6 +148,7 @@ class _AddLocalAdminScreenState extends State<AddLocalAdminScreen> {
       initialDate: _params.dateOfBirth,
       lastDate: DateTime.now(),
       label: "Дата рождения",
+      mode: DatePickerMode.year,
     );
   }
 

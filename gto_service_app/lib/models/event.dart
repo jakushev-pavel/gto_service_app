@@ -1,3 +1,5 @@
+import 'package:gtoserviceapp/services/utils/utils.dart';
+
 class Event {
   int id;
   int organizationId;
@@ -32,8 +34,8 @@ class Event {
     data['id'] = this.id;
     data['organizationId'] = this.organizationId;
     data['name'] = this.name;
-    data['startDate'] = this.startDate.toUtc();
-    data['expirationDate'] = this.expirationDate.toUtc();
+    data['startDate'] = Utils.dateToJson(this.startDate);
+    data['expirationDate'] = Utils.dateToJson(this.expirationDate);
     data['description'] = this.description;
     data['status'] = this.status;
     return data;

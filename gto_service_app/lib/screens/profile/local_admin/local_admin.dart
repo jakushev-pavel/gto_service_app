@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
+import 'package:gtoserviceapp/components/text/headline.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/models/event.dart';
 import 'package:gtoserviceapp/screens/profile/app_bar.dart';
 import 'package:gtoserviceapp/screens/profile/header.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/add_event.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
@@ -19,7 +21,7 @@ class LocalAdminProfileScreen extends StatelessWidget {
       body: _buildBody(context),
       bottomNavigationBar: NavigationBar(Tabs.Profile),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: () => _onFabPressed(context),
         child: Icon(Icons.add),
       ),
     );
@@ -38,10 +40,7 @@ class LocalAdminProfileScreen extends StatelessWidget {
   Widget _buildEventListHeader(context) {
     return Padding(
       padding: const EdgeInsets.only(left: 16, bottom: 4),
-      child: Text(
-        "Мероприятия:",
-        style: Theme.of(context).textTheme.headline,
-      ),
+      child: HeadlineText("Мероприятия:"),
     );
   }
 
@@ -97,6 +96,12 @@ class LocalAdminProfileScreen extends StatelessWidget {
   void _onEventTap(context, int eventId) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return EventScreen(eventId);
+    }));
+  }
+
+  _onFabPressed(context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return AddEventScreen();
     }));
   }
 }
