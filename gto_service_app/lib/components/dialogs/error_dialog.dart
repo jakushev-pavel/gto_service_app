@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/ok_dialog.dart';
-import 'package:gtoserviceapp/services/api/api_error.dart';
+import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class ErrorDialog extends OkDialog {
   static const _title = "Ошибка";
 
   ErrorDialog.fromText(text) : super(_title, text: text);
 
-  static _errorToText(e) {
-    if (e is APIErrors) {
-      return e.toText();
-    }
-
-    return e.toString();
-  }
-
-  ErrorDialog.fromError(e) : super(_title, text: _errorToText(e));
+  ErrorDialog.fromError(e) : super(_title, text: Utils.errorToString(e));
 
   static showOnFutureError<T>(BuildContext context, Future<T> future) {
     future.catchError(

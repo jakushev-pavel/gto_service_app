@@ -7,6 +7,7 @@ import 'package:gtoserviceapp/services/auth/auth.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/repo/local_admin.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
+import 'package:gtoserviceapp/services/repo/user.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 import 'package:gtoserviceapp/theme/theme.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,7 @@ setup() async {
   GetIt.I.registerSingleton<OrgRepo>(OrgRepo());
   GetIt.I.registerSingleton<LocalAdminRepo>(LocalAdminRepo());
   GetIt.I.registerSingleton<EventRepo>(EventRepo());
+  GetIt.I.registerSingleton<UserRepo>(UserRepo());
 
   await Storage.I.init();
 }

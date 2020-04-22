@@ -3,9 +3,29 @@ import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
 
+class AddLocalAdminArgs {
+  String email;
+
+  AddLocalAdminArgs({this.email});
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['email'] = this.email;
+    return data;
+  }
+}
+
 class LocalAdminRepo {
   static LocalAdminRepo get I {
     return GetIt.I<LocalAdminRepo>();
+  }
+
+  Future add(String orgId, String email) async {
+    return API.I.post(
+      Routes.LocalAdminExisting.withArgs(orgId: orgId),
+      args: AddLocalAdminArgs(email: email).toJson(),
+      auth: true,
+    );
   }
 
   Future<List<LocalAdmin>> getAll(String orgId) async {

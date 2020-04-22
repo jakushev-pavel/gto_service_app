@@ -27,7 +27,7 @@ class API {
     return tryCatchLog(() async {
       print("GET $path");
       final response = await _sendRequest(false, () => _get(path, auth));
-      return jsonDecode(response.body);
+      return _jsonDecode(response);
     });
   }
 
@@ -50,7 +50,7 @@ class API {
       print("POST $path");
       Response response =
           await _sendRequest(auth, () => _post(path, args, auth, refresh));
-      return jsonDecode(response.body);
+      return _jsonDecode(response);
     });
   }
 
@@ -149,6 +149,14 @@ class API {
 
       return response;
     };
+  }
+
+  _jsonDecode(Response response) {
+    if (response.body.isEmpty) {
+      return null;
+    }
+
+    return jsonDecode(response.body);
   }
 
   Future<GetUserInfoResponse> getUserInfo() async {

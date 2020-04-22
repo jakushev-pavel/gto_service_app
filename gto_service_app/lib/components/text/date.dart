@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class DateText extends StatelessWidget {
   final DateTime _dateTime;
@@ -7,6 +8,6 @@ class DateText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("${_dateTime.day}/${_dateTime.month}/${_dateTime.year}");
+    return Text(Utils.formatDate(_dateTime));
   }
 }

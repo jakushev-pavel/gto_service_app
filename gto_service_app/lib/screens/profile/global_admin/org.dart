@@ -7,6 +7,7 @@ import 'package:gtoserviceapp/components/text/caption.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/field.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
+import 'package:gtoserviceapp/screens/profile/global_admin/add_local_admin.dart';
 import 'package:gtoserviceapp/services/api/models.dart';
 import 'package:gtoserviceapp/services/repo/local_admin.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
@@ -21,6 +22,7 @@ class OrganisationScreen extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(context),
       body: _buildBody(context),
+      floatingActionButton: _buildFAB(context),
     );
   }
 
@@ -41,12 +43,12 @@ class OrganisationScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return ListView(
       children: <Widget>[
         _buildFutureOrgCard(context),
         _buildLocalAdminsListHeader(context),
         _buildFutureLocalAdminsList(context),
+        SizedBox(height: 48),
       ],
     );
   }
@@ -154,6 +156,7 @@ class OrganisationScreen extends StatelessWidget {
   Widget _buildLocalAdminsList(List<LocalAdmin> localAdmins) {
     return ListView.builder(
       shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
         if (index >= localAdmins.length) {
           return null;
@@ -169,6 +172,7 @@ class OrganisationScreen extends StatelessWidget {
 
   Widget _buildLocalAdmin(context, LocalAdmin localAdmin) {
     return CardPadding(
+      margin: ListMargin,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -193,7 +197,7 @@ class OrganisationScreen extends StatelessWidget {
           context: context,
           child: YesNoDialog(
             "Удалить ${localAdmin.name} из списка администраторов?",
-            _onDeleteLocalAdminPressed(localAdmin),
+            () => _onDeleteLocalAdminPressed(localAdmin),
           ),
         );
       },
@@ -202,5 +206,18 @@ class OrganisationScreen extends StatelessWidget {
 
   _onDeleteLocalAdminPressed(LocalAdmin localAdmin) {
     LocalAdminRepo.I.delete(_id, localAdmin.localAdminId.toString());
+  }
+
+  Widget _buildFAB(BuildContext context) {
+    return FloatingActionButton(
+      child: Icon(Icons.add),
+      onPressed: () => _onAddLocalAdminPressed(context),
+    );
+  }
+
+  _onAddLocalAdminPressed(context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return AddLocalAdminScreen(_id);
+    }));
   }
 }
