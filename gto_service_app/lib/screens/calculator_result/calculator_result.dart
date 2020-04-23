@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/failure/failure.dart';
-import 'package:gtoserviceapp/components/text_placeholder/text_placeholder.dart';
+import 'package:gtoserviceapp/components/text/text_placeholder.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/models/calculator.dart';
 import 'package:gtoserviceapp/models/gender.dart';
