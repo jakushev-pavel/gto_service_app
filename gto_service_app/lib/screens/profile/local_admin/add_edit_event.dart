@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/components/forms/text_date_picker.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/models/event.dart';
@@ -7,17 +8,24 @@ import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
-class AddEventScreen extends StatefulWidget {
+class AddEditEventScreen extends StatefulWidget {
+  final int _id;
+
+  AddEditEventScreen({int id}) : _id = id;
+
   @override
-  _AddEventScreenState createState() => _AddEventScreenState();
+  _AddEditEventScreenState createState() => _AddEditEventScreenState();
 }
 
-class _AddEventScreenState extends State<AddEventScreen> {
+class _AddEditEventScreenState extends State<AddEditEventScreen> {
   final _formKey = GlobalKey<FormState>();
-  var _event = Event();
+  var _event = Event(
+    startDate: DateTime.now(),
+    expirationDate: DateTime.now(),
+  );
 
   bool get _isEditing {
-    return false;
+    return widget._id != null;
   }
 
   @override
@@ -38,7 +46,28 @@ class _AddEventScreenState extends State<AddEventScreen> {
   }
 
   Widget _buildBody() {
-    return _buildForm();
+    if (!_isEditing) {
+      return _buildForm();
+    }
+
+    return _buildFutureForm();
+  }
+
+  Widget _buildFutureForm() {
+    return FutureBuilder(
+      future: EventRepo.I.get(Storage.I.read(Keys.organisationId), widget._id),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          _event = snapshot.data;
+          return _buildForm();
+        }
+        if (snapshot.hasError) {
+          return Failure(snapshot.error);
+        }
+
+        return CircularProgressIndicator();
+      },
+    );
   }
 
   Widget _buildForm() {
@@ -103,6 +132,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
           _event.startDate = picked;
         });
       },
+      initialDate: _event.startDate,
       label: "Дата начала",
     );
   }
@@ -114,13 +144,14 @@ class _AddEventScreenState extends State<AddEventScreen> {
           _event.expirationDate = picked;
         });
       },
+      initialDate: _event.expirationDate,
       label: "Дата завершения",
     );
   }
 
   Widget _buildSubmitButton() {
     return RaisedButton(
-      child: Text("Создать"),
+      child: Text(_isEditing ? "Сохранить" : "Создать"),
       onPressed: _onSubmitPressed,
     );
   }
@@ -132,7 +163,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
     }
     form.save();
 
-    var future = EventRepo.I.add(Storage.I.read(Keys.organisationId), _event);
+    var future = _isEditing
+        ? EventRepo.I.update(Storage.I.read(Keys.organisationId), _event)
+        : EventRepo.I.add(Storage.I.read(Keys.organisationId), _event);
     ErrorDialog.showOnFutureError(context, future);
     await future;
 

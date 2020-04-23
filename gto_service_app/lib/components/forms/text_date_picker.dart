@@ -37,9 +37,7 @@ class TextDatePicker extends StatelessWidget {
         _lastDate = lastDate ?? DateTime(2100),
         _initialDate =
             _fixInitialDate(initialDate ?? DateTime.now(), firstDate, lastDate),
-        _mode = mode ?? DatePickerMode.day {
-    _onPicked(_initialDate);
-  }
+        _mode = mode ?? DatePickerMode.day;
 
   @override
   Widget build(BuildContext context) {

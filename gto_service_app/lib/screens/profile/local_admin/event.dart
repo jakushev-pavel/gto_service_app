@@ -9,12 +9,13 @@ import 'package:gtoserviceapp/components/text/headline.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/field.dart';
 import 'package:gtoserviceapp/models/event.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_event.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class EventScreen extends StatelessWidget {
-  final String _id;
+  final int _id;
 
   EventScreen(this._id);
 
@@ -22,8 +23,12 @@ class EventScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: _buildFutureEventCard(context),
+      body: _buildBody(context),
     );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return _buildFutureEventCard(context);
   }
 
   AppBar _buildAppBar(BuildContext context) {
@@ -32,7 +37,7 @@ class EventScreen extends StatelessWidget {
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.edit),
-          onPressed: null,
+          onPressed: () => _onEditPressed(context),
         ),
         IconButton(
           icon: Icon(Icons.delete),
@@ -80,6 +85,12 @@ class EventScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _onEditPressed(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return AddEditEventScreen(id: _id);
+    }));
   }
 
   _onDeletePressed(context) {

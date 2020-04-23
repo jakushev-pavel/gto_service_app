@@ -21,14 +21,25 @@ class EventRepo {
     return json.map((eventJson) => Event.fromJson(eventJson)).toList();
   }
 
-  Future<Event> get(String orgId, String id) async {
+  Future<Event> get(String orgId, int id) async {
     var json = await API.I.get(
-      Routes.Event.withArgs(orgId: orgId, eventId: id),
+      Routes.Event.withArgs(orgId: orgId, eventId: id.toString()),
     );
     return Event.fromJson(json);
   }
 
-  Future delete(String orgId, String id) async {
-    return API.I.delete(Routes.Event.withArgs(orgId: orgId, eventId: id));
+  Future update(String orgId, Event event) async {
+    return API.I.put(
+      Routes.Event.withArgs(orgId: orgId, eventId: event.id.toString()),
+      event.toJson(),
+      auth: true,
+    );
+  }
+
+  Future delete(String orgId, int id) async {
+    return API.I.delete(Routes.Event.withArgs(
+      orgId: orgId,
+      eventId: id.toString(),
+    ));
   }
 }
