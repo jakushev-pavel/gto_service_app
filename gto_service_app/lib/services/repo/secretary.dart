@@ -59,7 +59,8 @@ class SecretaryRepo {
 
   Future<List<Secretary>> getFromEvent(String orgId, int eventId) async {
     List json = await API.I.get(
-      Routes.EventSecretaries.withArgs(orgId: orgId, eventId: eventId.toString()),
+      Routes.EventSecretaries.withArgs(
+          orgId: orgId, eventId: eventId.toString()),
       auth: true,
     );
     json ??= [];

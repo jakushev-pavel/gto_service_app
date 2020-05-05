@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/failure/failure.dart';
+import 'package:gtoserviceapp/components/future_widget_builder/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/layout/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
@@ -24,26 +24,13 @@ class ProfileHeader extends StatelessWidget {
     );
   }
 
-  FutureBuilder<GetUserInfoResponse> _buildFutureUserName(context) {
-    return FutureBuilder(
-      future: API.I.getUserInfo(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return _buildUserName(snapshot, context);
-        }
-        if (snapshot.hasError) {
-          return Failure(snapshot.error);
-        }
-
-        return CircularProgressIndicator();
-      },
-    );
+  Widget _buildFutureUserName(context) {
+    return FutureWidgetBuilder(API.I.getUserInfo(), _buildUserName);
   }
 
-  Text _buildUserName(
-      AsyncSnapshot<GetUserInfoResponse> snapshot, BuildContext context) {
+  Text _buildUserName(context, GetUserInfoResponse response) {
     return Text(
-      snapshot.data.name,
+      response.name,
       style: Theme.of(context).textTheme.headline,
     );
   }

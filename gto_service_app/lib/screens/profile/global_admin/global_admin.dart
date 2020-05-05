@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/failure/failure.dart';
+import 'package:gtoserviceapp/components/future_widget_builder/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/navigation/tabs.dart';
+import 'package:gtoserviceapp/components/widgets/card_list_view.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/screens/profile/app_bar.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
@@ -36,7 +37,7 @@ class GlobalAdminProfileScreen extends StatelessWidget {
 
   Widget _buildOrgListHeader(context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16, bottom: 4),
+      padding: DefaultMargin,
       child: Text(
         "Организации:",
         style: Theme.of(context).textTheme.headline,
@@ -45,51 +46,27 @@ class GlobalAdminProfileScreen extends StatelessWidget {
   }
 
   Widget _buildFutureOrgList(context) {
-    return FutureBuilder<FetchOrgsResponse>(
-      future: OrgRepo.I.getAll(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return _buildOrgList(context, snapshot.data.organisations);
-        }
-        if (snapshot.hasError) {
-          return Failure(snapshot.error);
-        }
-
-        return SizedBox.shrink(child: CircularProgressIndicator());
-      },
+    return FutureWidgetBuilder(
+      OrgRepo.I.getAll(),
+      (context, FetchOrgsResponse response) =>
+          _buildOrgList(context, response.organisations),
     );
   }
 
   Widget _buildOrgList(context, List<Organisation> orgs) {
-    return ListView.builder(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: orgs.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          contentPadding: EdgeInsets.zero,
-          title: _buildOrg(context, orgs[index]),
-        );
-      },
-    );
+    return CardListView(orgs, _buildOrg, onTap: _onOrgTapped);
   }
 
-  Widget _buildOrg(context, Organisation org) {
-    return InkWell(
-      onTap: () => _onOrgTapped(context, org.id),
-      child: CardPadding(
-        margin: ListMargin,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(org.name),
-            Text(
-              org.address,
-              style: Theme.of(context).textTheme.caption,
-            ),
-          ],
+  Widget _buildOrg(BuildContext context, Organisation org) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(org.name),
+        Text(
+          org.address,
+          style: Theme.of(context).textTheme.caption,
         ),
-      ),
+      ],
     );
   }
 
@@ -100,9 +77,9 @@ class GlobalAdminProfileScreen extends StatelessWidget {
     }));
   }
 
-  _onOrgTapped(context, String id) {
+  _onOrgTapped(context, Organisation org) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => OrganisationScreen(id),
+      builder: (_) => OrganisationScreen(org.id),
     ));
   }
 }

@@ -30,7 +30,7 @@ class SecretaryCatalogScreen extends StatelessWidget {
   FutureWidgetBuilder<List<Secretary>> _buildFutureList() {
     return FutureWidgetBuilder(
       SecretaryRepo.I.getFromOrg(Storage.I.read(Keys.organisationId)),
-      (List<Secretary> data) => _buildSecretaryList(data),
+      (context, List<Secretary> data) => _buildSecretaryList(data),
     );
   }
 
@@ -38,7 +38,7 @@ class SecretaryCatalogScreen extends StatelessWidget {
     return CardListView(data, _buildSecretary);
   }
 
-  Widget _buildSecretary(Secretary secretary) {
+  Widget _buildSecretary(_, Secretary secretary) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

@@ -29,24 +29,24 @@ class LocalAdminProfileScreen extends StatelessWidget {
   }
 
   Widget _buildEventsButton(context) {
-    return InkWell(
+    return CardPadding(
+      child: Text("Мероприятия"),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return EventsScreen();
         }));
       },
-      child: CardPadding(child: Text("Мероприятия")),
     );
   }
 
   Widget _buildSecretaryCatalogButton(context) {
-    return InkWell(
+    return CardPadding(
+      child: Text("Секретари"),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return SecretaryCatalogScreen();
         }));
       },
-      child: CardPadding(child: Text("Секретари")),
     );
   }
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/dialogs/yes_no_dialog.dart';
-import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/components/future_widget_builder/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/layout/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/text/caption.dart';
 import 'package:gtoserviceapp/components/text/date.dart';
 import 'package:gtoserviceapp/components/text/headline.dart';
+import 'package:gtoserviceapp/components/widgets/card_list_view.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/field.dart';
 import 'package:gtoserviceapp/models/event.dart';
@@ -15,6 +15,8 @@ import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/repo/secretary.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
+
+import 'add_secretary.dart';
 
 class EventScreen extends StatelessWidget {
   final int _id;
@@ -26,6 +28,10 @@ class EventScreen extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(context),
       body: _buildBody(context),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => _onAddSecretaryPressed(context),
+      ),
     );
   }
 
@@ -56,18 +62,9 @@ class EventScreen extends StatelessWidget {
   }
 
   Widget _buildFutureEventCard(context) {
-    return FutureBuilder(
-      future: EventRepo.I.get(Storage.I.read(Keys.organisationId), _id),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          return _buildEventCard(context, snapshot.data);
-        }
-        if (snapshot.hasError) {
-          return Failure(snapshot.error);
-        }
-
-        return CircularProgressIndicator();
-      },
+    return FutureWidgetBuilder(
+      EventRepo.I.get(Storage.I.read(Keys.organisationId), _id),
+      _buildEventCard,
     );
   }
 
@@ -114,36 +111,35 @@ class EventScreen extends StatelessWidget {
 
   Widget _buildSecretaryListHeader() {
     return Padding(
-      padding: const EdgeInsets.only(left: 16, bottom: 4),
+      padding: DefaultMargin,
       child: HeadlineText("Секретари:"),
     );
   }
 
   Widget _buildFutureSecretaryList() {
     return FutureWidgetBuilder(
-      SecretaryRepo.I.getAll(Storage.I.read(Keys.organisationId), _id),
-      (List<Secretary> data) => _buildSecretaryList(data),
+      SecretaryRepo.I.getFromEvent(Storage.I.read(Keys.organisationId), _id),
+      (context, List<Secretary> data) => _buildSecretaryList(data),
     );
   }
 
   Widget _buildSecretaryList(List<Secretary> list) {
-    return ListView(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      children: list.map(_buildSecretary).toList(),
+    return CardListView(list, _buildSecretary);
+  }
+
+  Widget _buildSecretary(_, Secretary secretary) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(secretary.name),
+        CaptionText(secretary.email),
+      ],
     );
   }
 
-  Widget _buildSecretary(Secretary secretary) {
-    return CardPadding(
-      margin: ListMargin,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(secretary.name),
-          CaptionText(secretary.email),
-        ],
-      ),
-    );
+  _onAddSecretaryPressed(context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return AddSecretaryScreen();
+    }));
   }
 }

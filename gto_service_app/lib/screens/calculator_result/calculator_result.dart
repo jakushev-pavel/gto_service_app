@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/failure/failure.dart';
-import 'package:gtoserviceapp/components/text/text_placeholder.dart';
+import 'package:gtoserviceapp/components/future_widget_builder/future_widget_builder.dart';
+import 'package:gtoserviceapp/components/widgets/card_list_view.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/models/calculator.dart';
 import 'package:gtoserviceapp/models/gender.dart';
 import 'package:gtoserviceapp/models/trials.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
+import 'package:gtoserviceapp/services/api/models.dart';
 import 'package:provider/provider.dart';
 
 class CalculatorResultScreen extends StatefulWidget {
@@ -29,17 +30,9 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
   }
 
   Widget _buildBody(int age, Gender gender) {
-    return FutureBuilder(
-      future: API.I.fetchTrials(age, gender),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return _buildTrials(snapshot.data, age, gender);
-        }
-        if (snapshot.hasError) {
-          return Text(snapshot.error.toString());
-        }
-        return Center(child: CircularProgressIndicator());
-      },
+    return FutureWidgetBuilder(
+      API.I.fetchTrials(age, gender),
+      (_, TrialsModel trials) => _buildTrials(trials, age, gender),
     );
   }
 
@@ -69,6 +62,7 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
   }
 
   Widget _buildTrialsList(TrialsModel trials) {
+    // TODO
     return ListView.separated(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
@@ -87,34 +81,19 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
   }
 
   Widget _buildGroup(GroupModel group) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        if (index >= group.trials.length) {
-          return null;
-        }
-        return ListTile(
-          contentPadding: EdgeInsets.zero,
-          title: _buildTrial(context, group.trials[index]),
-        );
-      },
-    );
+    return CardListView(group.trials, _buildTrial);
   }
 
   Widget _buildTrial(BuildContext context, TrialModel trial) {
-    return CardPadding(
-      margin: ListMargin,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(trial.trialName),
-          SizedBox.fromSize(size: Size.fromHeight(4)),
-          _buildTrialResults(trial),
-          SizedBox.fromSize(size: Size.fromHeight(4)),
-          _buildPrimarySecondaryResults(trial, context),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(trial.trialName),
+        SizedBox.fromSize(size: Size.fromHeight(4)),
+        _buildTrialResults(trial),
+        SizedBox.fromSize(size: Size.fromHeight(4)),
+        _buildPrimarySecondaryResults(trial, context),
+      ],
     );
   }
 
@@ -161,7 +140,7 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
             SizedBox(
               height: 4,
             ),
-            _buildSecondaryResult(context, trial.trialId),
+            _buildFutureSecondaryResult(context, trial.trialId),
           ]..removeWhere((x) => x == null),
         ),
       ],
@@ -191,32 +170,28 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
     });
   }
 
-  Widget _buildSecondaryResult(BuildContext context, int trialId) {
+  Widget _buildFutureSecondaryResult(BuildContext context, int trialId) {
     if (_primaryResults[trialId] == null) {
       return null;
     }
 
-    return FutureBuilder(
-        future: API.I.fetchSecondaryResult(trialId, _primaryResults[trialId]),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Row(
-              children: <Widget>[
-                Text("Вторичный: "),
-                Text(
-                  snapshot.data.secondaryResult.toString(),
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            );
-          }
-          if (snapshot.hasError) {
-            return Failure(snapshot.error);
-          }
+    return FutureWidgetBuilder(
+        API.I.fetchSecondaryResult(trialId, _primaryResults[trialId]),
+        (_, SecondaryResultResponse response) =>
+            _buildSecondaryResult(response));
+  }
 
-          return TextPlaceholder.progress();
-        });
+  Row _buildSecondaryResult(SecondaryResultResponse response) {
+    return Row(
+      children: <Widget>[
+        Text("Вторичный: "),
+        Text(
+          response.secondaryResult.toString(),
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      ],
+    );
   }
 }
