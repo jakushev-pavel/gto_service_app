@@ -16,8 +16,6 @@ import 'package:gtoserviceapp/services/repo/secretary.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
-import 'add_secretary.dart';
-
 class EventScreen extends StatelessWidget {
   final int _id;
 
@@ -139,7 +137,7 @@ class EventScreen extends StatelessWidget {
 
   _onAddSecretaryPressed(context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return AddSecretaryScreen();
+//      return AddSecretaryScreen();
     }));
   }
 }
