@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const DefaultMargin = EdgeInsets.all(16);
+const DefaultMargin = EdgeInsets.fromLTRB(16, 16, 16, 0);
 const ListMargin = EdgeInsets.symmetric(vertical: 2, horizontal: 16);
 
 class CardPadding extends StatelessWidget {

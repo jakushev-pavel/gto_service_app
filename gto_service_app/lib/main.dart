@@ -45,6 +45,7 @@ class GTOServiceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: Navigation.I.navigatorKey,
       title: 'GTO Service',
       theme: buildTheme(),
       home: MainScreen(),

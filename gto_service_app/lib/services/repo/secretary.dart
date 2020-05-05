@@ -48,9 +48,18 @@ class SecretaryRepo {
     return GetIt.I<SecretaryRepo>();
   }
 
-  Future<List<Secretary>> getAll(String orgId, int eventId) async {
+  Future<List<Secretary>> getFromOrg(String orgId) async {
     List json = await API.I.get(
-      Routes.Secretaries.withArgs(orgId: orgId, eventId: eventId.toString()),
+      Routes.OrgSecretaries.withArgs(orgId: orgId),
+      auth: true,
+    );
+    json ??= [];
+    return json.map((jsonValue) => Secretary.fromJson(jsonValue)).toList();
+  }
+
+  Future<List<Secretary>> getFromEvent(String orgId, int eventId) async {
+    List json = await API.I.get(
+      Routes.EventSecretaries.withArgs(orgId: orgId, eventId: eventId.toString()),
       auth: true,
     );
     json ??= [];
