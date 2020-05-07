@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 
 class HeadlineText extends StatelessWidget {
   final String _data;
+  final Color _color;
 
-  HeadlineText(this._data);
+  HeadlineText(this._data, {Color color}) : _color = color;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      _data,
-      style: Theme.of(context).textTheme.headline,
-    );
+    var style = Theme.of(context).textTheme.headline;
+    if (_color != null) {
+      style = style.copyWith(color: _color);
+    }
+
+    return Text(_data, style: style);
   }
 }

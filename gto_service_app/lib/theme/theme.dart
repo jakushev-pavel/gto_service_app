@@ -6,8 +6,9 @@ ThemeData buildTheme() {
     buttonColor: Colors.blue.shade200,
     canvasColor: Colors.grey.shade100,
     textTheme: TextTheme(
-        body1: TextStyle(
-      fontSize: 16,
-    )),
+      body1: TextStyle(
+        fontSize: 16,
+      ),
+    ),
   );
 }

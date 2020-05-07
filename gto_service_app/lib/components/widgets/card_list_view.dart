@@ -15,7 +15,7 @@ class CardListView<T> extends StatelessWidget {
     if (_data.length == 0) {
       return Padding(
         padding: DefaultMargin,
-        child: HeadlineText("Список пуст"),
+        child: HeadlineText("Список пуст", color: Colors.black45),
       );
     }
 
