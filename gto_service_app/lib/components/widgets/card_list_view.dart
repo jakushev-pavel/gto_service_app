@@ -8,7 +8,7 @@ class CardListView<T> extends StatelessWidget {
   final Function(BuildContext, T) _onTap;
 
   CardListView(this._data, this._builder, {Function(BuildContext, T) onTap})
-      : _onTap = onTap ?? ((_, __) => {});
+      : _onTap = onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +33,15 @@ class CardListView<T> extends StatelessWidget {
   Widget _buildTile(context, T data) {
     return CardPadding(
       margin: ListMargin,
-      onTap: () => _onTap(context, data),
-      child: InkWell(
-        child: _builder(context, data),
-      ),
+      onTap: _onTapWrapper(context, data),
+      child: _builder(context, data),
     );
+  }
+
+  Function() _onTapWrapper(context, T data) {
+    if (_onTap == null) {
+      return null;
+    }
+    return () => _onTap(context, data);
   }
 }
