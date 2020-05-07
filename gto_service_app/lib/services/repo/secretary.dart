@@ -86,4 +86,11 @@ class SecretaryRepo {
     json ??= [];
     return json.map((jsonValue) => Secretary.fromJson(jsonValue)).toList();
   }
+
+  Future deleteFromOrg(String orgID, int id) async {
+    return API.I.delete(Routes.OrgSecretary.withArgs(
+      orgId: orgID,
+      secretaryId: id.toString(),
+    ));
+  }
 }

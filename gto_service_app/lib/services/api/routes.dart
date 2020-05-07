@@ -36,7 +36,8 @@ enum Routes {
   OrgSecretaries,
   EventSecretaries,
   SecretaryExisting,
-  Secretary,
+  OrgSecretary,
+  EventSecretary,
 
   // Team
   EventTeams,
@@ -101,7 +102,9 @@ extension RoutesEx on Routes {
         return "/organization/{orgId}/event/{eventId}/secretary";
       case Routes.SecretaryExisting:
         return "/organization/{orgId}/event/{eventId}/secretary/existingAccount";
-      case Routes.Secretary:
+      case Routes.OrgSecretary:
+        return "/organization/{orgId}/secretary/{secretaryId}";
+      case Routes.EventSecretary:
         return "/organization/{orgId}/event/{eventId}/secretary/{secretaryId}";
       case Routes.EventTeams:
         return "/organization/{orgId}/event/{eventId}/team";

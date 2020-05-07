@@ -41,6 +41,16 @@ class SecretaryCatalogScreen extends StatelessWidget {
   }
 
   Widget _buildSecretary(_, Secretary secretary) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        _buildSecretaryInfo(secretary),
+        _buildDeleteButton(secretary),
+      ],
+    );
+  }
+
+  Column _buildSecretaryInfo(Secretary secretary) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -48,6 +58,13 @@ class SecretaryCatalogScreen extends StatelessWidget {
         CaptionText(secretary.email),
         CaptionText(Utils.formatDate(DateTime.parse(secretary.dateOfBirth))),
       ],
+    );
+  }
+
+  IconButton _buildDeleteButton(Secretary secretary) {
+    return IconButton(
+      icon: Icon(Icons.delete),
+      onPressed: () => _onDeletePressed(secretary),
     );
   }
 
@@ -68,5 +85,12 @@ class SecretaryCatalogScreen extends StatelessWidget {
         },
       ),
     ));
+  }
+
+  _onDeletePressed(Secretary secretary) {
+    SecretaryRepo.I.deleteFromOrg(
+      Storage.I.read(Keys.organisationId),
+      secretary.secretaryOnOrganizationId,
+    );
   }
 }
