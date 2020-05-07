@@ -7,6 +7,7 @@ import 'package:gtoserviceapp/screens/profile/common/invite_user.dart';
 import 'package:gtoserviceapp/services/repo/secretary.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
+import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class SecretaryCatalogScreen extends StatelessWidget {
   @override
@@ -23,7 +24,6 @@ class SecretaryCatalogScreen extends StatelessWidget {
   Widget _buildBody() {
     return Column(
       children: <Widget>[
-        SizedBox(),
         _buildFutureList(),
       ],
     );
@@ -45,7 +45,8 @@ class SecretaryCatalogScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         HeadlineText(secretary.name),
-        CaptionText(secretary.email)
+        CaptionText(secretary.email),
+        CaptionText(Utils.formatDate(DateTime.parse(secretary.dateOfBirth))),
       ],
     );
   }
