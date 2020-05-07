@@ -3,6 +3,7 @@ import 'package:gtoserviceapp/components/future_widget_builder/future_widget_bui
 import 'package:gtoserviceapp/components/text/caption.dart';
 import 'package:gtoserviceapp/components/text/headline.dart';
 import 'package:gtoserviceapp/components/widgets/card_list_view.dart';
+import 'package:gtoserviceapp/screens/profile/common/invite_user.dart';
 import 'package:gtoserviceapp/services/repo/secretary.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
@@ -15,6 +16,7 @@ class SecretaryCatalogScreen extends StatelessWidget {
         title: Text("Секретари"),
       ),
       body: _buildBody(),
+      floatingActionButton: _buildFab(context),
     );
   }
 
@@ -46,5 +48,24 @@ class SecretaryCatalogScreen extends StatelessWidget {
         CaptionText(secretary.email)
       ],
     );
+  }
+
+  Widget _buildFab(context) {
+    return FloatingActionButton(
+      onPressed: () => _onFabPressed(context),
+      child: Icon(Icons.add),
+    );
+  }
+
+  _onFabPressed(context) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => InviteUserScreen(
+        title: "Приглашение секретаря",
+        addUser: (String email) {
+          return SecretaryRepo.I
+              .add(Storage.I.read(Keys.organisationId), email);
+        },
+      ),
+    ));
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
-import 'package:gtoserviceapp/components/failure/failure.dart';
 import 'package:gtoserviceapp/components/forms/text_date_picker.dart';
+import 'package:gtoserviceapp/components/future_widget_builder/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/models/event.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
@@ -54,18 +54,11 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
   }
 
   Widget _buildFutureForm() {
-    return FutureBuilder(
-      future: EventRepo.I.get(Storage.I.read(Keys.organisationId), widget._id),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          _event = snapshot.data;
-          return _buildForm();
-        }
-        if (snapshot.hasError) {
-          return Failure(snapshot.error);
-        }
-
-        return CircularProgressIndicator();
+    return FutureWidgetBuilder(
+      EventRepo.I.get(Storage.I.read(Keys.organisationId), widget._id),
+      (_, Event event) {
+        _event = event;
+        return _buildForm();
       },
     );
   }

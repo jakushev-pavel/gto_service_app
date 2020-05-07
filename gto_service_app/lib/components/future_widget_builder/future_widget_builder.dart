@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/failure/failure.dart';
+import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 
 class FutureWidgetBuilder<T> extends StatelessWidget {
   final Future<T> _future;
@@ -8,10 +9,22 @@ class FutureWidgetBuilder<T> extends StatelessWidget {
 
   FutureWidgetBuilder(this._future, this._builder, {placeholderBuilder})
       : _placeholderBuilder =
-            placeholderBuilder ?? (() => CircularProgressIndicator()) {
+            placeholderBuilder ?? (() => _buildDefaultPlaceholder()) {
     _future.catchError((error) {
       print(error.toString());
     });
+  }
+
+  static Widget _buildDefaultPlaceholder() {
+    return Padding(
+      padding: DefaultMargin,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          CircularProgressIndicator(),
+        ],
+      ),
+    );
   }
 
   @override

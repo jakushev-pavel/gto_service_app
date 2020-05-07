@@ -43,9 +43,29 @@ class Secretary {
   }
 }
 
+class AddSecretaryArgs {
+  String email;
+
+  AddSecretaryArgs({this.email});
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['email'] = this.email;
+    return data;
+  }
+}
+
 class SecretaryRepo {
   static SecretaryRepo get I {
     return GetIt.I<SecretaryRepo>();
+  }
+
+  Future add(String orgId, String email) {
+    return API.I.post(
+      Routes.OrgSecretaries.withArgs(orgId: orgId),
+      auth: true,
+      args: AddSecretaryArgs(email: email).toJson(),
+    );
   }
 
   Future<List<Secretary>> getFromOrg(String orgId) async {

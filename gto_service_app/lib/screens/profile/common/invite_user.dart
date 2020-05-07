@@ -5,31 +5,32 @@ import 'package:gtoserviceapp/components/forms/text_date_picker.dart';
 import 'package:gtoserviceapp/components/layout/shrunk_vertically.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/models/gender.dart';
-import 'package:gtoserviceapp/services/repo/local_admin.dart';
 import 'package:gtoserviceapp/services/repo/user.dart';
 
-class AddLocalAdminScreen extends StatefulWidget {
-  final String _orgId;
+class InviteUserScreen extends StatefulWidget {
+  final String _title;
+  final Future Function(String email) _addUser;
 
-  AddLocalAdminScreen(this._orgId);
+  InviteUserScreen({
+    @required String title,
+    @required Future Function(String email) addUser,
+  })  : _title = title,
+        _addUser = addUser;
 
   @override
-  _AddLocalAdminScreenState createState() => _AddLocalAdminScreenState(_orgId);
+  _InviteUserScreenState createState() => _InviteUserScreenState();
 }
 
-class _AddLocalAdminScreenState extends State<AddLocalAdminScreen> {
+class _InviteUserScreenState extends State<InviteUserScreen> {
   final _formKey = GlobalKey<FormState>();
-  final String _orgId;
 
   bool _newProfile = true;
   InviteUserArgs _params = InviteUserArgs(dateOfBirth: DateTime.now());
 
-  _AddLocalAdminScreenState(this._orgId);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Приглашение администратора")),
+      appBar: AppBar(title: Text(widget._title)),
       body: _buildBody(),
     );
   }
@@ -166,7 +167,7 @@ class _AddLocalAdminScreenState extends State<AddLocalAdminScreen> {
               await future;
             }
 
-            var future = LocalAdminRepo.I.add(_orgId, _params.email);
+            var future = widget._addUser(_params.email);
             ErrorDialog.showOnFutureError(context, future);
             await future;
 
