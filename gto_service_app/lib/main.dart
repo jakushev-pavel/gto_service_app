@@ -5,6 +5,7 @@ import 'package:gtoserviceapp/screens/main/main_screen.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/auth/auth.dart';
 import 'package:gtoserviceapp/services/navigation/navigation.dart';
+import 'package:gtoserviceapp/services/repo/calculator.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/repo/local_admin.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
@@ -39,6 +40,7 @@ setup() async {
   GetIt.I.registerSingleton<SecretaryRepo>(SecretaryRepo());
   GetIt.I.registerSingleton<SportObjectRepo>(SportObjectRepo());
   GetIt.I.registerSingleton<RefereeRepo>(RefereeRepo());
+  GetIt.I.registerSingleton<CalculatorRepo>(CalculatorRepo());
 
   GetIt.I.registerSingleton<Navigation>(Navigation());
 

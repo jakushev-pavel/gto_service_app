@@ -5,8 +5,7 @@ import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/models/calculator.dart';
 import 'package:gtoserviceapp/models/gender.dart';
 import 'package:gtoserviceapp/models/trials.dart';
-import 'package:gtoserviceapp/services/api/api.dart';
-import 'package:gtoserviceapp/services/api/models.dart';
+import 'package:gtoserviceapp/services/repo/calculator.dart';
 import 'package:provider/provider.dart';
 
 class CalculatorResultScreen extends StatefulWidget {
@@ -31,7 +30,7 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
 
   Widget _buildBody(int age, Gender gender) {
     return FutureWidgetBuilder(
-      API.I.fetchTrials(age, gender),
+      CalculatorRepo.I.fetchTrials(age, gender),
       (_, TrialsModel trials) => _buildTrials(trials, age, gender),
     );
   }
@@ -176,7 +175,8 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
     }
 
     return FutureWidgetBuilder(
-        API.I.fetchSecondaryResult(trialId, _primaryResults[trialId]),
+        CalculatorRepo.I
+            .fetchSecondaryResult(trialId, _primaryResults[trialId]),
         (_, SecondaryResultResponse response) =>
             _buildSecondaryResult(response));
   }

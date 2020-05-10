@@ -2,11 +2,7 @@ import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
 import 'package:gtoserviceapp/components/helpers/try_catch_log.dart';
-import 'package:gtoserviceapp/models/gender.dart';
-import 'package:gtoserviceapp/models/trials.dart';
 import 'package:gtoserviceapp/services/api/api_error.dart';
-import 'package:gtoserviceapp/services/api/models.dart';
-import 'package:gtoserviceapp/services/api/routes.dart';
 import 'package:gtoserviceapp/services/auth/auth.dart';
 import 'package:http/http.dart';
 
@@ -157,29 +153,5 @@ class API {
     }
 
     return jsonDecode(response.body);
-  }
-
-  Future<GetUserInfoResponse> getUserInfo() async {
-    var json = await post(
-      Routes.Info.toStr(),
-      auth: true,
-    );
-    return GetUserInfoResponse.fromJson(json);
-  }
-
-  Future<TrialsModel> fetchTrials(int age, Gender gender) async {
-    var json = await get(Routes.Trial.withArgs(age: age, gender: gender));
-    return TrialsModel.fromJson(json);
-  }
-
-  Future<SecondaryResultResponse> fetchSecondaryResult(
-    int trialId,
-    int primaryResult,
-  ) async {
-    var json = await get(Routes.TrialSecondaryResult.withArgs(
-      trialId: trialId,
-      primaryResult: primaryResult,
-    ));
-    return SecondaryResultResponse.fromJson(json);
   }
 }

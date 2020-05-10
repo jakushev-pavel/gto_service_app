@@ -4,6 +4,69 @@ import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
 import 'package:gtoserviceapp/services/utils/utils.dart';
 
+class GetUserInfoResponse {
+  String email;
+  String name;
+  String gender;
+  String dateOfBirth;
+
+  GetUserInfoResponse({this.email, this.name, this.gender, this.dateOfBirth});
+
+  GetUserInfoResponse.fromJson(Map<String, dynamic> json) {
+    email = json['email'];
+    name = json['name'];
+    gender = json['gender'];
+    dateOfBirth = json['dateOfBirth'];
+  }
+}
+
+class LoginArgs {
+  String email;
+  String password;
+
+  LoginArgs({this.email, this.password})
+      : assert(email != null),
+        assert(password != null);
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['email'] = this.email;
+    data['password'] = this.password;
+    return data;
+  }
+}
+
+class LoginResponse {
+  String accessToken;
+  String refreshToken;
+  String role;
+  int organizationID;
+  int userID;
+
+  LoginResponse(
+      {this.accessToken, this.refreshToken, this.role, this.organizationID});
+
+  LoginResponse.fromJson(Map<String, dynamic> json) {
+    accessToken = json['accessToken'];
+    refreshToken = json['refreshToken'];
+    role = json['role'];
+    organizationID = json['organizationId'];
+    userID = json['userId'];
+  }
+}
+
+class RefreshResponse {
+  String accessToken;
+  String refreshToken;
+
+  RefreshResponse({this.accessToken, this.refreshToken});
+
+  RefreshResponse.fromJson(Map<String, dynamic> json) {
+    accessToken = json['accessToken'];
+    refreshToken = json['refreshToken'];
+  }
+}
+
 class InviteUserArgs {
   String name;
   String email;
@@ -33,5 +96,29 @@ class UserRepo {
       args: args.toJson(),
       auth: true,
     );
+  }
+
+  Future<GetUserInfoResponse> getUserInfo() async {
+    var json = await API.I.post(
+      Routes.Info.toStr(),
+      auth: true,
+    );
+    return GetUserInfoResponse.fromJson(json);
+  }
+
+  Future<LoginResponse> login(String email, String password) async {
+    var json = await API.I.post(
+      Routes.Login.toStr(),
+      args: LoginArgs(email: email, password: password).toJson(),
+    );
+    return LoginResponse.fromJson(json);
+  }
+
+  Future<RefreshResponse> refresh() async {
+    var json = await API.I.post(
+      Routes.Refresh.toStr(),
+      refresh: true,
+    );
+    return RefreshResponse.fromJson(json);
   }
 }

@@ -1,8 +1,6 @@
 import 'package:get_it/get_it.dart';
-import 'package:gtoserviceapp/services/api/api.dart';
-import 'package:gtoserviceapp/services/api/models.dart';
-import 'package:gtoserviceapp/services/api/routes.dart';
 import 'package:gtoserviceapp/services/navigation/navigation.dart';
+import 'package:gtoserviceapp/services/repo/user.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
@@ -16,11 +14,7 @@ class Auth {
   }
 
   Future<void> login(String email, String password) async {
-    var json = await API.I.post(
-      Routes.Login.toStr(),
-      args: LoginArgs(email: email, password: password).toJson(),
-    );
-    var response = LoginResponse.fromJson(json);
+    var response = await UserRepo.I.login(email, password);
 
     return Future.wait([
       Storage.I.write(Keys.accessToken, response.accessToken),
@@ -47,11 +41,7 @@ class Auth {
   }
 
   _refresh() async {
-    var json = await API.I.post(
-      Routes.Refresh.toStr(),
-      refresh: true,
-    );
-    var response = RefreshResponse.fromJson(json);
+    var response = await UserRepo.I.refresh();
 
     return Future.wait([
       Storage.I.write(Keys.accessToken, response.accessToken),

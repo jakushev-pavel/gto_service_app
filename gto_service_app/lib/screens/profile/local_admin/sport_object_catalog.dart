@@ -55,7 +55,8 @@ class SportObjectCatalogScreen extends StatelessWidget {
   _onEditPressed(context) {
     return (SportObject sportObject) {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => AddSportObjectScreen(sportObject: sportObject)),
+        MaterialPageRoute(
+            builder: (_) => AddSportObjectScreen(sportObject: sportObject)),
       );
     };
   }
