@@ -6,26 +6,50 @@ import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class AddSportObjectScreen extends StatefulWidget {
+  final SportObject _sportObject;
+
+  AddSportObjectScreen({SportObject sportObject}) : _sportObject = sportObject;
+
   @override
-  _AddSportObjectScreenState createState() => _AddSportObjectScreenState();
+  _AddSportObjectScreenState createState() =>
+      _AddSportObjectScreenState(_sportObject);
 }
 
 class _AddSportObjectScreenState extends State<AddSportObjectScreen> {
   final _formKey = GlobalKey<FormState>();
-  SportObject _sportObject = SportObject();
+  SportObject _sportObject;
+
+  _AddSportObjectScreenState(SportObject sportObject)
+      : _sportObject = sportObject ?? SportObject();
+
+  bool get _isEditing {
+    return _sportObject.id != null;
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
-        appBar: AppBar(title: Text("Добавление спортивного объекта")),
+        appBar: AppBar(
+          title: _buildTitle(),
+        ),
         body: _buildBody(),
       ),
     );
   }
 
+  Text _buildTitle() {
+    return Text(
+      (_isEditing ? "Редактирование" : "Добавление") + " спортивного объекта",
+    );
+  }
+
   Widget _buildBody() {
+    return _buildForm();
+  }
+
+  CardPadding _buildForm() {
     return CardPadding(
       child: Form(
         key: _formKey,
@@ -43,7 +67,7 @@ class _AddSportObjectScreenState extends State<AddSportObjectScreen> {
 
   Widget _buildSubmitButton() {
     return RaisedButton(
-      child: Text("Добавить"),
+      child: Text(_isEditing ? "Сохранить" : "Добавить"),
       onPressed: _onSubmitPressed,
     );
   }
@@ -113,10 +137,10 @@ class _AddSportObjectScreenState extends State<AddSportObjectScreen> {
     }
     form.save();
 
-    var future = SportObjectRepo.I.add(
-      Storage.I.read(Keys.organisationId),
-      _sportObject,
-    );
+    final String orgId = Storage.I.read(Keys.organisationId);
+    var future = _isEditing
+        ? SportObjectRepo.I.update(orgId, _sportObject)
+        : SportObjectRepo.I.add(orgId, _sportObject);
     ErrorDialog.showOnFutureError(context, future);
     await future;
 

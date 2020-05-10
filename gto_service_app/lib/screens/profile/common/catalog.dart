@@ -8,6 +8,7 @@ class CatalogScreen<T> extends StatelessWidget {
   final Widget Function(T) _buildInfo;
   final Function(BuildContext) _onFabPressed;
   final Function(T) _onDeletePressed;
+  final Function(T) _onEditPressed;
 
   CatalogScreen({
     @required String title,
@@ -15,11 +16,13 @@ class CatalogScreen<T> extends StatelessWidget {
     @required Widget Function(T) buildInfo,
     @required Function(BuildContext) onFabPressed,
     @required Function(T) onDeletePressed,
+    Function(T) onEditPressed,
   })  : _title = title,
         _getData = getData,
         _buildInfo = buildInfo,
         _onFabPressed = onFabPressed,
-        _onDeletePressed = onDeletePressed;
+        _onDeletePressed = onDeletePressed,
+        _onEditPressed = onEditPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +59,16 @@ class CatalogScreen<T> extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Expanded(child: _buildInfo(data)),
+        _onEditPressed != null ? _buildEditButton(data) : Container(),
         _buildDeleteButton(data),
       ],
+    );
+  }
+
+  Widget _buildEditButton(T data) {
+    return IconButton(
+      icon: Icon(Icons.edit),
+      onPressed: () => _onEditPressed(data),
     );
   }
 

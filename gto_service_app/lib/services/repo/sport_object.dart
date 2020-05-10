@@ -57,6 +57,16 @@ class SportObjectRepo {
     return json.map((json) => SportObject.fromJson(json)).toList();
   }
 
+  Future update(String orgId, SportObject sportObject) {
+    return API.I.put(
+      Routes.SportObject.withArgs(
+        orgId: orgId,
+        sportObjectId: sportObject.id.toString(),
+      ),
+      sportObject.toJson(),
+    );
+  }
+
   Future delete(String orgId, int sportObjectId) {
     return API.I.delete(
       Routes.SportObject.withArgs(

@@ -3,7 +3,7 @@ import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/text/caption.dart';
 import 'package:gtoserviceapp/components/text/headline.dart';
 import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
-import 'package:gtoserviceapp/screens/profile/local_admin/add_sport_object.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_sport_object.dart';
 import 'package:gtoserviceapp/services/repo/sport_object.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
@@ -17,6 +17,7 @@ class SportObjectCatalogScreen extends StatelessWidget {
       buildInfo: _buildSecretaryInfo,
       onDeletePressed: _onDeletePressed(context),
       onFabPressed: _onFabPressed,
+      onEditPressed: _onEditPressed(context),
     );
   }
 
@@ -48,6 +49,14 @@ class SportObjectCatalogScreen extends StatelessWidget {
         sportObject.id,
       );
       ErrorDialog.showOnFutureError(context, future);
+    };
+  }
+
+  _onEditPressed(context) {
+    return (SportObject sportObject) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => AddSportObjectScreen(sportObject: sportObject)),
+      );
     };
   }
 }
