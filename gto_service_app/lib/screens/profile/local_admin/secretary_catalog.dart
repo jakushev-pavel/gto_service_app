@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/future_widget_builder/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/text/caption.dart';
 import 'package:gtoserviceapp/components/text/headline.dart';
-import 'package:gtoserviceapp/components/widgets/card_list_view.dart';
+import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
 import 'package:gtoserviceapp/screens/profile/common/invite_user.dart';
 import 'package:gtoserviceapp/services/repo/secretary.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
@@ -12,42 +11,17 @@ import 'package:gtoserviceapp/services/utils/utils.dart';
 class SecretaryCatalogScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Секретари"),
-      ),
-      body: _buildBody(),
-      floatingActionButton: _buildFab(context),
+    return CatalogScreen(
+      title: "Секретари",
+      getData: _getList,
+      buildInfo: _buildSecretaryInfo,
+      onDeletePressed: _onDeletePressed,
+      onFabPressed: _onFabPressed,
     );
   }
 
-  Widget _buildBody() {
-    return Column(
-      children: <Widget>[
-        _buildFutureList(),
-      ],
-    );
-  }
-
-  FutureWidgetBuilder<List<Secretary>> _buildFutureList() {
-    return FutureWidgetBuilder(
-      SecretaryRepo.I.getFromOrg(Storage.I.read(Keys.organisationId)),
-      (context, List<Secretary> data) => _buildSecretaryList(data),
-    );
-  }
-
-  Widget _buildSecretaryList(List<Secretary> data) {
-    return CardListView(data, _buildSecretary);
-  }
-
-  Widget _buildSecretary(_, Secretary secretary) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        _buildSecretaryInfo(secretary),
-        _buildDeleteButton(secretary),
-      ],
-    );
+  Future<List<Secretary>> _getList() {
+    return SecretaryRepo.I.getFromOrg(Storage.I.read(Keys.organisationId));
   }
 
   Column _buildSecretaryInfo(Secretary secretary) {
@@ -58,20 +32,6 @@ class SecretaryCatalogScreen extends StatelessWidget {
         CaptionText(secretary.email),
         CaptionText(Utils.formatDate(DateTime.parse(secretary.dateOfBirth))),
       ],
-    );
-  }
-
-  IconButton _buildDeleteButton(Secretary secretary) {
-    return IconButton(
-      icon: Icon(Icons.delete),
-      onPressed: () => _onDeletePressed(secretary),
-    );
-  }
-
-  Widget _buildFab(context) {
-    return FloatingActionButton(
-      onPressed: () => _onFabPressed(context),
-      child: Icon(Icons.add),
     );
   }
 
