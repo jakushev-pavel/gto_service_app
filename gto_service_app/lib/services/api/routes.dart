@@ -57,6 +57,10 @@ enum Routes {
   // SportObject
   SportObjects,
   SportObject,
+
+  // Referee
+  OrgReferees,
+  OrgReferee,
 }
 
 extension RoutesEx on Routes {
@@ -132,6 +136,10 @@ extension RoutesEx on Routes {
         return "/organization/{orgId}/sportObject";
       case Routes.SportObject:
         return "/organization/{orgId}/sportObject/{sportObjectId}";
+      case Routes.OrgReferees:
+        return "/organization/{orgId}/referee";
+      case Routes.OrgReferee:
+        return "/organization/{orgId}/referee/{refereeId}";
       default:
         throw Exception("Invlid route");
     }
@@ -150,6 +158,7 @@ extension RoutesEx on Routes {
     int trialId,
     int primaryResult,
     String sportObjectId,
+    String refereeId,
   }) {
     return _withArgs({
       "orgId": orgId,
@@ -164,6 +173,7 @@ extension RoutesEx on Routes {
       "trialId": trialId?.toString(),
       "primaryResult": primaryResult?.toString(),
       "sportObjectId": sportObjectId?.toString(),
+      "refereeId": refereeId?.toString(),
     });
   }
 
