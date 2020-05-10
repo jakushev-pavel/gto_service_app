@@ -55,7 +55,7 @@ class CatalogScreen<T> extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        _buildInfo(data),
+        Expanded(child: _buildInfo(data)),
         _buildDeleteButton(data),
       ],
     );

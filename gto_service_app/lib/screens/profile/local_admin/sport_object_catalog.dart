@@ -24,7 +24,7 @@ class SportObjectCatalogScreen extends StatelessWidget {
     return SportObjectRepo.I.getAll(Storage.I.read(Keys.organisationId));
   }
 
-  Column _buildSecretaryInfo(SportObject sportObject) {
+  Widget _buildSecretaryInfo(SportObject sportObject) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
