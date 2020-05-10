@@ -3,7 +3,7 @@ import 'package:gtoserviceapp/screens/login/login.dart';
 import 'package:gtoserviceapp/services/auth/auth.dart';
 
 class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
-  AppBar _appBar = AppBar();
+  final AppBar _appBar = AppBar();
 
   @override
   Widget build(BuildContext context) {
