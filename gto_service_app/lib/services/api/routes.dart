@@ -53,6 +53,10 @@ enum Routes {
   // Trial
   Trial,
   TrialSecondaryResult,
+
+  // SportObject
+  SportObjects,
+  SportObject,
 }
 
 extension RoutesEx on Routes {
@@ -124,6 +128,10 @@ extension RoutesEx on Routes {
         return "/trial/{age}/{gender}";
       case Routes.TrialSecondaryResult:
         return "/trial/{trialId}/firstResult?firstResult={primaryResult}";
+      case Routes.SportObjects:
+        return "/organization/{orgId}/sportObject";
+      case Routes.SportObject:
+        return "/organization/{orgId}/sportObject/{sportObjectId}";
       default:
         throw Exception("Invlid route");
     }
@@ -141,6 +149,7 @@ extension RoutesEx on Routes {
     Gender gender,
     int trialId,
     int primaryResult,
+    String sportObjectId,
   }) {
     return _withArgs({
       "orgId": orgId,
@@ -154,6 +163,7 @@ extension RoutesEx on Routes {
       "gender": gender?.toInt().toString(),
       "trialId": trialId?.toString(),
       "primaryResult": primaryResult?.toString(),
+      "sportObjectId": sportObjectId?.toString(),
     });
   }
 
