@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/text/caption.dart';
 import 'package:gtoserviceapp/components/text/headline.dart';
 import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/add_sport_object.dart';
 import 'package:gtoserviceapp/services/repo/sport_object.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
@@ -33,7 +34,11 @@ class SportObjectCatalogScreen extends StatelessWidget {
     );
   }
 
-  _onFabPressed(context) {}
+  _onFabPressed(context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => AddSportObjectScreen()),
+    );
+  }
 
   _onDeletePressed(SportObject sportObject) {
     SportObjectRepo.I.delete(

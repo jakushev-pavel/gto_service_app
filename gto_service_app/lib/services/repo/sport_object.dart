@@ -11,10 +11,10 @@ class SportObject {
 
   SportObject(
       {this.id,
-        this.organizationId,
-        this.name,
-        this.address,
-        this.description});
+      this.organizationId,
+      this.name,
+      this.address,
+      this.description});
 
   SportObject.fromJson(Map<String, dynamic> json) {
     id = json['sportObjectId'];
@@ -38,6 +38,14 @@ class SportObject {
 class SportObjectRepo {
   static SportObjectRepo get I {
     return GetIt.I<SportObjectRepo>();
+  }
+
+  Future add(String orgId, SportObject sportObject) {
+    return API.I.post(
+      Routes.SportObjects.withArgs(orgId: orgId),
+      auth: true,
+      args: sportObject.toJson(),
+    );
   }
 
   Future<List<SportObject>> getAll(String orgId) async {
