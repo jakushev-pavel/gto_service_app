@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gtoserviceapp/components/text/caption.dart';
+import 'package:gtoserviceapp/components/widgets/text/caption.dart';
 
 class Field extends StatelessWidget {
   final String _caption;

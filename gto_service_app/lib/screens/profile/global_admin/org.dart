@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/dialogs/yes_no_dialog.dart';
-import 'package:gtoserviceapp/components/future_widget_builder/future_widget_builder.dart';
-import 'package:gtoserviceapp/components/layout/expanded_horizontally.dart';
-import 'package:gtoserviceapp/components/text/caption.dart';
 import 'package:gtoserviceapp/components/widgets/card_list_view.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
+import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/field.dart';
+import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
+import 'package:gtoserviceapp/components/widgets/text/caption.dart';
 import 'package:gtoserviceapp/screens/profile/common/invite_user.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/services/repo/local_admin.dart';

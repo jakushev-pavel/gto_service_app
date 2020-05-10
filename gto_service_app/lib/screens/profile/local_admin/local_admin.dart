@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
-import 'package:gtoserviceapp/components/navigation/tabs.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
+import 'package:gtoserviceapp/components/widgets/navigation/nav_bar.dart';
+import 'package:gtoserviceapp/components/widgets/navigation/tabs.dart';
 import 'package:gtoserviceapp/screens/profile/app_bar.dart';
 import 'package:gtoserviceapp/screens/profile/header.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/referee_catalog.dart';

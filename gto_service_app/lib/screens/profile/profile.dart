@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/navigation/nav_bar.dart';
-import 'package:gtoserviceapp/components/navigation/tabs.dart';
+import 'package:gtoserviceapp/components/widgets/navigation/nav_bar.dart';
+import 'package:gtoserviceapp/components/widgets/navigation/tabs.dart';
 import 'package:gtoserviceapp/models/role.dart';
 import 'package:gtoserviceapp/screens/login/login.dart';
 import 'package:gtoserviceapp/screens/profile/app_bar.dart';

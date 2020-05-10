@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/future_widget_builder/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/widgets/card_list_view.dart';
+import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 
 class CatalogScreen<T> extends StatelessWidget {
   final String _title;

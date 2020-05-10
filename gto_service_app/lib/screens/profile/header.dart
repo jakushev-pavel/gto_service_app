@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/future_widget_builder/future_widget_builder.dart';
-import 'package:gtoserviceapp/components/layout/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
+import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
+import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/services/repo/user.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
