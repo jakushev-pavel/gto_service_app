@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/dialogs/ok_dialog.dart';
 import 'package:gtoserviceapp/services/utils/utils.dart';
+
+import 'ok_dialog.dart';
 
 class ErrorDialog extends OkDialog {
   static const _title = "Ошибка";

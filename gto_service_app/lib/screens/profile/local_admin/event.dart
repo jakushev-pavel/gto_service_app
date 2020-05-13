@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
-import 'package:gtoserviceapp/components/dialogs/yes_no_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/card_list_view.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
+import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/components/widgets/dialogs/yes_no_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/field.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
+import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/forms/gender_selector.dart';
 import 'package:gtoserviceapp/components/widgets/forms/text_date_picker.dart';
 import 'package:gtoserviceapp/components/widgets/shrunk_vertically.dart';

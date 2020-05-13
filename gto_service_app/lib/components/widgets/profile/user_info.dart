@@ -6,7 +6,7 @@ import 'package:gtoserviceapp/services/repo/user.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
-class ProfileHeader extends StatelessWidget {
+class ProfileUserInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardPadding(
