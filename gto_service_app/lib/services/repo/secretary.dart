@@ -10,6 +10,7 @@ class Secretary {
   int gender;
   String dateOfBirth;
   String email;
+  int secretaryId;
 
   Secretary(
       {this.secretaryOnOrganizationId,
@@ -18,7 +19,8 @@ class Secretary {
       this.name,
       this.gender,
       this.dateOfBirth,
-      this.email});
+      this.email,
+      this.secretaryId});
 
   Secretary.fromJson(Map<String, dynamic> json) {
     secretaryOnOrganizationId = json['secretaryOnOrganizationId'];
@@ -28,6 +30,7 @@ class Secretary {
     gender = json['gender'];
     dateOfBirth = json['dateOfBirth'];
     email = json['email'];
+    secretaryId = json['secretaryId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +42,7 @@ class Secretary {
     data['gender'] = this.gender;
     data['dateOfBirth'] = this.dateOfBirth;
     data['email'] = this.email;
+    data['secretaryId'] = this.secretaryId;
     return data;
   }
 }
@@ -60,11 +64,22 @@ class SecretaryRepo {
     return GetIt.I<SecretaryRepo>();
   }
 
-  Future add(String orgId, String email) {
+  Future addToOrg(String orgId, String email) {
     return API.I.post(
       Routes.OrgSecretaries.withArgs(orgId: orgId),
       auth: true,
       args: AddSecretaryArgs(email: email).toJson(),
+    );
+  }
+
+  Future addToEvent(String orgId, int eventId, int secretaryOnOrgId) {
+    return API.I.post(
+      Routes.EventSecretary.withArgs(
+        orgId: orgId,
+        eventId: eventId.toString(),
+        secretaryId: secretaryOnOrgId.toString(),
+      ),
+      auth: true,
     );
   }
 
@@ -87,9 +102,17 @@ class SecretaryRepo {
     return json.map((jsonValue) => Secretary.fromJson(jsonValue)).toList();
   }
 
-  Future deleteFromOrg(String orgID, int id) async {
+  Future deleteFromOrg(String orgId, int id) async {
     return API.I.delete(Routes.OrgSecretary.withArgs(
-      orgId: orgID,
+      orgId: orgId,
+      secretaryId: id.toString(),
+    ));
+  }
+
+  Future deleteFromEvent(String orgId, int eventId, int id) async {
+    return API.I.delete(Routes.EventSecretary.withArgs(
+      orgId: orgId,
+      eventId: eventId.toString(),
       secretaryId: id.toString(),
     ));
   }

@@ -48,7 +48,7 @@ class APIErrors implements Exception {
       return "Ошибка сервера";
     } else
     /*if (statusCode >= 400)*/ {
-      return "Ошибка обращения к серверу";
+      return errors.map((e) => e.toText()).join(", ");
     }
   }
 }
@@ -64,5 +64,9 @@ class APIError {
 
   String toString() {
     return "$type: $description";
+  }
+
+  String toText() {
+    return description;
   }
 }

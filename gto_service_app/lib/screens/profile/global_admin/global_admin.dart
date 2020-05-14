@@ -5,9 +5,9 @@ import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/widgets/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/widgets/navigation/tabs.dart';
 import 'package:gtoserviceapp/components/widgets/profile/app_bar.dart';
+import 'package:gtoserviceapp/components/widgets/profile/user_info.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/org.dart';
-import 'package:gtoserviceapp/components/widgets/profile/user_info.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
 
 class GlobalAdminProfileScreen extends StatelessWidget {

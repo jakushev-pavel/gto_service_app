@@ -6,9 +6,9 @@ class CatalogScreen<T> extends StatelessWidget {
   final String _title;
   final Future<List<T>> Function() _getData;
   final Widget Function(T) _buildInfo;
-  final Function(BuildContext) _onFabPressed;
-  final Function(T) _onDeletePressed;
-  final Function(T) _onEditPressed;
+  final void Function(BuildContext) _onFabPressed;
+  final void Function(T) _onDeletePressed;
+  final void Function(T) _onEditPressed;
 
   CatalogScreen({
     @required String title,
