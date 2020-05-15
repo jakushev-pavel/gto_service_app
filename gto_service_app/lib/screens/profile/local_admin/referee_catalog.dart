@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/widgets/text/caption.dart';
-import 'package:gtoserviceapp/components/widgets/text/headline.dart';
+import 'package:gtoserviceapp/components/widgets/info/referee.dart';
 import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
 import 'package:gtoserviceapp/screens/profile/common/invite_user.dart';
 import 'package:gtoserviceapp/services/repo/referee.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
-import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class RefereeCatalogScreen extends StatelessWidget {
   @override
@@ -14,26 +12,14 @@ class RefereeCatalogScreen extends StatelessWidget {
     return CatalogScreen(
       title: "Судьи",
       getData: _getData,
-      buildInfo: _buildRefereeInfo,
+      buildInfo: (Referee referee) => RefereeInfo(referee),
       onFabPressed: _onFabPressed,
       onDeletePressed: _onDeletePressed,
     );
   }
 
   Future<List<Referee>> _getData() {
-    final String orgId = Storage.I.read(Keys.organisationId);
-    return RefereeRepo.I.getAll(orgId);
-  }
-
-  Widget _buildRefereeInfo(Referee referee) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        HeadlineText(referee.name),
-        CaptionText(referee.email),
-        CaptionText(Utils.formatDate(DateTime.parse(referee.dateOfBirth))),
-      ],
-    );
+    return RefereeRepo.I.getAll(Storage.I.orgId);
   }
 
   _onFabPressed(context) {

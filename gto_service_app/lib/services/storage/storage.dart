@@ -28,4 +28,8 @@ class Storage {
   Future delete(Keys key) async {
     return _prefs.remove(key.toStr());
   }
+
+  int get orgId {
+    return int.tryParse(read(Keys.organisationId));
+  }
 }

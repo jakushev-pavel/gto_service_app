@@ -52,15 +52,13 @@ class _AddEventSecretaryScreenState extends State<AddEventSecretaryScreen> {
   }
 
   Widget _buildSelector(List<Secretary> secretaryList) {
-    return SizedBox(
-      child: DropdownButton(
-        isExpanded: true,
-        itemHeight: null,
-        hint: Text("Выберите секретаря"),
-        items: _buildSelectorItems(secretaryList),
-        onChanged: _onChanged,
-        value: _selectedId,
-      ),
+    return DropdownButton(
+      isExpanded: true,
+      itemHeight: null,
+      hint: Text("Выберите секретаря"),
+      items: _buildSelectorItems(secretaryList),
+      onChanged: _onChanged,
+      value: _selectedId,
     );
   }
 

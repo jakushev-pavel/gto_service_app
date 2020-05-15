@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:get_it/get_it.dart';
 import 'package:gtoserviceapp/services/api/api_error.dart';
 import 'package:gtoserviceapp/services/auth/auth.dart';
-import 'package:gtoserviceapp/services/utils/utils.dart';
 import 'package:http/http.dart';
 
 import 'headers.dart';
@@ -20,11 +19,9 @@ class API {
     String path, {
     auth = false,
   }) async {
-    return Utils.tryCatchLog(() async {
-      print("GET $path");
-      final response = await _sendRequest(false, () => _get(path, auth));
-      return _jsonDecode(response);
-    });
+    print("GET $path");
+    final response = await _sendRequest(false, () => _get(path, auth));
+    return _jsonDecode(response);
   }
 
   Future<dynamic> _get(String path, bool auth) {
@@ -42,12 +39,10 @@ class API {
     bool auth = false,
     bool refresh = false,
   }) async {
-    return Utils.tryCatchLog(() async {
-      print("POST $path");
-      Response response =
-          await _sendRequest(auth, () => _post(path, args, auth, refresh));
-      return _jsonDecode(response);
-    });
+    print("POST $path");
+    Response response =
+        await _sendRequest(auth, () => _post(path, args, auth, refresh));
+    return _jsonDecode(response);
   }
 
   Future<Response> _post(
@@ -67,11 +62,9 @@ class API {
   }
 
   Future delete(String path) async {
-    return Utils.tryCatchLog(() async {
-      print("DELETE $path");
-      await _sendRequest(true, _withRefresh(() => _delete(path)));
-      return;
-    });
+    print("DELETE $path");
+    await _sendRequest(true, _withRefresh(() => _delete(path)));
+    return;
   }
 
   Future<Response> _delete(String path) {
@@ -88,11 +81,9 @@ class API {
     args, {
     bool auth,
   }) async {
-    return Utils.tryCatchLog(() async {
-      print("PUT $path");
-      await _sendRequest(true, _withRefresh(() => _put(path, args)));
-      return;
-    });
+    print("PUT $path");
+    await _sendRequest(true, _withRefresh(() => _put(path, args)));
+    return;
   }
 
   Future<Response> _put(String path, dynamic args) async {

@@ -53,6 +53,7 @@ enum Routes {
   // Trial
   Trial,
   TrialSecondaryResult,
+  EventTrials,
 
   // SportObject
   SportObjects,
@@ -61,6 +62,7 @@ enum Routes {
   // Referee
   OrgReferees,
   OrgReferee,
+  TrialReferee,
 }
 
 extension RoutesEx on Routes {
@@ -132,6 +134,8 @@ extension RoutesEx on Routes {
         return "/trial/{age}/{gender}";
       case Routes.TrialSecondaryResult:
         return "/trial/{trialId}/firstResult?firstResult={primaryResult}";
+      case Routes.EventTrials:
+        return "/event/{eventId}/trial";
       case Routes.SportObjects:
         return "/organization/{orgId}/sportObject";
       case Routes.SportObject:
@@ -140,6 +144,8 @@ extension RoutesEx on Routes {
         return "/organization/{orgId}/referee";
       case Routes.OrgReferee:
         return "/organization/{orgId}/referee/{refereeId}";
+      case Routes.TrialReferee:
+        return "/trialInEvent/{trialId}/refereeInOrganization/{refereeId}";
       default:
         throw Exception("Invlid route");
     }

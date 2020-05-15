@@ -68,9 +68,19 @@ class RefereeRepo {
     );
   }
 
-  Future<List<Referee>> getAll(String orgId) async {
+  Future addToTrial(int trialId, int refereeId) {
+    return API.I.post(
+      Routes.TrialReferee.withArgs(
+        trialId: trialId,
+        refereeId: refereeId.toString(),
+      ),
+      auth: true,
+    );
+  }
+
+  Future<List<Referee>> getAll(int orgId) async {
     List<dynamic> json = await API.I.get(
-      Routes.OrgReferees.withArgs(orgId: orgId),
+      Routes.OrgReferees.withArgs(orgId: orgId.toString()),
       auth: true,
     );
 

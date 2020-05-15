@@ -12,6 +12,7 @@ import 'package:gtoserviceapp/services/repo/org.dart';
 import 'package:gtoserviceapp/services/repo/referee.dart';
 import 'package:gtoserviceapp/services/repo/secretary.dart';
 import 'package:gtoserviceapp/services/repo/sport_object.dart';
+import 'package:gtoserviceapp/services/repo/trial.dart';
 import 'package:gtoserviceapp/services/repo/user.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 import 'package:gtoserviceapp/theme/theme.dart';
@@ -41,6 +42,7 @@ setup() async {
   GetIt.I.registerSingleton<SportObjectRepo>(SportObjectRepo());
   GetIt.I.registerSingleton<RefereeRepo>(RefereeRepo());
   GetIt.I.registerSingleton<CalculatorRepo>(CalculatorRepo());
+  GetIt.I.registerSingleton<TrialRepo>(TrialRepo());
 
   GetIt.I.registerSingleton<Navigation>(Navigation());
 

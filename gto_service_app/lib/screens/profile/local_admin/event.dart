@@ -9,6 +9,7 @@ import 'package:gtoserviceapp/components/widgets/text/date.dart';
 import 'package:gtoserviceapp/components/widgets/text/headline.dart';
 import 'package:gtoserviceapp/models/event.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_event.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/add_trial_referee.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event_secretary_catalog.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
@@ -32,6 +33,7 @@ class EventScreen extends StatelessWidget {
       children: <Widget>[
         _buildFutureEventCard(context),
         _buildEventSecretaryCatalogButton(context),
+        _buildAddRefereeButton(context),
       ],
     );
   }
@@ -106,6 +108,17 @@ class EventScreen extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return EventSecretaryCatalogScreen(_id);
+        }));
+      },
+    );
+  }
+
+  Widget _buildAddRefereeButton(context) {
+    return CardPadding(
+      child: Text("Добавить судью"),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return AddTrialRefereeScreen(eventId: _id);
         }));
       },
     );
