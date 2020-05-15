@@ -86,7 +86,6 @@ class _AddTrialRefereeScreenState extends State<AddTrialRefereeScreen> {
   }
 
   Widget _buildTrialSelector(context, List<Trial> trialList) {
-    print(trialList.first.toJson());
     return DropdownButton(
       isExpanded: true,
       itemHeight: null,

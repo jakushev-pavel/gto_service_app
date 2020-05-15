@@ -66,7 +66,6 @@ class _InviteUserScreenState extends State<InviteUserScreen> {
       value: _newProfile,
       onChanged: (bool value) {
         setState(() {
-          print(_newProfile);
           _newProfile = value;
         });
       },
