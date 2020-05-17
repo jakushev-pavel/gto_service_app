@@ -5,7 +5,6 @@ import 'package:gtoserviceapp/components/widgets/text/headline.dart';
 import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_sport_object.dart';
 import 'package:gtoserviceapp/services/repo/sport_object.dart';
-import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class SportObjectCatalogScreen extends StatelessWidget {
@@ -22,7 +21,7 @@ class SportObjectCatalogScreen extends StatelessWidget {
   }
 
   Future<List<SportObject>> _getList() {
-    return SportObjectRepo.I.getAll(Storage.I.read(Keys.organisationId));
+    return SportObjectRepo.I.getAll(Storage.I.orgId);
   }
 
   Widget _buildSecretaryInfo(SportObject sportObject) {
@@ -45,7 +44,7 @@ class SportObjectCatalogScreen extends StatelessWidget {
   _onDeletePressed(context) {
     return (SportObject sportObject) {
       var future = SportObjectRepo.I.delete(
-        Storage.I.read(Keys.organisationId),
+        Storage.I.orgId,
         sportObject.id,
       );
       ErrorDialog.showOnFutureError(context, future);

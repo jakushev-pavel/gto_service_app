@@ -8,7 +8,7 @@ class EventRepo {
     return GetIt.I<EventRepo>();
   }
 
-  Future add(String orgId, Event event) async {
+  Future add(int orgId, Event event) async {
     return API.I.post(
       Routes.Events.withArgs(orgId: orgId),
       args: event.toJson(),
@@ -17,30 +17,29 @@ class EventRepo {
   }
 
   Future<List<Event>> getAll(int orgId) async {
-    List<dynamic> json =
-        await API.I.get(Routes.Events.withArgs(orgId: orgId.toString()));
+    List<dynamic> json = await API.I.get(Routes.Events.withArgs(orgId: orgId));
     return json.map((eventJson) => Event.fromJson(eventJson)).toList();
   }
 
-  Future<Event> get(String orgId, int id) async {
+  Future<Event> get(int orgId, int eventId) async {
     var json = await API.I.get(
-      Routes.Event.withArgs(orgId: orgId, eventId: id.toString()),
+      Routes.Event.withArgs(orgId: orgId, eventId: eventId),
     );
     return Event.fromJson(json);
   }
 
-  Future update(String orgId, Event event) async {
+  Future update(int orgId, Event event) async {
     return API.I.put(
-      Routes.Event.withArgs(orgId: orgId, eventId: event.id.toString()),
+      Routes.Event.withArgs(orgId: orgId, eventId: event.id),
       event.toJson(),
       auth: true,
     );
   }
 
-  Future delete(String orgId, int id) async {
+  Future delete(int orgId, int eventId) async {
     return API.I.delete(Routes.Event.withArgs(
       orgId: orgId,
-      eventId: id.toString(),
+      eventId: eventId,
     ));
   }
 }

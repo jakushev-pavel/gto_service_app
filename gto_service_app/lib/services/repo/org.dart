@@ -16,7 +16,7 @@ class FetchOrgsResponse {
 }
 
 class Organisation {
-  String id;
+  int id;
   String name;
   String address;
   String leader;
@@ -103,8 +103,8 @@ class OrgRepo {
     return CreateOrgResponse.fromJson(json);
   }
 
-  Future<Organisation> get(String id) async {
-    var json = await API.I.get(Routes.Organization.withArgs(orgId: id));
+  Future<Organisation> get(int orgId) async {
+    var json = await API.I.get(Routes.Organization.withArgs(orgId: orgId));
     return Organisation.fromJson(json);
   }
 
@@ -117,7 +117,7 @@ class OrgRepo {
     await API.I.put(Routes.Organization.withArgs(orgId: org.id), org.toJson());
   }
 
-  Future delete(String id) async {
-    await API.I.delete(Routes.Organization.withArgs(orgId: id));
+  Future delete(int orgId) async {
+    await API.I.delete(Routes.Organization.withArgs(orgId: orgId));
   }
 }

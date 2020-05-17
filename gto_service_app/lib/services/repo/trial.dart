@@ -78,7 +78,7 @@ class TrialRepo {
 
   Future<List<Trial>> getFromEvent(int eventId) async {
     List<dynamic> json = await API.I.get(
-      Routes.EventTrials.withArgs(eventId: eventId.toString()),
+      Routes.EventTrials.withArgs(eventId: eventId),
       auth: true,
     );
     return json.map((json) => Trial.fromJson(json)).toList();

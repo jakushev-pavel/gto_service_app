@@ -3,7 +3,6 @@ import 'package:gtoserviceapp/components/widgets/info/referee.dart';
 import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
 import 'package:gtoserviceapp/screens/profile/common/invite_user.dart';
 import 'package:gtoserviceapp/services/repo/referee.dart';
-import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class RefereeCatalogScreen extends StatelessWidget {
@@ -28,8 +27,7 @@ class RefereeCatalogScreen extends StatelessWidget {
         builder: (_) => InviteUserScreen(
           title: "Приглашение судьи",
           addUser: (String email) {
-            final String orgId = Storage.I.read(Keys.organisationId);
-            return RefereeRepo.I.add(orgId, email);
+            return RefereeRepo.I.add(Storage.I.orgId, email);
           },
         ),
       ),
@@ -37,7 +35,6 @@ class RefereeCatalogScreen extends StatelessWidget {
   }
 
   _onDeletePressed(Referee referee) {
-    final String orgId = Storage.I.read(Keys.organisationId);
-    RefereeRepo.I.delete(orgId, referee.id);
+    RefereeRepo.I.delete(Storage.I.orgId, referee.id);
   }
 }

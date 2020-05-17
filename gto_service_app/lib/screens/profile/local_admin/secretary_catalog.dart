@@ -3,7 +3,6 @@ import 'package:gtoserviceapp/components/widgets/info/secretary.dart';
 import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
 import 'package:gtoserviceapp/screens/profile/common/invite_user.dart';
 import 'package:gtoserviceapp/services/repo/secretary.dart';
-import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class SecretaryCatalogScreen extends StatelessWidget {
@@ -19,7 +18,7 @@ class SecretaryCatalogScreen extends StatelessWidget {
   }
 
   Future<List<Secretary>> _getList() {
-    return SecretaryRepo.I.getFromOrg(Storage.I.read(Keys.organisationId));
+    return SecretaryRepo.I.getFromOrg(Storage.I.orgId);
   }
 
   _onFabPressed(context) {
@@ -27,8 +26,7 @@ class SecretaryCatalogScreen extends StatelessWidget {
       builder: (_) => InviteUserScreen(
         title: "Приглашение секретаря",
         addUser: (String email) {
-          return SecretaryRepo.I
-              .addToOrg(Storage.I.read(Keys.organisationId), email);
+          return SecretaryRepo.I.addToOrg(Storage.I.orgId, email);
         },
       ),
     ));
@@ -36,7 +34,7 @@ class SecretaryCatalogScreen extends StatelessWidget {
 
   _onDeletePressed(Secretary secretary) {
     SecretaryRepo.I.deleteFromOrg(
-      Storage.I.read(Keys.organisationId),
+      Storage.I.orgId,
       secretary.secretaryOnOrganizationId,
     );
   }

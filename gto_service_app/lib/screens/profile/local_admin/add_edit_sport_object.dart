@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/services/repo/sport_object.dart';
-import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class AddSportObjectScreen extends StatefulWidget {
@@ -137,7 +136,7 @@ class _AddSportObjectScreenState extends State<AddSportObjectScreen> {
     }
     form.save();
 
-    final String orgId = Storage.I.read(Keys.organisationId);
+    final int orgId = Storage.I.orgId;
     var future = _isEditing
         ? SportObjectRepo.I.update(orgId, _sportObject)
         : SportObjectRepo.I.add(orgId, _sportObject);

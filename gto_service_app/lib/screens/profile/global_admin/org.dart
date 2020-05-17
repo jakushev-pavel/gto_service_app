@@ -13,9 +13,9 @@ import 'package:gtoserviceapp/services/repo/local_admin.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
 
 class OrganisationScreen extends StatelessWidget {
-  final String _id;
+  final int _orgId;
 
-  OrganisationScreen(this._id);
+  OrganisationScreen(this._orgId);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class OrganisationScreen extends StatelessWidget {
   }
 
   Widget _buildFutureOrgCard(context) {
-    return FutureWidgetBuilder(OrgRepo.I.get(_id), _buildOrgCard);
+    return FutureWidgetBuilder(OrgRepo.I.get(_orgId), _buildOrgCard);
   }
 
   Widget _buildOrgCard(context, Organisation org) {
@@ -89,7 +89,7 @@ class OrganisationScreen extends StatelessWidget {
 
   _onEditPressed(context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return AddEditOrgScreen(orgId: _id);
+      return AddEditOrgScreen(orgId: _orgId);
     }));
   }
 
@@ -99,7 +99,7 @@ class OrganisationScreen extends StatelessWidget {
 
   Widget _buildConfirmDeleteDialog(context) {
     return YesNoDialog("Вы уверены?", () async {
-      var result = OrgRepo.I.delete(this._id);
+      var result = OrgRepo.I.delete(this._orgId);
       ErrorDialog.showOnFutureError(context, result);
 
       await result;
@@ -127,7 +127,7 @@ class OrganisationScreen extends StatelessWidget {
 
   Widget _buildFutureLocalAdminsList(context) {
     return FutureWidgetBuilder(
-        LocalAdminRepo.I.getAll(_id),
+        LocalAdminRepo.I.getAll(_orgId),
         (_, List<LocalAdmin> localAdmins) =>
             _buildLocalAdminsList(localAdmins));
   }
@@ -168,7 +168,7 @@ class OrganisationScreen extends StatelessWidget {
   }
 
   _onDeleteLocalAdminPressed(LocalAdmin localAdmin) {
-    LocalAdminRepo.I.delete(_id, localAdmin.localAdminId.toString());
+    LocalAdminRepo.I.delete(_orgId, localAdmin.id);
   }
 
   Widget _buildFAB(BuildContext context) {
@@ -183,7 +183,7 @@ class OrganisationScreen extends StatelessWidget {
       return InviteUserScreen(
         title: "Приглашение администратора",
         addUser: (String email) {
-          return LocalAdminRepo.I.add(_id, email);
+          return LocalAdminRepo.I.add(_orgId, email);
         },
       );
     }));

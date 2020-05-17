@@ -2,7 +2,7 @@ enum Keys {
   accessToken,
   refreshToken,
   role,
-  organisationId,
+  orgId,
   userId,
 }
 
@@ -12,7 +12,7 @@ extension KeysEx on Keys {
       Keys.accessToken: "accessToken",
       Keys.refreshToken: "refreshToken",
       Keys.role: "role",
-      Keys.organisationId: "organisationId",
+      Keys.orgId: "organisationId",
       Keys.userId: "userId",
     }[this];
   }

@@ -64,7 +64,7 @@ class SecretaryRepo {
     return GetIt.I<SecretaryRepo>();
   }
 
-  Future addToOrg(String orgId, String email) {
+  Future addToOrg(int orgId, String email) {
     return API.I.post(
       Routes.OrgSecretaries.withArgs(orgId: orgId),
       auth: true,
@@ -72,18 +72,18 @@ class SecretaryRepo {
     );
   }
 
-  Future addToEvent(String orgId, int eventId, int secretaryOnOrgId) {
+  Future addToEvent(int orgId, int eventId, int secretaryOnOrgId) {
     return API.I.post(
       Routes.EventSecretary.withArgs(
         orgId: orgId,
-        eventId: eventId.toString(),
-        secretaryId: secretaryOnOrgId.toString(),
+        eventId: eventId,
+        secretaryId: secretaryOnOrgId,
       ),
       auth: true,
     );
   }
 
-  Future<List<Secretary>> getFromOrg(String orgId) async {
+  Future<List<Secretary>> getFromOrg(int orgId) async {
     List json = await API.I.get(
       Routes.OrgSecretaries.withArgs(orgId: orgId),
       auth: true,
@@ -92,28 +92,27 @@ class SecretaryRepo {
     return json.map((jsonValue) => Secretary.fromJson(jsonValue)).toList();
   }
 
-  Future<List<Secretary>> getFromEvent(String orgId, int eventId) async {
+  Future<List<Secretary>> getFromEvent(int orgId, int eventId) async {
     List json = await API.I.get(
-      Routes.EventSecretaries.withArgs(
-          orgId: orgId, eventId: eventId.toString()),
+      Routes.EventSecretaries.withArgs(orgId: orgId, eventId: eventId),
       auth: true,
     );
     json ??= [];
     return json.map((jsonValue) => Secretary.fromJson(jsonValue)).toList();
   }
 
-  Future deleteFromOrg(String orgId, int id) async {
+  Future deleteFromOrg(int orgId, int secretaryId) async {
     return API.I.delete(Routes.OrgSecretary.withArgs(
       orgId: orgId,
-      secretaryId: id.toString(),
+      secretaryId: secretaryId,
     ));
   }
 
-  Future deleteFromEvent(String orgId, int eventId, int id) async {
+  Future deleteFromEvent(int orgId, int eventId, int secretaryId) async {
     return API.I.delete(Routes.EventSecretary.withArgs(
       orgId: orgId,
-      eventId: eventId.toString(),
-      secretaryId: id.toString(),
+      eventId: eventId,
+      secretaryId: secretaryId,
     ));
   }
 }

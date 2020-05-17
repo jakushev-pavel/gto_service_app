@@ -12,7 +12,6 @@ import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_event.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_trial_referee.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event_secretary_catalog.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
-import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class EventScreen extends StatefulWidget {
@@ -61,7 +60,7 @@ class _EventScreenState extends State<EventScreen> {
 
   Widget _buildFutureEventCard(context) {
     return FutureWidgetBuilder(
-      EventRepo.I.get(Storage.I.read(Keys.organisationId), widget._id),
+      EventRepo.I.get(Storage.I.orgId, widget._id),
       _buildEventCard,
     );
   }
@@ -98,8 +97,7 @@ class _EventScreenState extends State<EventScreen> {
     showDialog(
         context: context,
         child: YesNoDialog("Удалить мероприятие?", () async {
-          var future =
-              EventRepo.I.delete(Storage.I.read(Keys.organisationId), widget._id);
+          var future = EventRepo.I.delete(Storage.I.orgId, widget._id);
           ErrorDialog.showOnFutureError(context, future);
           await future;
 

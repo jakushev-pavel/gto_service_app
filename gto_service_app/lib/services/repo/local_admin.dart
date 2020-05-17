@@ -35,7 +35,7 @@ class LocalAdmin {
   int gender;
   String registrationDate;
   String organizationId;
-  int localAdminId;
+  int id;
 
   LocalAdmin(
       {this.userId,
@@ -47,7 +47,7 @@ class LocalAdmin {
       this.gender,
       this.registrationDate,
       this.organizationId,
-      this.localAdminId});
+      this.id});
 
   LocalAdmin.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
@@ -59,7 +59,7 @@ class LocalAdmin {
     gender = json['gender'];
     registrationDate = json['registrationDate'];
     organizationId = json['organizationId'].toString();
-    localAdminId = json['localAdminId'];
+    id = json['localAdminId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -73,7 +73,7 @@ class LocalAdmin {
     data['gender'] = this.gender;
     data['registrationDate'] = this.registrationDate;
     data['organizationId'] = this.organizationId;
-    data['localAdminId'] = this.localAdminId;
+    data['localAdminId'] = this.id;
     return data;
   }
 }
@@ -95,7 +95,7 @@ class LocalAdminRepo {
     return GetIt.I<LocalAdminRepo>();
   }
 
-  Future add(String orgId, String email) async {
+  Future add(int orgId, String email) async {
     return API.I.post(
       Routes.LocalAdminExisting.withArgs(orgId: orgId),
       args: AddLocalAdminArgs(email: email).toJson(),
@@ -103,7 +103,7 @@ class LocalAdminRepo {
     );
   }
 
-  Future<List<LocalAdmin>> getAll(String orgId) async {
+  Future<List<LocalAdmin>> getAll(int orgId) async {
     var json = await API.I.get(
       Routes.LocalAdmins.withArgs(orgId: orgId),
       auth: true,
@@ -111,7 +111,7 @@ class LocalAdminRepo {
     return GetLocalAdminsResponse.fromJson(json).localAdmins;
   }
 
-  Future delete(String orgID, String localAdminId) {
+  Future delete(int orgID, int localAdminId) {
     return API.I.delete(Routes.LocalAdmin.withArgs(
       orgId: orgID,
       localAdminId: localAdminId,

@@ -5,9 +5,9 @@ import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
 
 class AddEditOrgScreen extends StatefulWidget {
-  final String _orgId;
+  final int _orgId;
 
-  AddEditOrgScreen({String orgId}) : _orgId = orgId;
+  AddEditOrgScreen({int orgId}) : _orgId = orgId;
 
   @override
   _AddEditOrgScreenState createState() => _AddEditOrgScreenState(_orgId);
@@ -16,7 +16,7 @@ class AddEditOrgScreen extends StatefulWidget {
 class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
   final _formKey = GlobalKey<FormState>();
   var _org = Organisation();
-  String _orgId;
+  int _orgId;
 
   _AddEditOrgScreenState(this._orgId);
 

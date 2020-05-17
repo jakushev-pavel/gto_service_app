@@ -20,7 +20,7 @@ class Auth {
       Storage.I.write(Keys.accessToken, response.accessToken),
       Storage.I.write(Keys.refreshToken, response.refreshToken),
       Storage.I.write(Keys.role, response.role),
-      Storage.I.write(Keys.organisationId, response.organizationID.toString()),
+      Storage.I.write(Keys.orgId, response.organizationID.toString()),
       Storage.I.write(Keys.userId, response.userID.toString()),
     ]);
   }
@@ -54,7 +54,7 @@ class Auth {
       Storage.I.delete(Keys.accessToken),
       Storage.I.delete(Keys.refreshToken),
       Storage.I.delete(Keys.role),
-      Storage.I.delete(Keys.organisationId),
+      Storage.I.delete(Keys.orgId),
       Storage.I.delete(Keys.userId),
     ]);
   }

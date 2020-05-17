@@ -5,7 +5,6 @@ import 'package:gtoserviceapp/components/widgets/forms/text_date_picker.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/models/event.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
-import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class AddEditEventScreen extends StatefulWidget {
@@ -55,7 +54,7 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
 
   Widget _buildFutureForm() {
     return FutureWidgetBuilder(
-      EventRepo.I.get(Storage.I.read(Keys.organisationId), widget._id),
+      EventRepo.I.get(Storage.I.orgId, widget._id),
       (_, Event event) {
         _event = event;
         return _buildForm();
@@ -157,8 +156,8 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
     form.save();
 
     var future = _isEditing
-        ? EventRepo.I.update(Storage.I.read(Keys.organisationId), _event)
-        : EventRepo.I.add(Storage.I.read(Keys.organisationId), _event);
+        ? EventRepo.I.update(Storage.I.orgId, _event)
+        : EventRepo.I.add(Storage.I.orgId, _event);
     ErrorDialog.showOnFutureError(context, future);
     await future;
 

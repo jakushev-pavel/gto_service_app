@@ -40,7 +40,7 @@ class SportObjectRepo {
     return GetIt.I<SportObjectRepo>();
   }
 
-  Future add(String orgId, SportObject sportObject) {
+  Future add(int orgId, SportObject sportObject) {
     return API.I.post(
       Routes.SportObjects.withArgs(orgId: orgId),
       auth: true,
@@ -48,7 +48,7 @@ class SportObjectRepo {
     );
   }
 
-  Future<List<SportObject>> getAll(String orgId) async {
+  Future<List<SportObject>> getAll(int orgId) async {
     List<dynamic> json = await API.I.get(
       Routes.SportObjects.withArgs(orgId: orgId),
       auth: true,
@@ -57,21 +57,21 @@ class SportObjectRepo {
     return json.map((json) => SportObject.fromJson(json)).toList();
   }
 
-  Future update(String orgId, SportObject sportObject) {
+  Future update(int orgId, SportObject sportObject) {
     return API.I.put(
       Routes.SportObject.withArgs(
         orgId: orgId,
-        sportObjectId: sportObject.id.toString(),
+        sportObjectId: sportObject.id,
       ),
       sportObject.toJson(),
     );
   }
 
-  Future delete(String orgId, int sportObjectId) {
+  Future delete(int orgId, int sportObjectId) {
     return API.I.delete(
       Routes.SportObject.withArgs(
         orgId: orgId,
-        sportObjectId: sportObjectId.toString(),
+        sportObjectId: sportObjectId,
       ),
     );
   }

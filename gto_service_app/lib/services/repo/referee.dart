@@ -60,7 +60,7 @@ class RefereeRepo {
     return GetIt.I<RefereeRepo>();
   }
 
-  Future add(String orgId, String email) {
+  Future add(int orgId, String email) {
     return API.I.post(
       Routes.OrgReferees.withArgs(orgId: orgId),
       auth: true,
@@ -72,7 +72,7 @@ class RefereeRepo {
     return API.I.post(
       Routes.TrialReferee.withArgs(
         trialId: trialId,
-        refereeId: refereeId.toString(),
+        refereeId: refereeId,
       ),
       auth: true,
     );
@@ -80,16 +80,16 @@ class RefereeRepo {
 
   Future<List<Referee>> getAll(int orgId) async {
     List<dynamic> json = await API.I.get(
-      Routes.OrgReferees.withArgs(orgId: orgId.toString()),
+      Routes.OrgReferees.withArgs(orgId: orgId),
       auth: true,
     );
 
     return json.map((json) => Referee.fromJson(json)).toList();
   }
 
-  Future delete(String orgId, int refereeId) {
+  Future delete(int orgId, int refereeId) {
     return API.I.delete(
-      Routes.OrgReferee.withArgs(orgId: orgId, refereeId: refereeId.toString()),
+      Routes.OrgReferee.withArgs(orgId: orgId, refereeId: refereeId),
     );
   }
 }
