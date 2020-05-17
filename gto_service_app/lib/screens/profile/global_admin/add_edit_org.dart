@@ -87,7 +87,7 @@ class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
             form.save();
 
             var result =
-                _isEditing ? OrgRepo.I.update(_org) : OrgRepo.I.create(_org);
+                _isEditing ? OrgRepo.I.update(_org) : OrgRepo.I.add(_org);
             ErrorDialog.showOnFutureError(context, result);
             await result;
 

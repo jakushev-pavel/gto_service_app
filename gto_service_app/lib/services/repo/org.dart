@@ -94,7 +94,7 @@ class OrgRepo {
     return GetIt.I<OrgRepo>();
   }
 
-  Future<CreateOrgResponse> create(Organisation org) async {
+  Future<CreateOrgResponse> add(Organisation org) async {
     var json = await API.I.post(
       Routes.Organizations.toStr(),
       args: org.toJson(),
