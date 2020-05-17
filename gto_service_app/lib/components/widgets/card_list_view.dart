@@ -5,10 +5,13 @@ import 'package:gtoserviceapp/components/widgets/text/headline.dart';
 class CardListView<T> extends StatelessWidget {
   final List<T> _data;
   final Widget Function(BuildContext, T) _builder;
-  final Function(BuildContext, T) _onTap;
+  final void Function(BuildContext, T) _onTap;
 
-  CardListView(this._data, this._builder, {Function(BuildContext, T) onTap})
-      : _onTap = onTap;
+  CardListView(
+    this._data,
+    this._builder, {
+    void Function(BuildContext, T) onTap,
+  }) : _onTap = onTap;
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ import 'package:gtoserviceapp/services/storage/storage.dart';
 class SportObjectCatalogScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CatalogScreen(
+    return CatalogScreen<SportObject>(
       title: "Спортивные объекты",
       getData: _getList,
       buildInfo: _buildSecretaryInfo,

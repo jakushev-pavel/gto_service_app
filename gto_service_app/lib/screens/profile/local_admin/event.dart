@@ -15,11 +15,16 @@ import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
-class EventScreen extends StatelessWidget {
+class EventScreen extends StatefulWidget {
   final int _id;
 
   EventScreen(this._id);
 
+  @override
+  _EventScreenState createState() => _EventScreenState();
+}
+
+class _EventScreenState extends State<EventScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +61,7 @@ class EventScreen extends StatelessWidget {
 
   Widget _buildFutureEventCard(context) {
     return FutureWidgetBuilder(
-      EventRepo.I.get(Storage.I.read(Keys.organisationId), _id),
+      EventRepo.I.get(Storage.I.read(Keys.organisationId), widget._id),
       _buildEventCard,
     );
   }
@@ -85,7 +90,7 @@ class EventScreen extends StatelessWidget {
 
   _onEditPressed(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return AddEditEventScreen(id: _id);
+      return AddEditEventScreen(id: widget._id);
     }));
   }
 
@@ -94,7 +99,7 @@ class EventScreen extends StatelessWidget {
         context: context,
         child: YesNoDialog("Удалить мероприятие?", () async {
           var future =
-              EventRepo.I.delete(Storage.I.read(Keys.organisationId), _id);
+              EventRepo.I.delete(Storage.I.read(Keys.organisationId), widget._id);
           ErrorDialog.showOnFutureError(context, future);
           await future;
 
@@ -107,7 +112,7 @@ class EventScreen extends StatelessWidget {
       child: Text("Секретари"),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-          return EventSecretaryCatalogScreen(_id);
+          return EventSecretaryCatalogScreen(widget._id);
         }));
       },
     );
@@ -118,7 +123,7 @@ class EventScreen extends StatelessWidget {
       child: Text("Добавить судью"),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-          return AddTrialRefereeScreen(eventId: _id);
+          return AddTrialRefereeScreen(eventId: widget._id);
         }));
       },
     );

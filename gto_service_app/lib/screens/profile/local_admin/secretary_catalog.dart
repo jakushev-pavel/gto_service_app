@@ -9,7 +9,7 @@ import 'package:gtoserviceapp/services/storage/storage.dart';
 class SecretaryCatalogScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CatalogScreen(
+    return CatalogScreen<Secretary>(
       title: "Секретари",
       getData: _getList,
       buildInfo: (data) => SecretaryInfo(data),

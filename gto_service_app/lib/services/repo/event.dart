@@ -16,8 +16,9 @@ class EventRepo {
     );
   }
 
-  Future<List<Event>> getAll(String orgId) async {
-    List<dynamic> json = await API.I.get(Routes.Events.withArgs(orgId: orgId));
+  Future<List<Event>> getAll(int orgId) async {
+    List<dynamic> json =
+        await API.I.get(Routes.Events.withArgs(orgId: orgId.toString()));
     return json.map((eventJson) => Event.fromJson(eventJson)).toList();
   }
 

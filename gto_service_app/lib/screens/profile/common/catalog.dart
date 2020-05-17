@@ -1,38 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/card_list_view.dart';
+import 'package:gtoserviceapp/components/widgets/dialogs/yes_no_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
+import 'package:gtoserviceapp/services/utils/utils.dart';
 
-class CatalogScreen<T> extends StatelessWidget {
+class CatalogScreen<T> extends StatefulWidget {
   final String _title;
   final Future<List<T>> Function() _getData;
   final Widget Function(T) _buildInfo;
   final void Function(BuildContext) _onFabPressed;
   final void Function(T) _onDeletePressed;
   final void Function(T) _onEditPressed;
+  final void Function(BuildContext, T) _onTapped;
 
   CatalogScreen({
     @required String title,
     @required Future<List<T>> Function() getData,
     @required Widget Function(T) buildInfo,
-    @required Function(BuildContext) onFabPressed,
-    @required Function(T) onDeletePressed,
+    Function(BuildContext) onFabPressed,
+    Function(T) onDeletePressed,
     Function(T) onEditPressed,
+    void Function(BuildContext, T) onTapped,
   })  : _title = title,
         _getData = getData,
         _buildInfo = buildInfo,
         _onFabPressed = onFabPressed,
         _onDeletePressed = onDeletePressed,
-        _onEditPressed = onEditPressed;
+        _onEditPressed = onEditPressed,
+        _onTapped = onTapped;
 
   @override
+  _CatalogScreenState<T> createState() => _CatalogScreenState<T>();
+}
+
+class _CatalogScreenState<T> extends State<CatalogScreen<T>> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_title),
-      ),
-      body: _buildBody(),
-      floatingActionButton: _buildFab(context),
-    );
+    return Utils.tryCatchLog(() {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(widget._title),
+        ),
+        body: _buildBody(),
+        floatingActionButton: _buildFab(context),
+      );
+    });
   }
 
   Widget _buildBody() {
@@ -45,22 +57,28 @@ class CatalogScreen<T> extends StatelessWidget {
 
   FutureWidgetBuilder<List<T>> _buildFutureList() {
     return FutureWidgetBuilder(
-      _getData(),
+      widget._getData(),
       (context, List<T> data) => _buildList(data),
     );
   }
 
   Widget _buildList(List<T> data) {
-    return CardListView(data, _buildElement);
+    return CardListView<T>(
+      data,
+      _buildElement,
+      onTap: widget._onTapped,
+    );
   }
 
   Widget _buildElement(_, T data) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Expanded(child: _buildInfo(data)),
-        _onEditPressed != null ? _buildEditButton(data) : Container(),
-        _buildDeleteButton(data),
+        Expanded(child: widget._buildInfo(data)),
+        widget._onEditPressed != null ? _buildEditButton(data) : Container(),
+        widget._onDeletePressed != null
+            ? _buildDeleteButton(data)
+            : Container(),
       ],
     );
   }
@@ -68,20 +86,32 @@ class CatalogScreen<T> extends StatelessWidget {
   Widget _buildEditButton(T data) {
     return IconButton(
       icon: Icon(Icons.edit),
-      onPressed: () => _onEditPressed(data),
+      onPressed: () => widget._onEditPressed(data),
     );
   }
 
   IconButton _buildDeleteButton(T data) {
     return IconButton(
       icon: Icon(Icons.delete),
-      onPressed: () => _onDeletePressed(data),
+      onPressed: () {
+        showDialog(
+          context: context,
+          child: YesNoDialog(
+            "Вы уверены?",
+            () {
+              setState(() {
+                widget._onDeletePressed(data);
+              });
+            },
+          ),
+        );
+      },
     );
   }
 
   Widget _buildFab(context) {
     return FloatingActionButton(
-      onPressed: () => _onFabPressed(context),
+      onPressed: () => widget._onFabPressed(context),
       child: Icon(Icons.add),
     );
   }
