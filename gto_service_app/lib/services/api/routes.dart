@@ -191,6 +191,9 @@ extension RoutesEx on Routes {
       }
       route = route.replaceAll("{$from}", to);
     });
+    if (route.contains("{")) {
+      print("WARNING: Route '$route' contains placeholders");
+    }
 
     return route;
   }
