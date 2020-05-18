@@ -4,6 +4,17 @@ enum Gender {
 }
 
 extension GenderEx on Gender {
+  static Gender fromInt(int gender) {
+    switch (gender) {
+      case 0:
+        return Gender.Female;
+      case 1:
+        return Gender.Male;
+      default:
+        throw Exception("GenderEx.fromInt: неверное значение");
+    }
+  }
+
   int toInt() {
     return {
       Gender.Male: 1,

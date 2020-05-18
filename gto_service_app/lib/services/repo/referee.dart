@@ -1,14 +1,16 @@
 import 'package:get_it/get_it.dart';
+import 'package:gtoserviceapp/models/gender.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
+import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class Referee {
   int id;
   int orgId;
   int userId;
   String name;
-  int gender;
-  String dateOfBirth;
+  Gender gender;
+  DateTime dateOfBirth;
   String email;
 
   Referee(
@@ -25,8 +27,8 @@ class Referee {
     orgId = json['organizationId'];
     userId = json['userId'];
     name = json['name'];
-    gender = json['gender'];
-    dateOfBirth = json['dateOfBirth'];
+    gender = GenderEx.fromInt(json['gender']);
+    dateOfBirth = DateTime.parse(json['dateOfBirth']);
     email = json['email'];
   }
 
@@ -36,8 +38,8 @@ class Referee {
     data['organizationId'] = this.orgId;
     data['userId'] = this.userId;
     data['name'] = this.name;
-    data['gender'] = this.gender;
-    data['dateOfBirth'] = this.dateOfBirth;
+    data['gender'] = this.gender.toInt();
+    data['dateOfBirth'] = Utils.dateToJson(this.dateOfBirth);
     data['email'] = this.email;
     return data;
   }
@@ -70,7 +72,7 @@ class RefereeRepo {
 
   Future addToTrial(int trialId, int refereeId) {
     return API.I.post(
-      Routes.TrialReferee.withArgs(
+      Routes.EventTrialReferee.withArgs(
         trialId: trialId,
         refereeId: refereeId,
       ),
@@ -85,6 +87,12 @@ class RefereeRepo {
     );
 
     return json.map((json) => Referee.fromJson(json)).toList();
+  }
+
+  Future deleteFromTrial(int refereeInTrialInEvent) {
+    return API.I.delete(Routes.Trial.withArgs(
+      refereeId: refereeInTrialInEvent,
+    ));
   }
 
   Future delete(int orgId, int refereeId) {

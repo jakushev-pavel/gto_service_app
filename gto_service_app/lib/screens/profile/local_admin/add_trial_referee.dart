@@ -85,7 +85,7 @@ class _AddTrialRefereeScreenState extends State<AddTrialRefereeScreen> {
     );
   }
 
-  Widget _buildTrialSelector(context, List<Trial> trialList) {
+  Widget _buildTrialSelector(context, List<EventTrial> trialList) {
     return DropdownButton(
       isExpanded: true,
       itemHeight: null,
@@ -96,8 +96,8 @@ class _AddTrialRefereeScreenState extends State<AddTrialRefereeScreen> {
     );
   }
 
-  List<DropdownMenuItem<int>> _buildTrialSelectorItems(List<Trial> list) {
-    return list.map((Trial trial) {
+  List<DropdownMenuItem<int>> _buildTrialSelectorItems(List<EventTrial> list) {
+    return list.map((EventTrial trial) {
       return DropdownMenuItem<int>(
         child: Text(trial.name),
         value: trial.trialInEventId,

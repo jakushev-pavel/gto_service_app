@@ -4,7 +4,6 @@ import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/models/calculator.dart';
 import 'package:gtoserviceapp/models/gender.dart';
-import 'package:gtoserviceapp/models/trials.dart';
 import 'package:gtoserviceapp/services/repo/calculator.dart';
 import 'package:provider/provider.dart';
 
@@ -31,11 +30,11 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
   Widget _buildBody(int age, Gender gender) {
     return FutureWidgetBuilder(
       CalculatorRepo.I.fetchTrials(age, gender),
-      (_, TrialsModel trials) => _buildTrials(trials, age, gender),
+      (_, Trials trials) => _buildTrials(trials, age, gender),
     );
   }
 
-  Widget _buildTrials(TrialsModel trials, int age, Gender gender) {
+  Widget _buildTrials(Trials trials, int age, Gender gender) {
     return ListView(
       children: <Widget>[
         _buildHeader(gender, age, trials),
@@ -45,7 +44,7 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
     );
   }
 
-  Widget _buildHeader(Gender gender, int age, TrialsModel trials) {
+  Widget _buildHeader(Gender gender, int age, Trials trials) {
     return CardPadding(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +59,7 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
     );
   }
 
-  Widget _buildTrialsList(TrialsModel trials) {
+  Widget _buildTrialsList(Trials trials) {
     // TODO
     return ListView.separated(
       shrinkWrap: true,
@@ -79,15 +78,15 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
     );
   }
 
-  Widget _buildGroup(GroupModel group) {
+  Widget _buildGroup(Group group) {
     return CardListView(group.trials, _buildTrial);
   }
 
-  Widget _buildTrial(BuildContext context, TrialModel trial) {
+  Widget _buildTrial(BuildContext context, Trial trial) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(trial.trialName),
+        Text(trial.name),
         SizedBox.fromSize(size: Size.fromHeight(4)),
         _buildTrialResults(trial),
         SizedBox.fromSize(size: Size.fromHeight(4)),
@@ -96,7 +95,7 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
     );
   }
 
-  Widget _buildTrialResults(TrialModel trial) {
+  Widget _buildTrialResults(Trial trial) {
     return Row(
       children: <Widget>[
         _buildTrialResult(trial.resultForGold, Colors.yellow),
@@ -118,7 +117,7 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
     );
   }
 
-  Widget _buildPrimarySecondaryResults(TrialModel trial, BuildContext context) {
+  Widget _buildPrimarySecondaryResults(Trial trial, BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -133,13 +132,13 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
             Row(
               children: <Widget>[
                 Text("Первичный: "),
-                _buildPrimaryResult(trial.trialId),
+                _buildPrimaryResult(trial.id),
               ],
             ),
             SizedBox(
               height: 4,
             ),
-            _buildFutureSecondaryResult(context, trial.trialId),
+            _buildFutureSecondaryResult(context, trial.id),
           ]..removeWhere((x) => x == null),
         ),
       ],

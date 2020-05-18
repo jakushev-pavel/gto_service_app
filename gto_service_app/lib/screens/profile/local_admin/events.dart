@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/models/event.dart';
 import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_event.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event.dart';
@@ -10,7 +9,7 @@ class EventsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CatalogScreen<Event>(
-      getData: () => EventRepo.I.getAll(Storage.I.orgId),
+      getData: () => EventRepo.I.getAllFromOrg(Storage.I.orgId),
       title: "Мероприятия",
       buildInfo: _buildEvent(context),
       onFabPressed: _onFabPressed,

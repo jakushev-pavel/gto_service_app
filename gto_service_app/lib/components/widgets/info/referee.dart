@@ -16,7 +16,7 @@ class RefereeInfo extends StatelessWidget {
       children: <Widget>[
         HeadlineText(referee.name),
         CaptionText(referee.email),
-        CaptionText(Utils.formatDate(DateTime.parse(referee.dateOfBirth))),
+        CaptionText(Utils.formatDate(referee.dateOfBirth)),
       ],
     );
   }

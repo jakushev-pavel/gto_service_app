@@ -16,7 +16,7 @@ class SecretaryInfo extends StatelessWidget {
       children: <Widget>[
         HeadlineText(secretary.name),
         CaptionText(secretary.email),
-        CaptionText(Utils.formatDate(DateTime.parse(secretary.dateOfBirth))),
+        CaptionText(Utils.formatDate(secretary.dateOfBirth)),
       ],
     );
   }

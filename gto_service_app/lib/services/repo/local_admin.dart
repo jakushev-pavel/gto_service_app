@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
+import 'package:gtoserviceapp/models/gender.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
+import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class GetLocalAdminsResponse {
   List<LocalAdmin> localAdmins;
@@ -31,8 +33,8 @@ class LocalAdmin {
   String email;
   int roleId;
   String isActivity;
-  String dateOfBirth;
-  int gender;
+  DateTime dateOfBirth;
+  Gender gender;
   String registrationDate;
   String organizationId;
   int id;
@@ -55,8 +57,8 @@ class LocalAdmin {
     email = json['email'];
     roleId = json['roleId'];
 //    isActivity = json['isActivity'];
-    dateOfBirth = json['dateOfBirth'];
-    gender = json['gender'];
+    dateOfBirth = DateTime.parse(json['dateOfBirth']);
+    gender = GenderEx.fromInt(json['gender']);
     registrationDate = json['registrationDate'];
     organizationId = json['organizationId'].toString();
     id = json['localAdminId'];
@@ -69,8 +71,8 @@ class LocalAdmin {
     data['email'] = this.email;
     data['roleId'] = this.roleId;
     data['isActivity'] = this.isActivity;
-    data['dateOfBirth'] = this.dateOfBirth;
-    data['gender'] = this.gender;
+    data['dateOfBirth'] = Utils.dateToJson(this.dateOfBirth);
+    data['gender'] = this.gender.toInt();
     data['registrationDate'] = this.registrationDate;
     data['organizationId'] = this.organizationId;
     data['localAdminId'] = this.id;
@@ -109,6 +111,16 @@ class LocalAdminRepo {
       auth: true,
     );
     return GetLocalAdminsResponse.fromJson(json).localAdmins;
+  }
+
+  Future<LocalAdmin> get(int orgId, int localAdminId) async {
+    var json = await API.I.get(
+      Routes.LocalAdmin.withArgs(
+        orgId: orgId,
+        localAdminId: localAdminId,
+      ),
+    );
+    return LocalAdmin.fromJson(json);
   }
 
   Future delete(int orgID, int localAdminId) {

@@ -3,7 +3,7 @@ import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
 import 'package:gtoserviceapp/services/repo/referee.dart';
 
-class Trial {
+class EventTrial {
   int trialInEventId;
   int id;
   int resultOfTrialInEventId;
@@ -17,7 +17,7 @@ class Trial {
   String sportObjectDescription;
   List<Referee> referees;
 
-  Trial(
+  EventTrial(
       {this.trialInEventId,
       this.id,
       this.resultOfTrialInEventId,
@@ -31,7 +31,7 @@ class Trial {
       this.sportObjectDescription,
       this.referees});
 
-  Trial.fromJson(Map<String, dynamic> json) {
+  EventTrial.fromJson(Map<String, dynamic> json) {
     trialInEventId = json['trialInEventId'];
     id = json['trialId'];
     resultOfTrialInEventId = json['resultOfTrialInEventId'];
@@ -71,16 +71,46 @@ class Trial {
   }
 }
 
+class SecondaryResultResponse {
+  int secondaryResult;
+
+  SecondaryResultResponse({this.secondaryResult});
+
+  SecondaryResultResponse.fromJson(Map<String, dynamic> json) {
+    secondaryResult = json['secondResult'];
+  }
+}
+
 class TrialRepo {
   static TrialRepo get I {
     return GetIt.I<TrialRepo>();
   }
 
-  Future<List<Trial>> getFromEvent(int eventId) async {
+  Future<List<EventTrial>> getFromEvent(int eventId) async {
     List<dynamic> json = await API.I.get(
       Routes.EventTrials.withArgs(eventId: eventId),
       auth: true,
     );
-    return json.map((json) => Trial.fromJson(json)).toList();
+    return json.map((json) => EventTrial.fromJson(json)).toList();
+  }
+
+  Future<List<EventTrial>> getFreeTrialsFromEvent(int eventId) async {
+    List<dynamic> json = await API.I.get(
+      Routes.EventFreeTrials.withArgs(eventId: eventId),
+      auth: true,
+    );
+    return json.map((json) => EventTrial.fromJson(json)).toList();
+  }
+
+  Future addToEvent(int eventId, EventTrial trial) async {
+    return API.I.post(
+      Routes.EventTrials.withArgs(eventId: eventId),
+      auth: true,
+      args: trial.toJson(),
+    );
+  }
+
+  Future deleteFromEvent(int trialInEventId) async {
+    API.I.delete(Routes.EventTrial.withArgs(trialInEventId: trialInEventId));
   }
 }

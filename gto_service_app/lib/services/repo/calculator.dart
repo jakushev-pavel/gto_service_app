@@ -1,8 +1,68 @@
 import 'package:get_it/get_it.dart';
 import 'package:gtoserviceapp/models/gender.dart';
-import 'package:gtoserviceapp/models/trials.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
+
+class Trials {
+  List<Group> groups;
+  String ageCategory;
+
+  Trials({this.groups, this.ageCategory});
+
+  Trials.fromJson(Map<String, dynamic> json) {
+    if (json['groups'] != null) {
+      groups = new List<Group>();
+      json['groups'].forEach((v) {
+        groups.add(Group.fromJson(v));
+      });
+    }
+    ageCategory = json['ageCategory'];
+  }
+}
+
+class Group {
+  bool necessary;
+  List<Trial> trials;
+
+  Group({this.necessary, this.trials});
+
+  Group.fromJson(Map<String, dynamic> json) {
+    necessary = json['necessary'];
+    if (json['group'] != null) {
+      trials = List<Trial>();
+      json['group'].forEach((v) {
+        trials.add(Trial.fromJson(v));
+      });
+    }
+  }
+}
+
+class Trial {
+  String name;
+  int id;
+  String resultForBronze;
+  String resultForSilver;
+  String resultForGold;
+  bool typeTime;
+
+  Trial({
+    this.name,
+    this.id,
+    this.resultForBronze,
+    this.resultForSilver,
+    this.resultForGold,
+    this.typeTime,
+  });
+
+  Trial.fromJson(Map<String, dynamic> json) {
+    name = json['trialName'];
+    id = json['trialId'];
+    resultForBronze = json['resultForBronze'];
+    resultForSilver = json['resultForSilver'];
+    resultForGold = json['resultForGold'];
+    typeTime = json['typeTime'];
+  }
+}
 
 class SecondaryResultResponse {
   int secondaryResult;
@@ -19,9 +79,9 @@ class CalculatorRepo {
     return GetIt.I<CalculatorRepo>();
   }
 
-  Future<TrialsModel> fetchTrials(int age, Gender gender) async {
+  Future<Trials> fetchTrials(int age, Gender gender) async {
     var json = await API.I.get(Routes.Trial.withArgs(age: age, gender: gender));
-    return TrialsModel.fromJson(json);
+    return Trials.fromJson(json);
   }
 
   Future<SecondaryResultResponse> fetchSecondaryResult(

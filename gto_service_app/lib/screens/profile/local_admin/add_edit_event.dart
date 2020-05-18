@@ -3,7 +3,6 @@ import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/forms/text_date_picker.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
-import 'package:gtoserviceapp/models/event.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 

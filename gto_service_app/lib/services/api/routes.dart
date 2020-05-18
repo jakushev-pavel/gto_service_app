@@ -40,6 +40,7 @@ enum Routes {
   // Referee
   OrgReferees,
   OrgReferee,
+  EventTrialReferee,
   TrialReferee,
 
   // Result
@@ -48,7 +49,6 @@ enum Routes {
   EventResultsCsv, // Не используется
   TrialResults,
   TrialResult,
-
 
   // Role
   Role,
@@ -144,8 +144,10 @@ extension RoutesEx on Routes {
         return "/organization/{orgId}/referee";
       case Routes.OrgReferee:
         return "/organization/{orgId}/referee/{refereeId}";
-      case Routes.TrialReferee:
+      case Routes.EventTrialReferee:
         return "/trialInEvent/{trialId}/refereeInOrganization/{refereeId}";
+      case Routes.TrialReferee:
+        return "/refereeInTrialOnEvent/{refereeId}";
       // Result
       case Routes.EventUserResult:
         return "/event/{eventId}/user/{userId}/result";
@@ -156,7 +158,7 @@ extension RoutesEx on Routes {
       case Routes.TrialResults:
         return "/trialInEvent/{trialInEventId}/result";
       case Routes.TrialResult:
-        return "/resultTrialInEvent/{resultTrialInEventId}";
+        return "/resultTrialInEvent/{resultId}";
       // Role
       case Routes.Role:
         return "/role";
@@ -221,6 +223,10 @@ extension RoutesEx on Routes {
     int primaryResult,
     int sportObjectId,
     int refereeId,
+    int tableId,
+    int trialInEventId,
+    int userId,
+    int resultId,
   }) {
     return _withArgs({
       "orgId": orgId?.toString(),
@@ -236,6 +242,10 @@ extension RoutesEx on Routes {
       "primaryResult": primaryResult?.toString(),
       "sportObjectId": sportObjectId?.toString(),
       "refereeId": refereeId?.toString(),
+      "tableId": tableId?.toString(),
+      "trialInEventId": trialInEventId?.toString(),
+      "userId": userId?.toString(),
+      "resultId": resultId?.toString(),
     });
   }
 

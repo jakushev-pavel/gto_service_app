@@ -8,7 +8,7 @@ class GetUserInfoResponse {
   String email;
   String name;
   String gender;
-  String dateOfBirth;
+  DateTime dateOfBirth;
 
   GetUserInfoResponse({this.email, this.name, this.gender, this.dateOfBirth});
 
@@ -16,7 +16,7 @@ class GetUserInfoResponse {
     email = json['email'];
     name = json['name'];
     gender = json['gender'];
-    dateOfBirth = json['dateOfBirth'];
+    dateOfBirth = DateTime.parse(json['dateOfBirth']);
   }
 }
 

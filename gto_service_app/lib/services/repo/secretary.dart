@@ -1,14 +1,16 @@
 import 'package:get_it/get_it.dart';
+import 'package:gtoserviceapp/models/gender.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
+import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class Secretary {
   int secretaryOnOrganizationId;
   int organizationId;
   int userId;
   String name;
-  int gender;
-  String dateOfBirth;
+  Gender gender;
+  DateTime dateOfBirth;
   String email;
   int secretaryId;
 
@@ -27,8 +29,8 @@ class Secretary {
     organizationId = json['organizationId'];
     userId = json['userId'];
     name = json['name'];
-    gender = json['gender'];
-    dateOfBirth = json['dateOfBirth'];
+    gender = GenderEx.fromInt(json['gender']);
+    dateOfBirth = DateTime.parse(json['dateOfBirth']);
     email = json['email'];
     secretaryId = json['secretaryId'];
   }
@@ -39,8 +41,8 @@ class Secretary {
     data['organizationId'] = this.organizationId;
     data['userId'] = this.userId;
     data['name'] = this.name;
-    data['gender'] = this.gender;
-    data['dateOfBirth'] = this.dateOfBirth;
+    data['gender'] = this.gender.toInt();
+    data['dateOfBirth'] = Utils.dateToJson(this.dateOfBirth);
     data['email'] = this.email;
     data['secretaryId'] = this.secretaryId;
     return data;
