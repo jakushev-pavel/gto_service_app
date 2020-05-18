@@ -4,29 +4,6 @@ import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
 import 'package:gtoserviceapp/services/utils/utils.dart';
 
-class GetLocalAdminsResponse {
-  List<LocalAdmin> localAdmins;
-
-  GetLocalAdminsResponse({this.localAdmins});
-
-  GetLocalAdminsResponse.fromJson(List<dynamic> json) {
-    if (json != null) {
-      localAdmins = new List<LocalAdmin>();
-      json.forEach((v) {
-        localAdmins.add(new LocalAdmin.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.localAdmins != null) {
-      data['adm'] = this.localAdmins.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
 class LocalAdmin {
   int userId;
   String name;
@@ -106,11 +83,14 @@ class LocalAdminRepo {
   }
 
   Future<List<LocalAdmin>> getAll(int orgId) async {
-    var json = await API.I.get(
+    List<dynamic> json = await API.I.get(
       Routes.LocalAdmins.withArgs(orgId: orgId),
       auth: true,
     );
-    return GetLocalAdminsResponse.fromJson(json).localAdmins;
+    if (json == null) {
+      return []; // Баг сервера
+    }
+    return json.map((json) => LocalAdmin.fromJson(json)).toList();
   }
 
   Future<LocalAdmin> get(int orgId, int localAdminId) async {

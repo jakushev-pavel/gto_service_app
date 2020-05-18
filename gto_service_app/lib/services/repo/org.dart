@@ -44,7 +44,7 @@ class Organisation {
       this.countOfActiveEvents});
 
   Organisation.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = int.tryParse(json['id']);
     name = json['name'];
     address = json['address'];
     leader = json['leader'];
