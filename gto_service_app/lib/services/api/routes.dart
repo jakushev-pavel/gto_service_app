@@ -4,14 +4,22 @@ enum Routes {
   // Event
   SecretaryEvents,
   UserEvents,
-  Events,
-  Event,
+  OrgEvents,
+  OrgEvent,
+  EventChangeStatus,
 
   // ParticipantEvent
   EventApply,
-  EventTeamParticipants,
+  EventUnsubscribe,
+  TeamParticipants,
   EventParticipants,
   EventParticipant,
+  Participant,
+
+  //Tables
+  Tables,
+  EventTableGet,
+  EventTableSet,
 
   // User
   Invite,
@@ -29,15 +37,31 @@ enum Routes {
   Organizations,
   Organization,
 
+  // Referee
+  OrgReferees,
+  OrgReferee,
+  TrialReferee,
+
+  // Result
+  EventUserResult,
+  EventResults,
+  EventResultsCsv, // Не используется
+  TrialResults,
+  TrialResult,
+
+
   // Role
   Role,
 
   // Secretary
   OrgSecretaries,
-  EventSecretaries,
-  SecretaryExisting,
   OrgSecretary,
+  EventSecretaries,
   EventSecretary,
+
+  // SportObject
+  SportObjects,
+  SportObject,
 
   // Team
   EventTeams,
@@ -53,37 +77,46 @@ enum Routes {
   // Trial
   Trial,
   TrialSecondaryResult,
+  EventFreeTrials,
   EventTrials,
-
-  // SportObject
-  SportObjects,
-  SportObject,
-
-  // Referee
-  OrgReferees,
-  OrgReferee,
-  TrialReferee,
+  EventTrial,
 }
 
 extension RoutesEx on Routes {
   String toStr() {
     switch (this) {
+      // Event
       case Routes.SecretaryEvents:
         return "/event/forSecretary";
       case Routes.UserEvents:
         return "/event/forUser";
-      case Routes.Events:
+      case Routes.OrgEvents:
         return "/organization/{orgId}/event";
-      case Routes.Event:
+      case Routes.OrgEvent:
         return "/organization/{orgId}/event/{eventId}";
+      case Routes.EventChangeStatus:
+        return "/event/{eventId}/changeStatus";
+      // ParticipantEvent
       case Routes.EventApply:
         return "/event/{eventId}/apply";
-      case Routes.EventTeamParticipants:
+      case Routes.EventUnsubscribe:
+        return "/event/{eventId}/unsubscribe";
+      case Routes.TeamParticipants:
         return "/team/{teamId}/participant";
       case Routes.EventParticipants:
         return "/event/{eventId}/participant";
       case Routes.EventParticipant:
+        return "/event/{eventId}/participant/{participantId}";
+      case Routes.Participant:
         return "/participant/{participantId}";
+      //Tables
+      case Routes.Tables:
+        return "/tables";
+      case Routes.EventTableGet:
+        return "/event/{eventId}/table";
+      case Routes.EventTableSet:
+        return "/event/{eventId}/table/{tableId}";
+      // User
       case Routes.Invite:
         return "/auth/invite";
       case Routes.Confirm:
@@ -94,28 +127,54 @@ extension RoutesEx on Routes {
         return "/auth/refresh";
       case Routes.Info:
         return "/auth/info";
+      // LocalAdmin
       case Routes.LocalAdmins:
         return "/organization/{orgId}/localAdmin";
       case Routes.LocalAdmin:
         return "/organization/{orgId}/localAdmin/{localAdminId}";
       case Routes.LocalAdminExisting:
         return "/organization/{orgId}/localAdmin/existingAccount";
+      // Organization
       case Routes.Organizations:
         return "/organization";
       case Routes.Organization:
         return "/organization/{orgId}";
+      // Referee
+      case Routes.OrgReferees:
+        return "/organization/{orgId}/referee";
+      case Routes.OrgReferee:
+        return "/organization/{orgId}/referee/{refereeId}";
+      case Routes.TrialReferee:
+        return "/trialInEvent/{trialId}/refereeInOrganization/{refereeId}";
+      // Result
+      case Routes.EventUserResult:
+        return "/event/{eventId}/user/{userId}/result";
+      case Routes.EventResults:
+        return "/event/{eventId}/allResults";
+      case Routes.EventResultsCsv:
+        return "/event/{eventId}/allResults/csv";
+      case Routes.TrialResults:
+        return "/trialInEvent/{trialInEventId}/result";
+      case Routes.TrialResult:
+        return "/resultTrialInEvent/{resultTrialInEventId}";
+      // Role
       case Routes.Role:
         return "/role";
+      // Secretary
       case Routes.OrgSecretaries:
         return "/organization/{orgId}/secretary";
-      case Routes.EventSecretaries:
-        return "/organization/{orgId}/event/{eventId}/secretary";
-      case Routes.SecretaryExisting:
-        return "/organization/{orgId}/event/{eventId}/secretary/existingAccount";
       case Routes.OrgSecretary:
         return "/organization/{orgId}/secretary/{secretaryId}";
+      case Routes.EventSecretaries:
+        return "/organization/{orgId}/event/{eventId}/secretary";
       case Routes.EventSecretary:
         return "/organization/{orgId}/event/{eventId}/secretary/{secretaryId}";
+      // SportObject
+      case Routes.SportObjects:
+        return "/organization/{orgId}/sportObject";
+      case Routes.SportObject:
+        return "/organization/{orgId}/sportObject/{sportObjectId}";
+      // Team
       case Routes.EventTeams:
         return "/organization/{orgId}/event/{eventId}/team";
       case Routes.EventTeam:
@@ -126,26 +185,23 @@ extension RoutesEx on Routes {
         return "/team";
       case Routes.Team:
         return "/team/{teamId}";
+      // TeamLead
       case Routes.TeamLeads:
         return "/team/{teamId}/teamLead";
       case Routes.TeamLead:
         return "/teamLead/{teamLeadId}";
+      // Trial
       case Routes.Trial:
         return "/trial/{age}/{gender}";
       case Routes.TrialSecondaryResult:
         return "/trial/{trialId}/firstResult?firstResult={primaryResult}";
+      case Routes.EventFreeTrials:
+        return "/event/{eventId}/freeTrials";
       case Routes.EventTrials:
         return "/event/{eventId}/trial";
-      case Routes.SportObjects:
-        return "/organization/{orgId}/sportObject";
-      case Routes.SportObject:
-        return "/organization/{orgId}/sportObject/{sportObjectId}";
-      case Routes.OrgReferees:
-        return "/organization/{orgId}/referee";
-      case Routes.OrgReferee:
-        return "/organization/{orgId}/referee/{refereeId}";
-      case Routes.TrialReferee:
-        return "/trialInEvent/{trialId}/refereeInOrganization/{refereeId}";
+      case Routes.EventTrial:
+        return "/trialInEvent/{trialInEventId}";
+      // Default - забыли добавить сюда путь?
       default:
         throw Exception("Invlid route");
     }
