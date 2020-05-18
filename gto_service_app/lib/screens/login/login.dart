@@ -5,6 +5,7 @@ import 'package:gtoserviceapp/components/widgets/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/widgets/navigation/tabs.dart';
 import 'package:gtoserviceapp/components/widgets/shrunk_vertically.dart';
 import 'package:gtoserviceapp/screens/profile/profile.dart';
+import 'package:gtoserviceapp/screens/register/register.dart';
 import 'package:gtoserviceapp/services/auth/auth.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -50,7 +51,10 @@ class LoginScreenState extends State<LoginScreen> {
           children: <Widget>[
             _buildEmailField(),
             _buildPasswordField(),
+            SizedBox(height: 16),
             _buildButton(context),
+            SizedBox(height: 16),
+            _buildRegisterText(context),
           ],
         ),
       ),
@@ -111,5 +115,36 @@ class LoginScreenState extends State<LoginScreen> {
 
   _onError(BuildContext context, error) {
     showDialog(context: context, child: ErrorDialog.fromError(error));
+  }
+
+  Widget _buildRegisterText(context) {
+    return GestureDetector(
+      onTap: _onRegisterPressed(context),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "Нет аккаунта?",
+            style: TextStyle(
+              color: Colors.black54,
+              fontSize: 14,
+            ),
+          ),
+          Text(
+            "Зарегистрироваться",
+            style: TextStyle(
+              color: Colors.blueAccent.shade200,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void Function() _onRegisterPressed(context) {
+    return () {
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+        return RegisterScreen();
+      }));
+    };
   }
 }

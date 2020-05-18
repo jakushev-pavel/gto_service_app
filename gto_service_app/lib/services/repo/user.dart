@@ -94,7 +94,6 @@ class UserRepo {
     return API.I.post(
       Routes.Invite.toStr(),
       args: args.toJson(),
-      auth: true,
     );
   }
 

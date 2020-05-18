@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
+import 'package:gtoserviceapp/screens/common/catalog.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_event.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';

@@ -13,7 +13,7 @@ class InviteUserScreen extends StatefulWidget {
 
   InviteUserScreen({
     @required String title,
-    @required Future Function(String email) addUser,
+    Future Function(String email) addUser,
   })  : _title = title,
         _addUser = addUser;
 
@@ -102,6 +102,7 @@ class _InviteUserScreenState extends State<InviteUserScreen> {
       initialValue: _params.name,
       decoration: InputDecoration(
         labelText: "ФИО",
+        prefixIcon: Icon(Icons.person),
       ),
       onSaved: (value) {
         _params.name = value;
@@ -120,6 +121,7 @@ class _InviteUserScreenState extends State<InviteUserScreen> {
       initialValue: _params.email,
       decoration: InputDecoration(
         labelText: "Почта",
+        prefixIcon: Icon(Icons.email),
       ),
       onSaved: (value) {
         _params.email = value;

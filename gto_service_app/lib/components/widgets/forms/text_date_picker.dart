@@ -49,6 +49,7 @@ class TextDatePicker extends StatelessWidget {
       controller: ctl,
       readOnly: true,
       decoration: InputDecoration(
+        prefixIcon: Icon(Icons.date_range),
         labelText: _label,
       ),
       onTap: () => _onTap(context, ctl),
