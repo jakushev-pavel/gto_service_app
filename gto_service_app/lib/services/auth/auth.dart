@@ -13,8 +13,8 @@ class Auth {
     return Storage.I.has(Keys.accessToken) && Storage.I.has(Keys.refreshToken);
   }
 
-  set token(String token) {
-    Storage.I.write(Keys.accessToken, token);
+  Future setToken(String token) {
+    return Storage.I.write(Keys.accessToken, token);
   }
 
   Future<void> login(String email, String password) async {

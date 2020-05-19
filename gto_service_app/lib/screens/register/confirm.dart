@@ -96,24 +96,22 @@ class _RegisterCompleteScreenState extends State<RegisterCompleteScreen> {
     );
   }
 
-  void _onSubmitPressed() {
+  void _onSubmitPressed() async {
     var form = _formKey.currentState;
     if (!form.validate()) {
       return;
     }
     form.save();
 
-    Auth.I.token = widget._token;
-    UserRepo.I.register(_password).then((_) {
-      Auth.I.login(widget._email, _password).then((_) {
-        var nav = Navigator.of(context);
-        nav.popUntil((_) => !nav.canPop());
-        nav.pushReplacement(MaterialPageRoute(builder: (_) => ProfileScreen()));
-      }, onError: (e) {
-        showDialog(context: context, child: ErrorDialog.fromError(e));
-      });
-    }, onError: (e) {
+    try {
+      await Auth.I.setToken(widget._token);
+      await UserRepo.I.register(_password);
+      await Auth.I.login(widget._email, _password);
+      var nav = Navigator.of(context);
+      nav.popUntil((_) => !nav.canPop());
+      nav.pushReplacement(MaterialPageRoute(builder: (_) => ProfileScreen()));
+    } catch (e) {
       showDialog(context: context, child: ErrorDialog.fromError(e));
-    });
+    }
   }
 }
