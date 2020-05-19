@@ -32,11 +32,11 @@ class FutureWidgetBuilder<T> extends StatelessWidget {
     return FutureBuilder<T>(
       future: _future,
       builder: (context, AsyncSnapshot<T> snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return Failure(snapshot.error);
+          }
           return _builder(context, snapshot.data);
-        }
-        if (snapshot.hasError) {
-          return Failure(snapshot.error);
         }
 
         return _placeholderBuilder();

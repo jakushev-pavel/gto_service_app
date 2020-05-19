@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gtoserviceapp/models/calculator.dart';
-import 'package:gtoserviceapp/screens/main/main_screen.dart';
+import 'package:gtoserviceapp/screens/initial/initial.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/auth/auth.dart';
+import 'package:gtoserviceapp/services/linking/linking.dart';
 import 'package:gtoserviceapp/services/navigation/navigation.dart';
 import 'package:gtoserviceapp/services/repo/calculator.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
@@ -41,8 +42,12 @@ class GTOServiceApp extends StatelessWidget {
       navigatorKey: Navigation.I.navigatorKey,
       title: 'GTO Service',
       theme: buildTheme(),
-      home: MainScreen(),
+      home: InitialScreen(),
     );
+  }
+
+  dispose() {
+    Linking.stopListening();
   }
 }
 
@@ -51,6 +56,7 @@ setup() async {
   setupRepos();
   GetIt.I.registerSingleton<Navigation>(Navigation());
   await Storage.I.init();
+  Linking.startListening();
 }
 
 void setupRepos() {

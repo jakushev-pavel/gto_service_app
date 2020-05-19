@@ -18,4 +18,10 @@ class Navigation {
       return LoginScreen();
     }));
   }
+
+  pushScreen(Widget screen) {
+    navigatorKey.currentState.push(MaterialPageRoute(builder: (_) {
+      return screen;
+    }));
+  }
 }

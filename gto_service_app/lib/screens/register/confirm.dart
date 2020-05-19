@@ -1,0 +1,119 @@
+import 'package:flutter/material.dart';
+import 'package:gtoserviceapp/components/widgets/card_padding.dart';
+import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/screens/profile/profile.dart';
+import 'package:gtoserviceapp/services/auth/auth.dart';
+import 'package:gtoserviceapp/services/repo/user.dart';
+
+class RegisterCompleteScreen extends StatefulWidget {
+  final String _email;
+  final String _token;
+
+  RegisterCompleteScreen(this._email, this._token);
+
+  @override
+  _RegisterCompleteScreenState createState() => _RegisterCompleteScreenState();
+}
+
+class _RegisterCompleteScreenState extends State<RegisterCompleteScreen> {
+  final _formKey = GlobalKey<FormState>();
+  String _password;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Завершение регистрации")),
+      body: _buildBody(),
+    );
+  }
+
+  Widget _buildBody() {
+    return CardPadding(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            _buildEmailField(),
+            _buildPasswordField(),
+            _buildConfirmPasswordField(),
+            SizedBox(height: 16),
+            _buildSubmitButton(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmailField() {
+    return TextFormField(
+      initialValue: widget._email,
+      enabled: false,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.email),
+      ),
+    );
+  }
+
+  Widget _buildPasswordField() {
+    return TextFormField(
+      obscureText: true,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.vpn_key),
+        hintText: "Пароль",
+      ),
+      onChanged: (text) {
+        _password = text;
+      },
+      validator: (text) {
+        if (text.length < 6) {
+          return "Пароль должен содержать по крайней мере 6 символов";
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget _buildConfirmPasswordField() {
+    return TextFormField(
+      obscureText: true,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.vpn_key),
+        hintText: "Пароль",
+      ),
+      validator: (text) {
+        if (text != _password) {
+          return "Пароли должны совпадать";
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget _buildSubmitButton() {
+    return RaisedButton(
+      onPressed: _onSubmitPressed,
+      child: Text("Завершить регистрацию"),
+    );
+  }
+
+  void _onSubmitPressed() {
+    var form = _formKey.currentState;
+    if (!form.validate()) {
+      return;
+    }
+    form.save();
+
+    Auth.I.token = widget._token;
+    UserRepo.I.register(_password).then((_) {
+      Auth.I.login(widget._email, _password).then((_) {
+        var nav = Navigator.of(context);
+        nav.popUntil((_) => !nav.canPop());
+        nav.pushReplacement(MaterialPageRoute(builder: (_) => ProfileScreen()));
+      }, onError: (e) {
+        showDialog(context: context, child: ErrorDialog.fromError(e));
+      });
+    }, onError: (e) {
+      showDialog(context: context, child: ErrorDialog.fromError(e));
+    });
+  }
+}

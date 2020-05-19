@@ -85,6 +85,18 @@ class InviteUserArgs {
   }
 }
 
+class ConfirmAccountArgs {
+  String password;
+
+  ConfirmAccountArgs({this.password});
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['password'] = this.password;
+    return data;
+  }
+}
+
 class UserRepo {
   static UserRepo get I {
     return GetIt.I<UserRepo>();
@@ -94,6 +106,14 @@ class UserRepo {
     return API.I.post(
       Routes.Invite.toStr(),
       args: args.toJson(),
+    );
+  }
+
+  Future register(String password) async {
+    return API.I.post(
+      Routes.Confirm.toStr(),
+      args: ConfirmAccountArgs(password: password),
+      auth: true,
     );
   }
 

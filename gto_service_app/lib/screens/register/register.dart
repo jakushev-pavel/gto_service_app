@@ -124,7 +124,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ErrorDialog.showOnFutureError(context, future);
             await future;
 
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+            Navigator.of(context)
+                .pushReplacement(MaterialPageRoute(builder: (_) {
               return RegisterSuccessScreen();
             }));
           }
