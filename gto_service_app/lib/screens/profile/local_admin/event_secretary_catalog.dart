@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/widgets/info/secretary.dart';
+import 'package:gtoserviceapp/components/widgets/profile/secretary_info.dart';
 import 'package:gtoserviceapp/screens/common/catalog.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_event_secretary.dart';
 import 'package:gtoserviceapp/services/repo/secretary.dart';

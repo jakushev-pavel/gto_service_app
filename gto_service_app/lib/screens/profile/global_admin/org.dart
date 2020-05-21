@@ -7,6 +7,7 @@ import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/field.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/widgets/text/caption.dart';
+import 'package:gtoserviceapp/components/widgets/text/headline.dart';
 import 'package:gtoserviceapp/screens/common/invite_user.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/services/repo/local_admin.dart';
@@ -80,11 +81,8 @@ class OrganisationScreen extends StatelessWidget {
     );
   }
 
-  Text _buildName(Organisation org, context) {
-    return Text(
-      org.name ?? "",
-      style: Theme.of(context).textTheme.headline,
-    );
+  Widget _buildName(Organisation org, context) {
+    return HeadlineText(org.name ?? "");
   }
 
   _onEditPressed(context) {
@@ -118,10 +116,7 @@ class OrganisationScreen extends StatelessWidget {
   Widget _buildLocalAdminsListHeader(context) {
     return Padding(
       padding: DefaultMargin,
-      child: Text(
-        "Администраторы:",
-        style: Theme.of(context).textTheme.headline,
-      ),
+      child: HeadlineText("Администраторы:"),
     );
   }
 

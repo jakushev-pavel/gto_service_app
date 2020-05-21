@@ -8,7 +8,7 @@ class HeadlineText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var style = Theme.of(context).textTheme.headline;
+    var style = Theme.of(context).textTheme.headline5;
     if (_color != null) {
       style = style.copyWith(color: _color);
     }

@@ -64,7 +64,10 @@ class EventRepo {
   }
 
   Future<List<Event>> getAllForSecretary() async {
-    List<dynamic> json = await API.I.get(Routes.SecretaryEvents.toStr());
+    List<dynamic> json = await API.I.get(
+      Routes.SecretaryEvents.toStr(),
+      auth: true,
+    );
     return json.map((eventJson) => Event.fromJson(eventJson)).toList();
   }
 

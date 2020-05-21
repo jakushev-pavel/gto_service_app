@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/widgets/info/referee.dart';
 import 'package:gtoserviceapp/screens/common/catalog.dart';
 import 'package:gtoserviceapp/screens/common/invite_user.dart';
 import 'package:gtoserviceapp/services/repo/referee.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
+
+import 'file:///C:/Users/Acer/Documents/Dev/gto_service_app/gto_service_app/lib/components/widgets/profile/referee_info.dart';
 
 class RefereeCatalogScreen extends StatelessWidget {
   @override
