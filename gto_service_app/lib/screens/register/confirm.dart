@@ -78,7 +78,7 @@ class _RegisterCompleteScreenState extends State<RegisterCompleteScreen> {
       obscureText: true,
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.vpn_key),
-        hintText: "Пароль",
+        hintText: "Повторите пароль",
       ),
       validator: (text) {
         if (text != _password) {
