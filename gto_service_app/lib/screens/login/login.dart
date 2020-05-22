@@ -45,19 +45,27 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return ShrunkVertically(
-      child: CardPadding(
-        child: Column(
-          children: <Widget>[
-            _buildEmailField(),
-            _buildPasswordField(),
-            SizedBox(height: 16),
-            _buildButton(context),
-            SizedBox(height: 16),
-            _buildRegisterText(context),
-          ],
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        SizedBox(
+          height: 250,
+          child: Image.asset("assets/images/logo.png"),
         ),
-      ),
+        CardPadding(
+          child: Column(
+            children: <Widget>[
+              _buildEmailField(),
+              _buildPasswordField(),
+              SizedBox(height: 16),
+              _buildButton(context),
+              SizedBox(height: 16),
+              _buildRegisterText(context),
+            ],
+          ),
+        ),
+        SizedBox(height: 16),
+      ],
     );
   }
 
