@@ -90,8 +90,7 @@ class SecretaryRepo {
       Routes.OrgSecretaries.withArgs(orgId: orgId),
       auth: true,
     );
-    json ??= [];
-    return json.map((jsonValue) => Secretary.fromJson(jsonValue)).toList();
+    return Utils.map(json, (json) => Secretary.fromJson(json));
   }
 
   Future<List<Secretary>> getFromEvent(int orgId, int eventId) async {
@@ -99,8 +98,7 @@ class SecretaryRepo {
       Routes.EventSecretaries.withArgs(orgId: orgId, eventId: eventId),
       auth: true,
     );
-    json ??= [];
-    return json.map((jsonValue) => Secretary.fromJson(jsonValue)).toList();
+    return Utils.map(json, (json) => Secretary.fromJson(json));
   }
 
   Future deleteFromOrg(int orgId, int secretaryId) async {

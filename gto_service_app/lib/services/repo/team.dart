@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
+import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class Team {
   int id;
@@ -65,7 +66,7 @@ class TeamRepo {
       Routes.EventTeams.withArgs(orgId: orgId, eventId: eventId),
       auth: true,
     );
-    return json.map((json) => Team.fromJson(json)).toList();
+    return Utils.map(json, (json) => Team.fromJson(json));
   }
 
   Future<List<Team>> getAllForUser() async {

@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
 import 'package:gtoserviceapp/services/repo/referee.dart';
+import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class EventTrial {
   int trialInEventId;
@@ -36,6 +37,7 @@ class EventTrial {
     id = json['trialId'];
     resultOfTrialInEventId = json['resultOfTrialInEventId'];
     name = json['trialName'];
+    name = name ?? json['name'];
     trialIsTypeTime = json['trialIsTypeTime'];
     tableId = json['tableId'];
     eventId = json['eventId'];
@@ -91,7 +93,7 @@ class TrialRepo {
       Routes.EventTrials.withArgs(eventId: eventId),
       auth: true,
     );
-    return json.map((json) => EventTrial.fromJson(json)).toList();
+    return Utils.map(json, (json) => EventTrial.fromJson(json));
   }
 
   Future<List<EventTrial>> getFreeTrialsFromEvent(int eventId) async {
@@ -99,7 +101,7 @@ class TrialRepo {
       Routes.EventFreeTrials.withArgs(eventId: eventId),
       auth: true,
     );
-    return json.map((json) => EventTrial.fromJson(json)).toList();
+    return Utils.map(json, (json) => EventTrial.fromJson(json));
   }
 
   Future addToEvent(int eventId, EventTrial trial) async {

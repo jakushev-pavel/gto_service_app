@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:gtoserviceapp/models/gender.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
+import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class TeamLead {
   int teamLeadId;
@@ -52,12 +53,12 @@ class TeamLeadRepo {
     return GetIt.I<TeamLeadRepo>();
   }
 
-  Future<List<TeamLead>> get(int teamId) async {
+  Future<List<TeamLead>> getAll(int teamId) async {
     List<dynamic> json = await API.I.get(
       Routes.TeamLeads.withArgs(teamId: teamId),
       auth: true,
     );
-    return json.map((json) => TeamLead.fromJson(json)).toList();
+    return Utils.map(json, (json) => TeamLead.fromJson(json));
   }
 
   Future add(int teamId, String email) {

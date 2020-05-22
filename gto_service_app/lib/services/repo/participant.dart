@@ -92,14 +92,14 @@ class ParticipantRepo {
     List<dynamic> json = await API.I.get(
       Routes.TeamParticipants.withArgs(teamId: teamId),
     );
-    return json.map((json) => Participant.fromJson(json)).toList();
+    return Utils.map(json, (json) => Participant.fromJson(json));
   }
 
   Future<List<Participant>> getAllFromEvent(int eventId) async {
     List<dynamic> json = await API.I.get(
       Routes.EventParticipants.withArgs(eventId: eventId),
     );
-    return json.map((json) => Participant.fromJson(json)).toList();
+    return Utils.map(json, (json) => Participant.fromJson(json));
   }
 
   Future confirm(int eventId, int participantId) {

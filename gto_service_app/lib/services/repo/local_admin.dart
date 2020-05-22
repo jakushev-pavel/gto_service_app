@@ -87,10 +87,7 @@ class LocalAdminRepo {
       Routes.LocalAdmins.withArgs(orgId: orgId),
       auth: true,
     );
-    if (json == null) {
-      return []; // Баг сервера
-    }
-    return json.map((json) => LocalAdmin.fromJson(json)).toList();
+    return Utils.map(json, (json) => LocalAdmin.fromJson(json));
   }
 
   Future<LocalAdmin> get(int orgId, int localAdminId) async {

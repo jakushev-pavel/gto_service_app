@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
+import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class SportObject {
   int id;
@@ -54,7 +55,7 @@ class SportObjectRepo {
       auth: true,
     );
 
-    return json.map((json) => SportObject.fromJson(json)).toList();
+    return Utils.map(json, (json) => SportObject.fromJson(json));
   }
 
   Future update(int orgId, SportObject sportObject) {

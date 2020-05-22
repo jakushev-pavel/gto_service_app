@@ -60,7 +60,7 @@ class EventRepo {
 
   Future<List<Event>> getAllForUser() async {
     List<dynamic> json = await API.I.get(Routes.UserEvents.toStr());
-    return json.map((eventJson) => Event.fromJson(eventJson)).toList();
+    return Utils.map(json, (json) => Event.fromJson(json));
   }
 
   Future<List<Event>> getAllForSecretary() async {
@@ -68,13 +68,13 @@ class EventRepo {
       Routes.SecretaryEvents.toStr(),
       auth: true,
     );
-    return json.map((eventJson) => Event.fromJson(eventJson)).toList();
+    return Utils.map(json, (json) => Event.fromJson(json));
   }
 
   Future<List<Event>> getAllFromOrg(int orgId) async {
     List<dynamic> json =
         await API.I.get(Routes.OrgEvents.withArgs(orgId: orgId));
-    return json.map((eventJson) => Event.fromJson(eventJson)).toList();
+    return Utils.map(json, (json) => Event.fromJson(json));
   }
 
   Future<Event> get(int orgId, int eventId) async {

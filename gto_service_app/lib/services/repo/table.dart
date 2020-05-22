@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
+import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class Table {
   int tableInEventId;
@@ -36,7 +37,7 @@ class TableRepo {
 
   Future<List<Table>> getAll() async {
     List<dynamic> json = await API.I.get(Routes.Tables.toStr());
-    return json.map((json) => Table.fromJson(json)).toList();
+    return Utils.map(json, (json) => Table.fromJson(json));
   }
 
   Future<Table> getFromEvent(int eventId) {

@@ -86,7 +86,7 @@ class RefereeRepo {
       auth: true,
     );
 
-    return json.map((json) => Referee.fromJson(json)).toList();
+    return Utils.map(json, (json) => Referee.fromJson(json));
   }
 
   Future deleteFromTrial(int refereeInTrialInEvent) {
