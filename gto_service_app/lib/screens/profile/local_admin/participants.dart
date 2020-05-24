@@ -12,7 +12,7 @@ class EventParticipantsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CatalogScreen(
+    return CatalogScreen<Participant>(
       getData: () => ParticipantRepo.I.getAllFromEvent(eventId),
       title: "Участники мероприятия",
       buildInfo: _buildInfo,
@@ -41,7 +41,7 @@ class EventParticipantsScreen extends StatelessWidget {
     }));
   }
 
-  Future _onDeletePressed(Participant participant) {
+  Future<void> _onDeletePressed(Participant participant) {
     return ParticipantRepo.I.deleteFromEvent(eventId, participant.eventParticipantId);
   }
 }

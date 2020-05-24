@@ -29,13 +29,11 @@ class EventSecretaryCatalogScreen extends StatelessWidget {
     );
   }
 
-  void _onDeletePressed(Secretary secretary) async {
-    try {
-      await SecretaryRepo.I.deleteFromEvent(
-        Storage.I.orgId,
-        _eventId,
-        secretary.secretaryId,
-      );
-    } catch (_) {}
+  Future<void> _onDeletePressed(Secretary secretary) {
+    return SecretaryRepo.I.deleteFromEvent(
+      Storage.I.orgId,
+      _eventId,
+      secretary.secretaryId,
+    );
   }
 }

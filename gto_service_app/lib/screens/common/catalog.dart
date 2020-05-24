@@ -10,7 +10,7 @@ class CatalogScreen<T> extends StatefulWidget {
   final Future<List<T>> Function() _getData;
   final Widget Function(T) _buildInfo;
   final void Function(BuildContext) _onFabPressed;
-  final Future Function(T) _onDeletePressed;
+  final Future<void> Function(T) _onDeletePressed;
   final void Function(T) _onEditPressed;
   final void Function(BuildContext, T) _onTapped;
 
@@ -19,7 +19,7 @@ class CatalogScreen<T> extends StatefulWidget {
     @required Future<List<T>> Function() getData,
     @required Widget Function(T) buildInfo,
     Function(BuildContext) onFabPressed,
-    Future Function(T) onDeletePressed,
+    Future<void> Function(T) onDeletePressed,
     Function(T) onEditPressed,
     void Function(BuildContext, T) onTapped,
   })  : _title = title,

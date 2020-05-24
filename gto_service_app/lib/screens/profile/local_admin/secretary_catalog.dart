@@ -38,7 +38,7 @@ class _SecretaryCatalogScreenState extends State<SecretaryCatalogScreen> {
     ));
   }
 
-  Future _onDeletePressed(Secretary secretary) {
+  Future<void> _onDeletePressed(Secretary secretary) {
     return SecretaryRepo.I.deleteFromOrg(
       Storage.I.orgId,
       secretary.secretaryOnOrganizationId,

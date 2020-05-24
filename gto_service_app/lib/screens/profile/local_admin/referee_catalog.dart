@@ -35,7 +35,7 @@ class RefereeCatalogScreen extends StatelessWidget {
     );
   }
 
-  _onDeletePressed(Referee referee) {
-    RefereeRepo.I.delete(Storage.I.orgId, referee.id);
+  Future<void> _onDeletePressed(Referee referee) {
+    return RefereeRepo.I.delete(Storage.I.orgId, referee.id);
   }
 }

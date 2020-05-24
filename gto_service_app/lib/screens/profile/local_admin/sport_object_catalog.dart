@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/text/caption.dart';
 import 'package:gtoserviceapp/components/widgets/text/headline.dart';
 import 'package:gtoserviceapp/screens/common/catalog.dart';
@@ -14,7 +13,7 @@ class SportObjectCatalogScreen extends StatelessWidget {
       title: "Спортивные объекты",
       getData: _getList,
       buildInfo: _buildSecretaryInfo,
-      onDeletePressed: _onDeletePressed(context),
+      onDeletePressed: _onDeletePressed,
       onFabPressed: _onFabPressed,
       onEditPressed: _onEditPressed(context),
     );
@@ -41,14 +40,11 @@ class SportObjectCatalogScreen extends StatelessWidget {
     );
   }
 
-  _onDeletePressed(context) {
-    return (SportObject sportObject) {
-      var future = SportObjectRepo.I.delete(
-        Storage.I.orgId,
-        sportObject.id,
-      );
-      ErrorDialog.showOnFutureError(context, future);
-    };
+  Future<void> _onDeletePressed(SportObject sportObject) {
+    return SportObjectRepo.I.delete(
+      Storage.I.orgId,
+      sportObject.id,
+    );
   }
 
   _onEditPressed(context) {
