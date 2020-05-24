@@ -66,9 +66,7 @@ class EventTrialsCatalogScreen extends StatelessWidget {
     if (referees.isEmpty) {
       return CaptionText("Судьи не назначены");
     }
-    referees.add(Referee(
-      name: "Игорь",
-    ));
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
