@@ -10,7 +10,10 @@ import 'package:gtoserviceapp/components/widgets/text/headline.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_event.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_trial_referee.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event_secretary_catalog.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/event_trials.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/select_table.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
+import 'package:gtoserviceapp/services/repo/table.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class EventScreen extends StatefulWidget {
@@ -35,6 +38,8 @@ class _EventScreenState extends State<EventScreen> {
     return ListView(
       children: <Widget>[
         _buildFutureEventCard(context),
+        _buildSelectTableButton(context),
+        _buildTrialsButton(context),
         _buildEventSecretaryCatalogButton(context),
         _buildAddRefereeButton(context),
       ],
@@ -80,9 +85,22 @@ class _EventScreenState extends State<EventScreen> {
               ],
             ),
             Field("Статус", child: Text(event.status)),
+            _buildTableField(),
           ],
         ),
       ),
+    );
+  }
+
+  FutureWidgetBuilder<ConversionTable> _buildTableField() {
+    return FutureWidgetBuilder(
+      TableRepo.I.getFromEvent(widget._id),
+      (context, ConversionTable table) {
+        return Field(
+          "Таблица перевода",
+          child: Text(table?.name ?? "Не выбрана"),
+        );
+      },
     );
   }
 
@@ -102,6 +120,31 @@ class _EventScreenState extends State<EventScreen> {
 
           Navigator.of(context).pop();
         }));
+  }
+
+  Widget _buildSelectTableButton(BuildContext context) {
+    return CardPadding(
+      child: Text("Выбрать таблицу перевода"),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return SelectTableScreen(
+            eventId: widget._id,
+            onUpdate: _onUpdate,
+          );
+        }));
+      },
+    );
+  }
+
+  Widget _buildTrialsButton(BuildContext context) {
+    return CardPadding(
+      child: Text("Виды спорта"),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return EventTrialsCatalogScreen(eventId: widget._id);
+        }));
+      },
+    );
   }
 
   Widget _buildEventSecretaryCatalogButton(context) {
@@ -124,5 +167,9 @@ class _EventScreenState extends State<EventScreen> {
         }));
       },
     );
+  }
+
+  _onUpdate() {
+    setState(() {});
   }
 }

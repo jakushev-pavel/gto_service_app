@@ -130,6 +130,9 @@ class API {
     return () async {
       var response = await request();
 
+      if (response.statusCode == 404) {
+        return null;
+      }
       if (response.statusCode != 200) {
         throw APIErrors.fromResponse(response);
       }
@@ -139,6 +142,10 @@ class API {
   }
 
   _jsonDecode(Response response) {
+    if (response == null) {
+      return null;
+    }
+
     if (response.body.isEmpty) {
       return null;
     }

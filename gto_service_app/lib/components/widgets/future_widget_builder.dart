@@ -9,11 +9,7 @@ class FutureWidgetBuilder<T> extends StatelessWidget {
 
   FutureWidgetBuilder(this._future, this._builder, {placeholderBuilder})
       : _placeholderBuilder =
-            placeholderBuilder ?? (() => _buildDefaultPlaceholder()) {
-    _future.catchError((error) {
-      print(error.toString());
-    });
-  }
+            placeholderBuilder ?? (() => _buildDefaultPlaceholder());
 
   static Widget _buildDefaultPlaceholder() {
     return Padding(
@@ -34,7 +30,12 @@ class FutureWidgetBuilder<T> extends StatelessWidget {
       builder: (context, AsyncSnapshot<T> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
-            return Failure(snapshot.error);
+            var error = snapshot.error;
+            print(error.toString());
+            if (error is Error) {
+              print(error.stackTrace);
+            }
+            return Failure(error);
           }
           return _builder(context, snapshot.data);
         }

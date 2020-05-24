@@ -17,20 +17,23 @@ class EventTrial {
   String sportObjectAddress;
   String sportObjectDescription;
   List<Referee> referees;
+  DateTime startDateTime;
 
-  EventTrial(
-      {this.trialInEventId,
-      this.id,
-      this.resultOfTrialInEventId,
-      this.name,
-      this.trialIsTypeTime,
-      this.tableId,
-      this.eventId,
-      this.sportObjectId,
-      this.sportObjectName,
-      this.sportObjectAddress,
-      this.sportObjectDescription,
-      this.referees});
+  EventTrial({
+    this.trialInEventId,
+    this.id,
+    this.resultOfTrialInEventId,
+    this.name,
+    this.trialIsTypeTime,
+    this.tableId,
+    this.eventId,
+    this.sportObjectId,
+    this.sportObjectName,
+    this.sportObjectAddress,
+    this.sportObjectDescription,
+    this.referees,
+    this.startDateTime,
+  });
 
   EventTrial.fromJson(Map<String, dynamic> json) {
     trialInEventId = json['trialInEventId'];
@@ -45,6 +48,9 @@ class EventTrial {
     sportObjectName = json['sportObjectName'];
     sportObjectAddress = json['sportObjectAddress'];
     sportObjectDescription = json['sportObjectDescription'];
+    if (json['startDateTime'] != null) {
+      startDateTime = DateTime.parse(json['startDateTime']);
+    }
     if (json['referies'] != null) {
       referees = new List<Referee>();
       json['referies'].forEach((v) {
@@ -66,6 +72,8 @@ class EventTrial {
     data['sportObjectName'] = this.sportObjectName;
     data['sportObjectAddress'] = this.sportObjectAddress;
     data['sportObjectDescription'] = this.sportObjectDescription;
+    data['startDateTime'] = Utils.dateTimeToJson(this.startDateTime);
+    print(data['startDateTime']);
     if (this.referees != null) {
       data['referies'] = this.referees.map((v) => v.toJson()).toList();
     }

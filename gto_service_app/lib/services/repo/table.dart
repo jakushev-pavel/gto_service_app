@@ -3,15 +3,15 @@ import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
 import 'package:gtoserviceapp/services/utils/utils.dart';
 
-class Table {
+class ConversionTable {
   int tableInEventId;
   int eventId;
   int id;
   String name;
 
-  Table({this.tableInEventId, this.eventId, this.id, this.name});
+  ConversionTable({this.tableInEventId, this.eventId, this.id, this.name});
 
-  Table.fromJson(Map<String, dynamic> json) {
+  ConversionTable.fromJson(Map<String, dynamic> json) {
     tableInEventId = json['tableInEventId'];
     eventId = json['eventId'];
     id = json['tableId'];
@@ -35,19 +35,27 @@ class TableRepo {
     return GetIt.I<TableRepo>();
   }
 
-  Future<List<Table>> getAll() async {
+  Future<List<ConversionTable>> getAll() async {
     List<dynamic> json = await API.I.get(Routes.Tables.toStr());
-    return Utils.map(json, (json) => Table.fromJson(json));
+    return Utils.map(json, (json) => ConversionTable.fromJson(json));
   }
 
-  Future<Table> getFromEvent(int eventId) {
-    return API.I.get(Routes.EventTableGet.withArgs(eventId: eventId));
+  Future<ConversionTable> getFromEvent(int eventId) async {
+    var json = await API.I.get(Routes.EventTableGet.withArgs(eventId: eventId));
+    if (json == null) {
+      return null;
+    }
+
+    return ConversionTable.fromJson(json);
   }
 
   Future setForEvent(int eventId, int tableId) {
-    return API.I.post(Routes.EventTableSet.withArgs(
-      eventId: eventId,
-      tableId: tableId,
-    ));
+    return API.I.post(
+      Routes.EventTableSet.withArgs(
+        eventId: eventId,
+        tableId: tableId,
+      ),
+      auth: true,
+    );
   }
 }

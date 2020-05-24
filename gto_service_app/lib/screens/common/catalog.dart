@@ -111,7 +111,7 @@ class _CatalogScreenState<T> extends State<CatalogScreen<T>> {
 
   Widget _buildFab(context) {
     return FloatingActionButton(
-      onPressed: () => widget._onFabPressed(context),
+      onPressed: () => widget._onFabPressed?.call(context),
       child: Icon(Icons.add),
     );
   }

@@ -12,8 +12,27 @@ class Utils {
     return "${formatWidth(date.day, 2)}.${formatWidth(date.month, 2)}.${date.year}";
   }
 
+  static String formatDateTime(DateTime date) {
+    return formatDate(date) +
+        " ${formatWidth(date.hour, 2)}:${formatWidth(date.minute, 2)}";
+  }
+
   static String dateToJson(DateTime date) {
     return "${date.year}-${formatWidth(date.month, 2)}-${formatWidth(date.day, 2)}";
+  }
+
+  static String dateTimeToJson(DateTime dateTime) {
+    if (dateTime == null) {
+      return null;
+    }
+
+    return dateToJson(dateTime) +
+        " " +
+        formatWidth(dateTime.hour, 2) +
+        ":" +
+        formatWidth(dateTime.minute, 2) +
+        ":" +
+        formatWidth(dateTime.second, 2);
   }
 
   static String errorToString(error) {
@@ -39,5 +58,12 @@ class Utils {
       print(s.toString());
       rethrow;
     }
+  }
+
+  static List<T> map<T>(List<dynamic> list, T Function(dynamic) mapFn) {
+    if (list == null) {
+      return [];
+    }
+    return list.map(mapFn).toList();
   }
 }
