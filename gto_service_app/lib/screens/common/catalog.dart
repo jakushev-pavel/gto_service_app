@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/card_list_view.dart';
+import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/yes_no_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/services/utils/utils.dart';
@@ -9,7 +10,7 @@ class CatalogScreen<T> extends StatefulWidget {
   final Future<List<T>> Function() _getData;
   final Widget Function(T) _buildInfo;
   final void Function(BuildContext) _onFabPressed;
-  final void Function(T) _onDeletePressed;
+  final Future Function(T) _onDeletePressed;
   final void Function(T) _onEditPressed;
   final void Function(BuildContext, T) _onTapped;
 
@@ -18,7 +19,7 @@ class CatalogScreen<T> extends StatefulWidget {
     @required Future<List<T>> Function() getData,
     @required Widget Function(T) buildInfo,
     Function(BuildContext) onFabPressed,
-    Function(T) onDeletePressed,
+    Future Function(T) onDeletePressed,
     Function(T) onEditPressed,
     void Function(BuildContext, T) onTapped,
   })  : _title = title,
@@ -42,7 +43,8 @@ class _CatalogScreenState<T> extends State<CatalogScreen<T>> {
           title: Text(widget._title),
         ),
         body: _buildBody(),
-        floatingActionButton: _buildFab(context),
+        floatingActionButton:
+            widget._onFabPressed != null ? _buildFab(context) : null,
       );
     });
   }
@@ -98,20 +100,27 @@ class _CatalogScreenState<T> extends State<CatalogScreen<T>> {
           context: context,
           child: YesNoDialog(
             "Вы уверены?",
-            () {
-              setState(() {
-                widget._onDeletePressed(data);
-              });
-            },
+            _onDeletePressed(data),
           ),
         );
       },
     );
   }
 
+  void Function() _onDeletePressed(T data) {
+    return () {
+      widget
+          ._onDeletePressed(data)
+          .then((_) => setState(() {}))
+          .catchError((error) {
+        showDialog(context: context, child: ErrorDialog.fromError(error));
+      });
+    };
+  }
+
   Widget _buildFab(context) {
     return FloatingActionButton(
-      onPressed: () => widget._onFabPressed?.call(context),
+      onPressed: () => widget._onFabPressed.call(context),
       child: Icon(Icons.add),
     );
   }

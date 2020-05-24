@@ -8,14 +8,15 @@ import 'package:gtoserviceapp/models/gender.dart';
 import 'package:gtoserviceapp/services/repo/user.dart';
 
 class InviteUserScreen extends StatefulWidget {
-  final String _title;
-  final Future Function(String email) _addUser;
+  final String title;
+  final Future Function(String email) addUser;
+  final void Function() onUpdate;
 
   InviteUserScreen({
-    @required String title,
-    Future Function(String email) addUser,
-  })  : _title = title,
-        _addUser = addUser;
+    @required this.title,
+    @required this.addUser,
+    this.onUpdate,
+  });
 
   @override
   _InviteUserScreenState createState() => _InviteUserScreenState();
@@ -30,7 +31,7 @@ class _InviteUserScreenState extends State<InviteUserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget._title)),
+      appBar: AppBar(title: Text(widget.title)),
       body: _buildBody(),
     );
   }
@@ -168,10 +169,11 @@ class _InviteUserScreenState extends State<InviteUserScreen> {
               await future;
             }
 
-            var future = widget._addUser(_params.email);
+            var future = widget.addUser(_params.email);
             ErrorDialog.showOnFutureError(context, future);
             await future;
 
+            widget.onUpdate?.call();
             Navigator.of(context).pop();
           }
         });

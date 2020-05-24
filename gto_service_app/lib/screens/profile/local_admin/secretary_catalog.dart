@@ -5,7 +5,12 @@ import 'package:gtoserviceapp/screens/common/invite_user.dart';
 import 'package:gtoserviceapp/services/repo/secretary.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
-class SecretaryCatalogScreen extends StatelessWidget {
+class SecretaryCatalogScreen extends StatefulWidget {
+  @override
+  _SecretaryCatalogScreenState createState() => _SecretaryCatalogScreenState();
+}
+
+class _SecretaryCatalogScreenState extends State<SecretaryCatalogScreen> {
   @override
   Widget build(BuildContext context) {
     return CatalogScreen<Secretary>(
@@ -28,14 +33,19 @@ class SecretaryCatalogScreen extends StatelessWidget {
         addUser: (String email) {
           return SecretaryRepo.I.addToOrg(Storage.I.orgId, email);
         },
+        onUpdate: _onUpdate,
       ),
     ));
   }
 
-  _onDeletePressed(Secretary secretary) {
-    SecretaryRepo.I.deleteFromOrg(
+  Future _onDeletePressed(Secretary secretary) {
+    return SecretaryRepo.I.deleteFromOrg(
       Storage.I.orgId,
       secretary.secretaryOnOrganizationId,
     );
+  }
+
+  void _onUpdate() {
+    setState(() {});
   }
 }

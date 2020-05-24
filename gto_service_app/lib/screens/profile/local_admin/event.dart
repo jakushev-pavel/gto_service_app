@@ -11,6 +11,7 @@ import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_event.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_trial_referee.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event_secretary_catalog.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event_trials.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/participants.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/select_table.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/repo/table.dart';
@@ -40,6 +41,7 @@ class _EventScreenState extends State<EventScreen> {
         _buildFutureEventCard(context),
         _buildSelectTableButton(context),
         _buildTrialsButton(context),
+        _buildParticipantsButton(context),
         _buildEventSecretaryCatalogButton(context),
         _buildAddRefereeButton(context),
       ],
@@ -142,6 +144,17 @@ class _EventScreenState extends State<EventScreen> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return EventTrialsCatalogScreen(eventId: widget._id);
+        }));
+      },
+    );
+  }
+
+  Widget _buildParticipantsButton(BuildContext context) {
+    return CardPadding(
+      child: Text("Участники"),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return EventParticipantsScreen(eventId: widget._id);
         }));
       },
     );

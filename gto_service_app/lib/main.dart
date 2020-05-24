@@ -10,6 +10,7 @@ import 'package:gtoserviceapp/services/repo/calculator.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/repo/local_admin.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
+import 'package:gtoserviceapp/services/repo/participant.dart';
 import 'package:gtoserviceapp/services/repo/referee.dart';
 import 'package:gtoserviceapp/services/repo/result.dart';
 import 'package:gtoserviceapp/services/repo/secretary.dart';
@@ -75,4 +76,5 @@ void setupRepos() {
   GetIt.I.registerSingleton<ResultRepo>(ResultRepo());
   GetIt.I.registerSingleton<TeamRepo>(TeamRepo());
   GetIt.I.registerSingleton<TeamLeadRepo>(TeamLeadRepo());
+  GetIt.I.registerSingleton<ParticipantRepo>(ParticipantRepo());
 }

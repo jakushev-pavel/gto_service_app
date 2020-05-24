@@ -38,7 +38,7 @@ class Participant {
     email = json['email'];
     gender = GenderEx.fromInt(json['gender']);
     dateOfBirth = DateTime.parse(json['dateOfBirth']);
-    isActivity = json['isActivity'];
+//    isActivity = json['isActivity'];
   }
 
   Map<String, dynamic> toJson() {
@@ -85,6 +85,7 @@ class ParticipantRepo {
     return API.I.post(
       Routes.EventParticipants.withArgs(eventId: eventId),
       args: AddParticipantArgs(email: email).toJson(),
+      auth: true,
     );
   }
 
