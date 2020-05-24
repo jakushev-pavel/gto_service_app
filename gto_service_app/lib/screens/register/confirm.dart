@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/screens/main/main_screen.dart';
 import 'package:gtoserviceapp/screens/profile/profile.dart';
 import 'package:gtoserviceapp/services/auth/auth.dart';
 import 'package:gtoserviceapp/services/repo/user.dart';
@@ -22,9 +23,29 @@ class _RegisterCompleteScreenState extends State<RegisterCompleteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Завершение регистрации")),
+      appBar: _buildAppBar(),
       body: _buildBody(),
     );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      title: Text("Завершение регистрации"),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.close),
+          onPressed: _onClosePressed,
+        )
+      ],
+    );
+  }
+
+  void _onClosePressed() {
+    var nav = Navigator.of(context);
+    nav.popUntil((_) => !nav.canPop());
+    nav.pushReplacement(MaterialPageRoute(builder: (_) {
+      return MainScreen();
+    }));
   }
 
   Widget _buildBody() {
