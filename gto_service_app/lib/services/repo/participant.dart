@@ -78,6 +78,7 @@ class ParticipantRepo {
     return API.I.post(
       Routes.TeamParticipants.withArgs(teamId: teamId),
       args: AddParticipantArgs(email: email).toJson(),
+      auth: true,
     );
   }
 
@@ -120,10 +121,9 @@ class ParticipantRepo {
     );
   }
 
-  Future deleteFromEvent(int eventId, int participantId) {
+  Future delete(int participantId) {
     return API.I.delete(
-      Routes.EventParticipant.withArgs(
-        eventId: eventId,
+      Routes.Participant.withArgs(
         participantId: participantId,
       ),
     );

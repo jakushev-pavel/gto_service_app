@@ -9,6 +9,7 @@ class Team {
   String name;
   int orgId;
   String nameOfEvent;
+  int participantsCount;
 
   Team({
     this.id,
@@ -16,23 +17,26 @@ class Team {
     this.name,
     this.orgId,
     this.nameOfEvent,
+    this.participantsCount,
   });
 
   Team.fromJson(Map<String, dynamic> json) {
-    id = json['teamId'];
+    id = json['id'];
     eventId = json['eventId'];
     name = json['name'];
     orgId = json['organizationId'];
     nameOfEvent = json['nameofEvent'];
+    participantsCount = json['countOfPlayers'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['teamId'] = this.id;
+    data['id'] = this.id;
     data['eventId'] = this.eventId;
     data['name'] = this.name;
     data['organizationId'] = this.orgId;
     data['nameofEvent'] = this.nameOfEvent;
+    data['countOfPlayers'] = this.participantsCount;
     return data;
   }
 }
@@ -58,6 +62,7 @@ class TeamRepo {
     return API.I.post(
       Routes.EventTeams.withArgs(orgId: orgId, eventId: eventId),
       args: AddOrUpdateTeamArgs(name: teamName).toJson(),
+      auth: true,
     );
   }
 

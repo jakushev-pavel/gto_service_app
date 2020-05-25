@@ -12,7 +12,7 @@ class TeamLead {
   String email;
   Gender gender;
   DateTime dateOfBirth;
-  bool isActivity;
+  int isActivity;
 
   TeamLead(
       {this.teamLeadId,

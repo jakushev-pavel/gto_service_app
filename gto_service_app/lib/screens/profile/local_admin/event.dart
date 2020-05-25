@@ -11,8 +11,9 @@ import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_event.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_trial_referee.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event_secretary_catalog.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event_trials.dart';
-import 'package:gtoserviceapp/screens/profile/local_admin/participants.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/event_participants.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/select_table.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/teams.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/repo/table.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
@@ -42,6 +43,7 @@ class _EventScreenState extends State<EventScreen> {
         _buildSelectTableButton(context),
         _buildTrialsButton(context),
         _buildParticipantsButton(context),
+        _buildTeamsButton(context),
         _buildEventSecretaryCatalogButton(context),
         _buildAddRefereeButton(context),
       ],
@@ -155,6 +157,17 @@ class _EventScreenState extends State<EventScreen> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return EventParticipantsScreen(eventId: widget._id);
+        }));
+      },
+    );
+  }
+
+  Widget _buildTeamsButton(BuildContext context) {
+    return CardPadding(
+      child: Text("Команды"),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return EventTeamsScreen(eventId: widget._id);
         }));
       },
     );
