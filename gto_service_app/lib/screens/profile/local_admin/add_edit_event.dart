@@ -7,9 +7,13 @@ import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class AddEditEventScreen extends StatefulWidget {
-  final int _id;
+  final int id;
+  final void Function() onUpdate;
 
-  AddEditEventScreen({int id}) : _id = id;
+  AddEditEventScreen({
+    this.id,
+    @required this.onUpdate,
+  });
 
   @override
   _AddEditEventScreenState createState() => _AddEditEventScreenState();
@@ -23,7 +27,7 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
   );
 
   bool get _isEditing {
-    return widget._id != null;
+    return widget.id != null;
   }
 
   @override
@@ -53,7 +57,7 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
 
   Widget _buildFutureForm() {
     return FutureWidgetBuilder(
-      EventRepo.I.get(Storage.I.orgId, widget._id),
+      EventRepo.I.get(Storage.I.orgId, widget.id),
       (_, Event event) {
         _event = event;
         return _buildForm();
@@ -147,7 +151,7 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
     );
   }
 
-  _onSubmitPressed() async {
+  _onSubmitPressed() {
     var form = _formKey.currentState;
     if (!form.validate()) {
       return;
@@ -157,9 +161,12 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
     var future = _isEditing
         ? EventRepo.I.update(Storage.I.orgId, _event)
         : EventRepo.I.add(Storage.I.orgId, _event);
-    ErrorDialog.showOnFutureError(context, future);
-    await future;
+    future.then((_) {
+      widget.onUpdate();
+      Navigator.of(context).pop();
+    }).catchError((error) {
+      showDialog(context: context, child: ErrorDialog.fromError(error));
+    });
 
-    Navigator.of(context).pop();
   }
 }

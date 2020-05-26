@@ -5,7 +5,12 @@ import 'package:gtoserviceapp/screens/profile/local_admin/event.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
-class EventsScreen extends StatelessWidget {
+class EventsScreen extends StatefulWidget {
+  @override
+  _EventsScreenState createState() => _EventsScreenState();
+}
+
+class _EventsScreenState extends State<EventsScreen> {
   @override
   Widget build(BuildContext context) {
     return CatalogScreen<Event>(
@@ -14,6 +19,7 @@ class EventsScreen extends StatelessWidget {
       buildInfo: _buildEvent(context),
       onFabPressed: _onFabPressed,
       onTapped: _onEventTap,
+      onDeletePressed: _onDeletePressed,
     );
   }
 
@@ -40,7 +46,15 @@ class EventsScreen extends StatelessWidget {
 
   _onFabPressed(context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return AddEditEventScreen();
+      return AddEditEventScreen(onUpdate: _onUpdate);
     }));
+  }
+
+  Future<void> _onDeletePressed(Event event) {
+    return EventRepo.I.delete(Storage.I.orgId, event.id);
+  }
+
+  void _onUpdate() {
+    setState(() {});
   }
 }

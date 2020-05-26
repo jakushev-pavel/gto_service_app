@@ -9,9 +9,9 @@ import 'package:gtoserviceapp/components/widgets/text/date.dart';
 import 'package:gtoserviceapp/components/widgets/text/headline.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_event.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_trial_referee.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/event_participants.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event_secretary_catalog.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event_trials.dart';
-import 'package:gtoserviceapp/screens/profile/local_admin/event_participants.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/select_table.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/teams.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
@@ -110,7 +110,10 @@ class _EventScreenState extends State<EventScreen> {
 
   _onEditPressed(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return AddEditEventScreen(id: widget._id);
+      return AddEditEventScreen(
+        id: widget._id,
+        onUpdate: _onUpdate,
+      );
     }));
   }
 
