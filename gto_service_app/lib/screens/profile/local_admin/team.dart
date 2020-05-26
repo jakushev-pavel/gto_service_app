@@ -7,6 +7,8 @@ import 'package:gtoserviceapp/screens/profile/local_admin/team_leads.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/team_participants.dart';
 import 'package:gtoserviceapp/services/repo/team.dart';
 
+import 'add_edit_team.dart';
+
 class TeamScreen extends StatefulWidget {
   final int id;
   final void Function() onUpdate;
@@ -24,9 +26,21 @@ class _TeamScreenState extends State<TeamScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Команда")),
+      appBar: AppBar(
+        title: Text("Команда"),
+        actions: _buildActions(),
+      ),
       body: _buildFutureBody(),
     );
+  }
+
+  List<Widget> _buildActions() {
+    return <Widget>[
+      IconButton(
+        icon: Icon(Icons.edit),
+        onPressed: _onEditPressed,
+      )
+    ];
   }
 
   Widget _buildFutureBody() {
@@ -92,5 +106,14 @@ class _TeamScreenState extends State<TeamScreen> {
   void _onUpdate() {
     widget.onUpdate();
     setState(() {});
+  }
+
+  void _onEditPressed() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return AddEditTeamScreen(
+        teamId: widget.id,
+        onUpdate: _onUpdate,
+      );
+    }));
   }
 }

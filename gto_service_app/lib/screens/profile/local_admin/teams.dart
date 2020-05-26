@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/profile/team_info.dart';
 import 'package:gtoserviceapp/screens/common/catalog.dart';
-import 'package:gtoserviceapp/screens/profile/local_admin/add_team.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_team.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/team.dart';
 import 'package:gtoserviceapp/services/repo/team.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
@@ -31,7 +31,7 @@ class _EventTeamsScreenState extends State<EventTeamsScreen> {
 
   void _onFabPressed(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return AddTeamScreen(
+      return AddEditTeamScreen(
         eventId: widget.eventId,
         onUpdate: _onUpdate,
       );

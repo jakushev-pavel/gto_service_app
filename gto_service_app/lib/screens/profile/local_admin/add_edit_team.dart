@@ -1,35 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/services/repo/team.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
-class AddTeamScreen extends StatefulWidget {
+class AddEditTeamScreen extends StatefulWidget {
   final int eventId;
   final Function() onUpdate;
+  final int teamId;
 
-  AddTeamScreen({
-    @required this.eventId,
+  AddEditTeamScreen({
+    this.eventId,
     @required this.onUpdate,
+    this.teamId,
   });
 
   @override
-  _AddTeamScreenState createState() => _AddTeamScreenState();
+  _AddEditTeamScreenState createState() => _AddEditTeamScreenState();
 }
 
-class _AddTeamScreenState extends State<AddTeamScreen> {
+class _AddEditTeamScreenState extends State<AddEditTeamScreen> {
   final _key = GlobalKey<FormState>();
   String _name;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Создание команды")),
+      appBar: _buildAppBar(),
       body: _buildBody(),
     );
   }
 
+  AppBar _buildAppBar() {
+    return AppBar(
+      title: Text((_isEditing() ? "Редактирование" : "Создание") + " команды"),
+    );
+  }
+
+  bool _isEditing() {
+    return widget.teamId != null;
+  }
+
   Widget _buildBody() {
+    if (!_isEditing()) {
+      return _buildForm();
+    }
+
+    return _buildFutureForm();
+  }
+
+  Widget _buildFutureForm() {
+    return FutureWidgetBuilder(
+      TeamRepo.I.get(widget.teamId),
+      (context, Team team) {
+        _name = team.name;
+        return _buildForm();
+      },
+    );
+  }
+
+  Form _buildForm() {
     return Form(
       key: _key,
       child: CardPadding(
@@ -46,11 +77,12 @@ class _AddTeamScreenState extends State<AddTeamScreen> {
 
   TextFormField _buildNameField() {
     return TextFormField(
+      initialValue: _name,
       decoration: InputDecoration(
         labelText: "Название команды",
       ),
       autofocus: true,
-      onSaved: (String name) {
+      onChanged: (String name) {
         _name = name;
       },
       validator: (String name) {
@@ -64,7 +96,7 @@ class _AddTeamScreenState extends State<AddTeamScreen> {
 
   RaisedButton _buildSubmitButton() {
     return RaisedButton(
-      child: Text("Создать"),
+      child: Text((_isEditing() ? "Обновить" : "Создать")),
       onPressed: _onSubmitPressed,
     );
   }
@@ -76,7 +108,10 @@ class _AddTeamScreenState extends State<AddTeamScreen> {
     }
     form.save();
 
-    TeamRepo.I.addToEvent(Storage.I.orgId, widget.eventId, _name).then((_) {
+    var future = _isEditing()
+        ? TeamRepo.I.update(widget.teamId, _name)
+        : TeamRepo.I.addToEvent(Storage.I.orgId, widget.eventId, _name);
+    future.then((_) {
       widget.onUpdate();
       Navigator.of(context).pop();
     }).catchError((error) {
