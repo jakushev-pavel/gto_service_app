@@ -12,12 +12,12 @@ extension EventStateEx on EventState {
         return EventState.Preparation;
       case "готовность":
         return EventState.Ready;
-      case "провеение":
+      case "проведение":
         return EventState.InProgress;
       case "завершен":
         return EventState.Finished;
       default:
-        throw Exception("Invalid event state");
+        throw Exception("Invalid event state: $str");
     }
   }
 
