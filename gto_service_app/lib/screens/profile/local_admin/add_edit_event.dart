@@ -167,6 +167,5 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
     }).catchError((error) {
       showDialog(context: context, child: ErrorDialog.fromError(error));
     });
-
   }
 }

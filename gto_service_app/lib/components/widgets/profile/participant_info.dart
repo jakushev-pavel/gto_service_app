@@ -49,9 +49,11 @@ class ParticipantInfo extends StatelessWidget {
   }
 
   void _onConfirmPressed(context) {
-    ParticipantRepo.I.confirm(
+    ParticipantRepo.I
+        .confirm(
       participant.eventParticipantId,
-    ).then((_) {
+    )
+        .then((_) {
       onUpdate();
     }).catchError((error) {
       showDialog(context: context, child: ErrorDialog.fromError(error));

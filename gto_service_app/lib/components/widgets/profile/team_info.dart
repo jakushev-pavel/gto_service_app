@@ -19,5 +19,4 @@ class TeamInfo extends StatelessWidget {
       ],
     );
   }
-
 }
