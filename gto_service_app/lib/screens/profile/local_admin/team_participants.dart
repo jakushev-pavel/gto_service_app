@@ -23,7 +23,10 @@ class _TeamParticipantsScreenState extends State<TeamParticipantsScreen> {
     return CatalogScreen(
       title: "Участники",
       getData: () => ParticipantRepo.I.getAllFromTeam(widget.teamId),
-      buildInfo: (participant) => ParticipantInfo(participant: participant),
+      buildInfo: (participant) => ParticipantInfo(
+        participant: participant,
+        onUpdate: _onUpdate,
+      ),
       onFabPressed: _onFabPressed,
       onDeletePressed: _onDeletePressed,
     );
@@ -44,6 +47,8 @@ class _TeamParticipantsScreenState extends State<TeamParticipantsScreen> {
   }
 
   Future<void> _onDeletePressed(Participant participant) {
-    return ParticipantRepo.I.delete(participant.eventParticipantId);
+    return ParticipantRepo.I.delete(participant.eventParticipantId).then((_) {
+      _onUpdate();
+    });
   }
 }

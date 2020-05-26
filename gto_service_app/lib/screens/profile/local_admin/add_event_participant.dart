@@ -4,14 +4,19 @@ import 'package:gtoserviceapp/services/repo/participant.dart';
 
 class AddParticipantScreen extends StatelessWidget {
   final int eventId;
+  final void Function() onUpdate;
 
-  AddParticipantScreen({@required this.eventId});
+  AddParticipantScreen({
+    @required this.eventId,
+    @required this.onUpdate,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InviteUserScreen(
       title: "Добавление участника (личный зачет)",
       addUser: _addUser,
+      onUpdate: onUpdate,
     );
   }
 

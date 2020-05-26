@@ -104,12 +104,9 @@ class ParticipantRepo {
     return Utils.map(json, (json) => Participant.fromJson(json));
   }
 
-  Future confirm(int eventId, int participantId) {
+  Future confirm(int participantId) {
     return API.I.post(
-      Routes.EventParticipant.withArgs(
-        eventId: eventId,
-        participantId: participantId,
-      ),
+      Routes.Participant.withArgs(participantId: participantId),
       auth: true,
     );
   }
