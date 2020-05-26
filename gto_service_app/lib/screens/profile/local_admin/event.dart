@@ -8,6 +8,7 @@ import 'package:gtoserviceapp/components/widgets/text/headline.dart';
 import 'package:gtoserviceapp/models/event_state.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_event.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_trial_referee.dart';
+import 'package:gtoserviceapp/screens/profile/local_admin/change_event_state.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event_participants.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event_secretary_catalog.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event_trials.dart';
@@ -39,6 +40,7 @@ class _EventScreenState extends State<EventScreen> {
     return ListView(
       children: <Widget>[
         _buildFutureEventCard(context),
+        _buildChangeStateButton(context),
         _buildSelectTableButton(context),
         _buildTrialsButton(context),
         _buildParticipantsButton(context),
@@ -83,7 +85,7 @@ class _EventScreenState extends State<EventScreen> {
                 Field("Конец", child: DateText(event.expirationDate)),
               ],
             ),
-            Field("Статус", child: Text(event.state.toStr())),
+            Field("Статус", child: Text(event.state.toText())),
             _buildTableField(),
           ],
         ),
@@ -110,6 +112,20 @@ class _EventScreenState extends State<EventScreen> {
         onUpdate: _onUpdate,
       );
     }));
+  }
+
+  Widget _buildChangeStateButton(BuildContext context) {
+    return CardPadding(
+      child: Text("Изменить статус"),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return ChangeEventStateScreen(
+            eventId: widget._id,
+            onUpdate: _onUpdate,
+          );
+        }));
+      },
+    );
   }
 
   Widget _buildSelectTableButton(BuildContext context) {

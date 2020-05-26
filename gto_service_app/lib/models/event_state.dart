@@ -21,6 +21,21 @@ extension EventStateEx on EventState {
     }
   }
 
+  String toText() {
+    switch (this) {
+      case EventState.Preparation:
+        return "Подготовка";
+      case EventState.Ready:
+        return "Готовность";
+      case EventState.InProgress:
+        return "Проведение";
+      case EventState.Finished:
+        return "Завершено";
+      default:
+        throw Exception("Invalid event state");
+    }
+  }
+
   String toStr() {
     switch (this) {
       case EventState.Preparation:

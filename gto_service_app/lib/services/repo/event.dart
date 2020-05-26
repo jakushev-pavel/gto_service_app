@@ -41,7 +41,7 @@ class Event {
     data['startDate'] = Utils.dateToJson(this.startDate);
     data['expirationDate'] = Utils.dateToJson(this.expirationDate);
     data['description'] = this.description;
-    data['status'] = this.state.toStr();
+    data['status'] = this.state?.toStr();
     return data;
   }
 }
@@ -94,7 +94,10 @@ class EventRepo {
   }
 
   Future changeStatus(int eventId) {
-    return API.I.post(Routes.EventChangeStatus.withArgs(eventId: eventId));
+    return API.I.post(
+      Routes.EventChangeStatus.withArgs(eventId: eventId),
+      auth: true,
+    );
   }
 
   Future apply(int eventId) {
