@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
-import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
-import 'package:gtoserviceapp/components/widgets/dialogs/yes_no_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/field.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
@@ -59,10 +57,6 @@ class _EventScreenState extends State<EventScreen> {
           icon: Icon(Icons.edit),
           onPressed: () => _onEditPressed(context),
         ),
-        IconButton(
-          icon: Icon(Icons.delete),
-          onPressed: () => _onDeletePressed(context),
-        ),
       ],
     );
   }
@@ -116,18 +110,6 @@ class _EventScreenState extends State<EventScreen> {
         onUpdate: _onUpdate,
       );
     }));
-  }
-
-  _onDeletePressed(context) {
-    showDialog(
-        context: context,
-        child: YesNoDialog("Удалить мероприятие?", () async {
-          var future = EventRepo.I.delete(Storage.I.orgId, widget._id);
-          ErrorDialog.showOnFutureError(context, future);
-          await future;
-
-          Navigator.of(context).pop();
-        }));
   }
 
   Widget _buildSelectTableButton(BuildContext context) {
