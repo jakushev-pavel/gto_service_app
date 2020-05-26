@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:gtoserviceapp/models/event_state.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
 import 'package:gtoserviceapp/services/utils/utils.dart';
@@ -10,7 +11,7 @@ class Event {
   DateTime startDate;
   DateTime expirationDate;
   String description;
-  String status;
+  EventState state;
 
   Event({
     this.id,
@@ -19,7 +20,7 @@ class Event {
     this.startDate,
     this.expirationDate,
     this.description,
-    this.status,
+    this.state,
   });
 
   Event.fromJson(Map<String, dynamic> json) {
@@ -29,7 +30,7 @@ class Event {
     startDate = DateTime.parse(json['startDate']);
     expirationDate = DateTime.parse(json['expirationDate']);
     description = json['description'];
-    status = json['status'];
+    state = EventStateEx.fromStr(json['status']);
   }
 
   Map<String, dynamic> toJson() {
@@ -40,7 +41,7 @@ class Event {
     data['startDate'] = Utils.dateToJson(this.startDate);
     data['expirationDate'] = Utils.dateToJson(this.expirationDate);
     data['description'] = this.description;
-    data['status'] = this.status;
+    data['status'] = this.state.toStr();
     return data;
   }
 }

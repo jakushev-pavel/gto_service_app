@@ -7,6 +7,7 @@ import 'package:gtoserviceapp/components/widgets/field.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/widgets/text/date.dart';
 import 'package:gtoserviceapp/components/widgets/text/headline.dart';
+import 'package:gtoserviceapp/models/event_state.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_event.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/add_trial_referee.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/event_participants.dart';
@@ -88,7 +89,7 @@ class _EventScreenState extends State<EventScreen> {
                 Field("Конец", child: DateText(event.expirationDate)),
               ],
             ),
-            Field("Статус", child: Text(event.status)),
+            Field("Статус", child: Text(event.state.toStr())),
             _buildTableField(),
           ],
         ),
