@@ -6,29 +6,25 @@ import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class CatalogScreen<T> extends StatefulWidget {
-  final String _title;
-  final Future<List<T>> Function() _getData;
-  final Widget Function(T) _buildInfo;
-  final void Function(BuildContext) _onFabPressed;
-  final Future<void> Function(T) _onDeletePressed;
-  final void Function(T) _onEditPressed;
-  final void Function(BuildContext, T) _onTapped;
+  final String title;
+  final Future<List<T>> Function() getData;
+  final Widget Function(T) buildInfo;
+  final void Function(BuildContext) onFabPressed;
+  final Future<void> Function(T) onDeletePressed;
+  final void Function(T) onEditPressed;
+  final void Function(BuildContext, T) onTapped;
+  final List<Widget> actions;
 
   CatalogScreen({
-    @required String title,
-    @required Future<List<T>> Function() getData,
-    @required Widget Function(T) buildInfo,
-    Function(BuildContext) onFabPressed,
-    Future<void> Function(T) onDeletePressed,
-    Function(T) onEditPressed,
-    void Function(BuildContext, T) onTapped,
-  })  : _title = title,
-        _getData = getData,
-        _buildInfo = buildInfo,
-        _onFabPressed = onFabPressed,
-        _onDeletePressed = onDeletePressed,
-        _onEditPressed = onEditPressed,
-        _onTapped = onTapped;
+    @required this.title,
+    @required this.getData,
+    @required this.buildInfo,
+    this.onFabPressed,
+    this.onDeletePressed,
+    this.onEditPressed,
+    this.onTapped,
+    this.actions,
+  });
 
   @override
   _CatalogScreenState<T> createState() => _CatalogScreenState<T>();
@@ -40,11 +36,12 @@ class _CatalogScreenState<T> extends State<CatalogScreen<T>> {
     return Utils.tryCatchLog(() {
       return Scaffold(
         appBar: AppBar(
-          title: Text(widget._title),
+          title: Text(widget.title),
+          actions: widget.actions,
         ),
         body: _buildBody(),
         floatingActionButton:
-            widget._onFabPressed != null ? _buildFab(context) : null,
+            widget.onFabPressed != null ? _buildFab(context) : null,
       );
     });
   }
@@ -59,7 +56,7 @@ class _CatalogScreenState<T> extends State<CatalogScreen<T>> {
 
   FutureWidgetBuilder<List<T>> _buildFutureList() {
     return FutureWidgetBuilder(
-      widget._getData(),
+      widget.getData(),
       (context, List<T> data) => _buildList(data),
     );
   }
@@ -68,7 +65,7 @@ class _CatalogScreenState<T> extends State<CatalogScreen<T>> {
     return CardListView<T>(
       data,
       _buildElement,
-      onTap: widget._onTapped,
+      onTap: widget.onTapped,
     );
   }
 
@@ -76,11 +73,9 @@ class _CatalogScreenState<T> extends State<CatalogScreen<T>> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Expanded(child: widget._buildInfo(data)),
-        widget._onEditPressed != null ? _buildEditButton(data) : Container(),
-        widget._onDeletePressed != null
-            ? _buildDeleteButton(data)
-            : Container(),
+        Expanded(child: widget.buildInfo(data)),
+        widget.onEditPressed != null ? _buildEditButton(data) : Container(),
+        widget.onDeletePressed != null ? _buildDeleteButton(data) : Container(),
       ],
     );
   }
@@ -88,7 +83,7 @@ class _CatalogScreenState<T> extends State<CatalogScreen<T>> {
   Widget _buildEditButton(T data) {
     return IconButton(
       icon: Icon(Icons.edit),
-      onPressed: () => widget._onEditPressed(data),
+      onPressed: () => widget.onEditPressed(data),
     );
   }
 
@@ -110,7 +105,7 @@ class _CatalogScreenState<T> extends State<CatalogScreen<T>> {
   void Function() _onDeletePressed(T data) {
     return () {
       widget
-          ._onDeletePressed(data)
+          .onDeletePressed(data)
           .then((_) => setState(() {}))
           .catchError((error) {
         showDialog(context: context, child: ErrorDialog.fromError(error));
@@ -120,7 +115,7 @@ class _CatalogScreenState<T> extends State<CatalogScreen<T>> {
 
   Widget _buildFab(context) {
     return FloatingActionButton(
-      onPressed: () => widget._onFabPressed.call(context),
+      onPressed: () => widget.onFabPressed.call(context),
       child: Icon(Icons.add),
     );
   }
