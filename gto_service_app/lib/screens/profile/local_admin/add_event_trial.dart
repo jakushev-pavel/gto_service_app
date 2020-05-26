@@ -14,9 +14,12 @@ class AddEventTrialScreen extends StatefulWidget {
   final int eventId;
   final Future<List<EventTrial>> trials;
   final Future<List<SportObject>> sportObjects;
+  final void Function() onUpdate;
 
-  AddEventTrialScreen({@required this.eventId})
-      : trials = TrialRepo.I.getFreeTrialsFromEvent(eventId),
+  AddEventTrialScreen({
+    @required this.eventId,
+    @required this.onUpdate,
+  })  : trials = TrialRepo.I.getFreeTrialsFromEvent(eventId),
         sportObjects = SportObjectRepo.I.getAll(Storage.I.orgId);
 
   @override
@@ -128,8 +131,6 @@ class _AddEventTrialScreenState extends State<AddEventTrialScreen> {
   }
 
   void _onSubmitPressed() {
-    print(_dateTime.toString());
-
     TrialRepo.I
         .addToEvent(
       widget.eventId,
@@ -140,9 +141,13 @@ class _AddEventTrialScreenState extends State<AddEventTrialScreen> {
       ),
     )
         .then((_) {
+      widget.onUpdate();
       Navigator.of(context).pop();
     }).catchError((error) {
-      showDialog(context: context, child: ErrorDialog.fromError(error));
+      showDialog(
+        context: context,
+        child: ErrorDialog.fromError(error),
+      );
     });
   }
 }

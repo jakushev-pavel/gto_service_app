@@ -10,18 +10,25 @@ import 'package:gtoserviceapp/services/repo/trial.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 import 'package:gtoserviceapp/services/utils/utils.dart';
 
-class EventTrialsCatalogScreen extends StatelessWidget {
+class EventTrialsCatalogScreen extends StatefulWidget {
   final int eventId;
 
   EventTrialsCatalogScreen({@required this.eventId});
 
   @override
+  _EventTrialsCatalogScreenState createState() =>
+      _EventTrialsCatalogScreenState();
+}
+
+class _EventTrialsCatalogScreenState extends State<EventTrialsCatalogScreen> {
+  @override
   Widget build(BuildContext context) {
     return CatalogScreen<EventTrial>(
       title: "Виды спорта",
-      getData: () => TrialRepo.I.getFromEvent(eventId),
+      getData: () => TrialRepo.I.getFromEvent(widget.eventId),
       buildInfo: _buildInfo,
       onFabPressed: _onFabPressed,
+      onDeletePressed: _onDeletePressed,
     );
   }
 
@@ -58,8 +65,15 @@ class EventTrialsCatalogScreen extends StatelessWidget {
 
   _onFabPressed(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return AddEventTrialScreen(eventId: eventId);
+      return AddEventTrialScreen(
+        eventId: widget.eventId,
+        onUpdate: _onUpdate,
+      );
     }));
+  }
+
+  Future<void> _onDeletePressed(EventTrial eventTrial) {
+    return TrialRepo.I.deleteFromEvent(eventTrial.trialInEventId);
   }
 
   _buildRefereesInfo(List<Referee> referees) {
@@ -78,5 +92,9 @@ class EventTrialsCatalogScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _onUpdate() {
+    setState(() {});
   }
 }
