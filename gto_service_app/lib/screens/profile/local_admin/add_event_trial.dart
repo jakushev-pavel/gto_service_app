@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
+import 'package:gtoserviceapp/components/widgets/forms/selector.dart';
 import 'package:gtoserviceapp/components/widgets/forms/text_date_time_picker.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/services/repo/sport_object.dart';
 import 'package:gtoserviceapp/services/repo/trial.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
-
-import 'file:///C:/Users/Acer/Documents/Dev/gto_service_app/gto_service_app/lib/components/widgets/forms/selector.dart';
 
 class AddEventTrialScreen extends StatefulWidget {
   final int eventId;
