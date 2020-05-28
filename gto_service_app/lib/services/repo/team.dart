@@ -79,7 +79,7 @@ class TeamRepo {
       Routes.UserTeams.toStr(),
       auth: true,
     );
-    return json.map((json) => Team.fromJson(json)).toList();
+    return Utils.map(json, (json) => Team.fromJson(json));
   }
 
   Future<Team> get(int teamId) async {
