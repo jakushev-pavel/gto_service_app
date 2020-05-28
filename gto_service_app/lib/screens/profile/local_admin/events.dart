@@ -26,7 +26,7 @@ class _EventsScreenState extends State<EventsScreen> {
 
   void _onEventTap(context, Event event) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return EventScreen(eventId: event.id, orgId: event.orgId);
+      return EventScreen(eventId: event.id, orgId: Storage.I.orgId);
     }));
   }
 
