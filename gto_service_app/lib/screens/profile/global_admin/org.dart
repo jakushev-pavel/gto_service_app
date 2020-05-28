@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/widgets/card_list_view.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
-import 'package:gtoserviceapp/components/widgets/dialogs/yes_no_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/field.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
-import 'package:gtoserviceapp/components/widgets/text/caption.dart';
 import 'package:gtoserviceapp/components/widgets/text/headline.dart';
-import 'package:gtoserviceapp/screens/profile/common/invite_user.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
-import 'package:gtoserviceapp/services/repo/local_admin.dart';
+import 'package:gtoserviceapp/screens/profile/global_admin/local_admins.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
 
 class OrgScreen extends StatefulWidget {
-  final int _orgId;
+  final int orgId;
 
-  OrgScreen(this._orgId);
+  OrgScreen(this.orgId);
 
   @override
   _OrgScreenState createState() => _OrgScreenState();
@@ -27,7 +23,6 @@ class _OrgScreenState extends State<OrgScreen> {
     return Scaffold(
       appBar: _buildAppBar(context),
       body: _buildBody(context),
-      floatingActionButton: _buildFAB(context),
     );
   }
 
@@ -47,15 +42,14 @@ class _OrgScreenState extends State<OrgScreen> {
     return ListView(
       children: <Widget>[
         _buildFutureOrgCard(context),
-        _buildLocalAdminsListHeader(context),
-        _buildFutureLocalAdminsList(context),
+        _buildLocalAdminsButton(context),
         SizedBox(height: 48),
       ],
     );
   }
 
   Widget _buildFutureOrgCard(context) {
-    return FutureWidgetBuilder(OrgRepo.I.get(widget._orgId), _buildOrgCard);
+    return FutureWidgetBuilder(OrgRepo.I.get(widget.orgId), _buildOrgCard);
   }
 
   Widget _buildOrgCard(context, Organisation org) {
@@ -87,7 +81,7 @@ class _OrgScreenState extends State<OrgScreen> {
 
   _onEditPressed(context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return AddEditOrgScreen(orgId: widget._orgId, onUpdate: _onUpdate);
+      return AddEditOrgScreen(orgId: widget.orgId, onUpdate: _onUpdate);
     }));
   }
 
@@ -99,78 +93,18 @@ class _OrgScreenState extends State<OrgScreen> {
     return Text("Активных мероприятий: ${org.countOfActiveEvents}");
   }
 
-  Widget _buildLocalAdminsListHeader(context) {
-    return Padding(
-      padding: DefaultMargin,
-      child: HeadlineText("Администраторы:"),
-    );
-  }
-
-  Widget _buildFutureLocalAdminsList(context) {
-    return FutureWidgetBuilder(
-        LocalAdminRepo.I.getAll(widget._orgId),
-        (_, List<LocalAdmin> localAdmins) =>
-            _buildLocalAdminsList(localAdmins));
-  }
-
-  Widget _buildLocalAdminsList(List<LocalAdmin> localAdmins) {
-    return CardListView(localAdmins, _buildLocalAdmin);
-  }
-
-  Widget _buildLocalAdmin(context, LocalAdmin localAdmin) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(localAdmin.name),
-            CaptionText(localAdmin.email),
-          ],
-        ),
-        _buildDeleteLocalAdminButton(context, localAdmin),
-      ],
-    );
-  }
-
-  Widget _buildDeleteLocalAdminButton(context, LocalAdmin localAdmin) {
-    return IconButton(
-      icon: Icon(Icons.delete),
-      onPressed: () {
-        showDialog(
-          context: context,
-          child: YesNoDialog(
-            "Удалить ${localAdmin.name} из списка администраторов?",
-            () => _onDeleteLocalAdminPressed(localAdmin),
-          ),
-        );
-      },
-    );
-  }
-
-  _onDeleteLocalAdminPressed(LocalAdmin localAdmin) {
-    LocalAdminRepo.I.delete(widget._orgId, localAdmin.id);
-  }
-
-  Widget _buildFAB(BuildContext context) {
-    return FloatingActionButton(
-      child: Icon(Icons.add),
-      onPressed: () => _onAddLocalAdminPressed(context),
-    );
-  }
-
-  _onAddLocalAdminPressed(context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return InviteUserScreen(
-        title: "Приглашение администратора",
-        addUser: (String email) {
-          return LocalAdminRepo.I.add(widget._orgId, email);
-        },
-      );
-    }));
-  }
-
   void _onUpdate() {
     setState(() {});
+  }
+
+  Widget _buildLocalAdminsButton(BuildContext context) {
+    return CardPadding(
+      child: Text("Администраторы"),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return LocalAdminsScreen(orgId: widget.orgId);
+        }));
+      },
+    );
   }
 }
