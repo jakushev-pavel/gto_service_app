@@ -17,8 +17,7 @@ class EventTrialsScreen extends StatefulWidget {
   EventTrialsScreen({@required this.orgId, @required this.eventId});
 
   @override
-  _EventTrialsScreenState createState() =>
-      _EventTrialsScreenState();
+  _EventTrialsScreenState createState() => _EventTrialsScreenState();
 }
 
 class _EventTrialsScreenState extends State<EventTrialsScreen> {

@@ -43,8 +43,7 @@ class LoginResponse {
   int orgId;
   int userID;
 
-  LoginResponse(
-      {this.accessToken, this.refreshToken, this.role, this.orgId});
+  LoginResponse({this.accessToken, this.refreshToken, this.role, this.orgId});
 
   LoginResponse.fromJson(Map<String, dynamic> json) {
     accessToken = json['accessToken'];

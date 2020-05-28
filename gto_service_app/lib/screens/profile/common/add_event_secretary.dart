@@ -87,8 +87,8 @@ class _AddEventSecretaryScreenState extends State<AddEventSecretaryScreen> {
       return;
     }
 
-    var future = SecretaryRepo.I
-        .addToEvent(widget.orgId, widget.eventId, _selectedId);
+    var future =
+        SecretaryRepo.I.addToEvent(widget.orgId, widget.eventId, _selectedId);
     ErrorDialog.showOnFutureError(context, future);
     await future;
     Navigator.of(context).pop();

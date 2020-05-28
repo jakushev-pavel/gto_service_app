@@ -6,7 +6,6 @@ import 'package:gtoserviceapp/screens/profile/common/event.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
-
 class EventsScreen extends StatefulWidget {
   @override
   _EventsScreenState createState() => _EventsScreenState();
