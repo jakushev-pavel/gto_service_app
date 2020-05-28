@@ -5,23 +5,26 @@ import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
 
 class AddEditOrgScreen extends StatefulWidget {
-  final int _orgId;
+  final int orgId;
+  final void Function() onUpdate;
 
-  AddEditOrgScreen({int orgId}) : _orgId = orgId;
+  AddEditOrgScreen({
+    int orgId,
+    @required this.onUpdate,
+  }) : orgId = orgId;
 
   @override
-  _AddEditOrgScreenState createState() => _AddEditOrgScreenState(_orgId);
+  _AddEditOrgScreenState createState() => _AddEditOrgScreenState();
 }
 
 class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
   final _formKey = GlobalKey<FormState>();
   var _org = Organisation();
-  int _orgId;
 
-  _AddEditOrgScreenState(this._orgId);
+  _AddEditOrgScreenState();
 
   bool get _isEditing {
-    return _orgId != null;
+    return widget.orgId != null;
   }
 
   @override
@@ -47,7 +50,7 @@ class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
     }
 
     return FutureWidgetBuilder(
-      OrgRepo.I.get(_orgId),
+      OrgRepo.I.get(widget.orgId),
       (_, Organisation org) {
         _org = org;
         return _buildForm();
@@ -79,21 +82,26 @@ class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
 
   RaisedButton _buildSubmitButton() {
     return RaisedButton(
-        child: Text(_isEditing ? "Сохранить" : "Создать"),
-        onPressed: () async {
-          var form = _formKey.currentState;
+      child: Text(_isEditing ? "Сохранить" : "Создать"),
+      onPressed: _onSubmitPressed,
+    );
+  }
 
-          if (form.validate()) {
-            form.save();
+  void _onSubmitPressed() async {
+    var form = _formKey.currentState;
 
-            var result =
-                _isEditing ? OrgRepo.I.update(_org) : OrgRepo.I.add(_org);
-            ErrorDialog.showOnFutureError(context, result);
-            await result;
+    if (!form.validate()) {
+      return;
+    }
+    form.save();
 
-            Navigator.of(context).pop();
-          }
-        });
+    var future = _isEditing ? OrgRepo.I.update(_org) : OrgRepo.I.add(_org);
+    future.then((_) {
+      widget.onUpdate();
+      Navigator.of(context).pop();
+    }).catchError((error) {
+      showDialog(context: context, child: ErrorDialog.fromError(error));
+    });
   }
 
   TextFormField _buildNameField() {

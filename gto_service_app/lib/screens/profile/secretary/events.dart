@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/screens/common/catalog.dart';
+import 'package:gtoserviceapp/components/widgets/profile/event_info.dart';
+import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
+import 'package:gtoserviceapp/screens/profile/common/event.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 
 class SecretaryEventsScreen extends StatelessWidget {
@@ -8,7 +10,14 @@ class SecretaryEventsScreen extends StatelessWidget {
     return CatalogScreen(
       getData: () => EventRepo.I.getAllForSecretary(),
       title: "Мои мероприятия",
-      buildInfo: (_) => Container(),
+      buildInfo: (Event event) => EventInfo(event: event),
+      onTapped: _onTapped,
     );
+  }
+
+  void _onTapped(context, Event event) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return EventScreen(orgId: event.orgId, eventId: event.id);
+    }));
   }
 }

@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/card_list_view.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
-import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/yes_no_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/field.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/widgets/text/caption.dart';
 import 'package:gtoserviceapp/components/widgets/text/headline.dart';
-import 'package:gtoserviceapp/screens/common/invite_user.dart';
+import 'package:gtoserviceapp/screens/profile/common/invite_user.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/services/repo/local_admin.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
 
-class OrganisationScreen extends StatelessWidget {
+class OrgScreen extends StatefulWidget {
   final int _orgId;
 
-  OrganisationScreen(this._orgId);
+  OrgScreen(this._orgId);
 
+  @override
+  _OrgScreenState createState() => _OrgScreenState();
+}
+
+class _OrgScreenState extends State<OrgScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,10 +39,6 @@ class OrganisationScreen extends StatelessWidget {
           icon: Icon(Icons.edit),
           onPressed: () => _onEditPressed(context),
         ),
-        IconButton(
-          icon: Icon(Icons.delete),
-          onPressed: () => _onDeletePressed(context),
-        ),
       ],
     );
   }
@@ -55,7 +55,7 @@ class OrganisationScreen extends StatelessWidget {
   }
 
   Widget _buildFutureOrgCard(context) {
-    return FutureWidgetBuilder(OrgRepo.I.get(_orgId), _buildOrgCard);
+    return FutureWidgetBuilder(OrgRepo.I.get(widget._orgId), _buildOrgCard);
   }
 
   Widget _buildOrgCard(context, Organisation org) {
@@ -87,22 +87,8 @@ class OrganisationScreen extends StatelessWidget {
 
   _onEditPressed(context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return AddEditOrgScreen(orgId: _orgId);
+      return AddEditOrgScreen(orgId: widget._orgId, onUpdate: _onUpdate);
     }));
-  }
-
-  _onDeletePressed(context) {
-    showDialog(context: context, child: _buildConfirmDeleteDialog(context));
-  }
-
-  Widget _buildConfirmDeleteDialog(context) {
-    return YesNoDialog("Вы уверены?", () async {
-      var result = OrgRepo.I.delete(this._orgId);
-      ErrorDialog.showOnFutureError(context, result);
-
-      await result;
-      Navigator.of(context).pop();
-    });
   }
 
   _buildTotalEventsCount(Organisation org) {
@@ -122,7 +108,7 @@ class OrganisationScreen extends StatelessWidget {
 
   Widget _buildFutureLocalAdminsList(context) {
     return FutureWidgetBuilder(
-        LocalAdminRepo.I.getAll(_orgId),
+        LocalAdminRepo.I.getAll(widget._orgId),
         (_, List<LocalAdmin> localAdmins) =>
             _buildLocalAdminsList(localAdmins));
   }
@@ -163,7 +149,7 @@ class OrganisationScreen extends StatelessWidget {
   }
 
   _onDeleteLocalAdminPressed(LocalAdmin localAdmin) {
-    LocalAdminRepo.I.delete(_orgId, localAdmin.id);
+    LocalAdminRepo.I.delete(widget._orgId, localAdmin.id);
   }
 
   Widget _buildFAB(BuildContext context) {
@@ -178,9 +164,13 @@ class OrganisationScreen extends StatelessWidget {
       return InviteUserScreen(
         title: "Приглашение администратора",
         addUser: (String email) {
-          return LocalAdminRepo.I.add(_orgId, email);
+          return LocalAdminRepo.I.add(widget._orgId, email);
         },
       );
     }));
+  }
+
+  void _onUpdate() {
+    setState(() {});
   }
 }

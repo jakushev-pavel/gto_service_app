@@ -5,12 +5,12 @@ import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/widgets/profile/secretary_info.dart';
 import 'package:gtoserviceapp/components/widgets/shrunk_vertically.dart';
 import 'package:gtoserviceapp/services/repo/secretary.dart';
-import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class AddEventSecretaryScreen extends StatefulWidget {
-  final int _eventId;
+  final int orgId;
+  final int eventId;
 
-  AddEventSecretaryScreen(int eventId) : _eventId = eventId;
+  AddEventSecretaryScreen({@required this.orgId, @required this.eventId});
 
   @override
   _AddEventSecretaryScreenState createState() =>
@@ -44,7 +44,7 @@ class _AddEventSecretaryScreenState extends State<AddEventSecretaryScreen> {
 
   Widget _buildFutureSelector() {
     return FutureWidgetBuilder(
-      SecretaryRepo.I.getFromOrg(Storage.I.orgId),
+      SecretaryRepo.I.getFromOrg(widget.orgId),
       (_, List<Secretary> secretaryList) => _buildSelector(secretaryList),
     );
   }
@@ -88,7 +88,7 @@ class _AddEventSecretaryScreenState extends State<AddEventSecretaryScreen> {
     }
 
     var future = SecretaryRepo.I
-        .addToEvent(Storage.I.orgId, widget._eventId, _selectedId);
+        .addToEvent(widget.orgId, widget.eventId, _selectedId);
     ErrorDialog.showOnFutureError(context, future);
     await future;
     Navigator.of(context).pop();

@@ -6,7 +6,7 @@ import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class Event {
   int id;
-  int organizationId;
+  int orgId;
   String name;
   DateTime startDate;
   DateTime expirationDate;
@@ -15,7 +15,7 @@ class Event {
 
   Event({
     this.id,
-    this.organizationId,
+    this.orgId,
     this.name,
     this.startDate,
     this.expirationDate,
@@ -25,7 +25,7 @@ class Event {
 
   Event.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    organizationId = json['organizationId'];
+    orgId = json['idOrganization'];
     name = json['name'];
     startDate = DateTime.parse(json['startDate']);
     expirationDate = DateTime.parse(json['expirationDate']);
@@ -36,7 +36,7 @@ class Event {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['organizationId'] = this.organizationId;
+    data['organizationId'] = this.orgId;
     data['name'] = this.name;
     data['startDate'] = Utils.dateToJson(this.startDate);
     data['expirationDate'] = Utils.dateToJson(this.expirationDate);

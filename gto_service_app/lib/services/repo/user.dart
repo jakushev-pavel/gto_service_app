@@ -40,17 +40,17 @@ class LoginResponse {
   String accessToken;
   String refreshToken;
   String role;
-  int organizationID;
+  int orgId;
   int userID;
 
   LoginResponse(
-      {this.accessToken, this.refreshToken, this.role, this.organizationID});
+      {this.accessToken, this.refreshToken, this.role, this.orgId});
 
   LoginResponse.fromJson(Map<String, dynamic> json) {
     accessToken = json['accessToken'];
     refreshToken = json['refreshToken'];
     role = json['role'];
-    organizationID = json['organizationId'];
+    orgId = json['organizationId'];
     userID = json['userId'];
   }
 }

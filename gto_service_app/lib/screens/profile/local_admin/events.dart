@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/screens/common/catalog.dart';
-import 'package:gtoserviceapp/screens/profile/local_admin/add_edit_event.dart';
-import 'package:gtoserviceapp/screens/profile/local_admin/event.dart';
+import 'package:gtoserviceapp/components/widgets/profile/event_info.dart';
+import 'package:gtoserviceapp/screens/profile/common/add_edit_event.dart';
+import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
+import 'package:gtoserviceapp/screens/profile/common/event.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
+
 
 class EventsScreen extends StatefulWidget {
   @override
@@ -16,31 +18,16 @@ class _EventsScreenState extends State<EventsScreen> {
     return CatalogScreen<Event>(
       getData: () => EventRepo.I.getAllFromOrg(Storage.I.orgId),
       title: "Мероприятия",
-      buildInfo: _buildEvent(context),
+      buildInfo: (Event event) => EventInfo(event: event),
       onFabPressed: _onFabPressed,
       onTapped: _onEventTap,
       onDeletePressed: _onDeletePressed,
     );
   }
 
-  Widget Function(Event event) _buildEvent(context) {
-    return (Event event) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(event.name),
-          Text(
-            event.description,
-            style: Theme.of(context).textTheme.caption,
-          ),
-        ],
-      );
-    };
-  }
-
   void _onEventTap(context, Event event) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return EventScreen(event.id);
+      return EventScreen(eventId: event.id, orgId: event.orgId);
     }));
   }
 

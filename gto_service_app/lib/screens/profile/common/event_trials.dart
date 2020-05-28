@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/widgets/text/caption.dart';
 import 'package:gtoserviceapp/components/widgets/text/headline.dart';
-import 'package:gtoserviceapp/screens/common/catalog.dart';
-import 'package:gtoserviceapp/screens/profile/local_admin/add_event_trial.dart';
+import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
 import 'package:gtoserviceapp/services/repo/referee.dart';
 import 'package:gtoserviceapp/services/repo/sport_object.dart';
 import 'package:gtoserviceapp/services/repo/trial.dart';
-import 'package:gtoserviceapp/services/storage/storage.dart';
 import 'package:gtoserviceapp/services/utils/utils.dart';
 
-class EventTrialsCatalogScreen extends StatefulWidget {
+import 'add_event_trial.dart';
+
+class EventTrialsScreen extends StatefulWidget {
+  final int orgId;
   final int eventId;
 
-  EventTrialsCatalogScreen({@required this.eventId});
+  EventTrialsScreen({@required this.orgId, @required this.eventId});
 
   @override
-  _EventTrialsCatalogScreenState createState() =>
-      _EventTrialsCatalogScreenState();
+  _EventTrialsScreenState createState() =>
+      _EventTrialsScreenState();
 }
 
-class _EventTrialsCatalogScreenState extends State<EventTrialsCatalogScreen> {
+class _EventTrialsScreenState extends State<EventTrialsScreen> {
   @override
   Widget build(BuildContext context) {
     return CatalogScreen<EventTrial>(
@@ -51,7 +52,7 @@ class _EventTrialsCatalogScreenState extends State<EventTrialsCatalogScreen> {
 
   Widget _buildSportObjectInfo(int sportObjectId) {
     return FutureWidgetBuilder(
-      SportObjectRepo.I.getAll(Storage.I.orgId),
+      SportObjectRepo.I.getAll(widget.orgId),
       (context, List<SportObject> list) {
         return CaptionText(
           list
@@ -66,6 +67,7 @@ class _EventTrialsCatalogScreenState extends State<EventTrialsCatalogScreen> {
   _onFabPressed(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return AddEventTrialScreen(
+        orgId: widget.orgId,
         eventId: widget.eventId,
         onUpdate: _onUpdate,
       );

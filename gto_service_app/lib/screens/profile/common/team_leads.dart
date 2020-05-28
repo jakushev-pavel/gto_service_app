@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/text/caption.dart';
 import 'package:gtoserviceapp/components/widgets/text/headline.dart';
-import 'package:gtoserviceapp/screens/common/catalog.dart';
-import 'package:gtoserviceapp/screens/profile/local_admin/add_team_lead.dart';
+import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
 import 'package:gtoserviceapp/services/repo/team_lead.dart';
 import 'package:gtoserviceapp/services/utils/utils.dart';
+
+import 'add_team_lead.dart';
 
 class TeamLeadsScreen extends StatefulWidget {
   final int teamId;

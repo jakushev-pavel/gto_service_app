@@ -3,14 +3,15 @@ import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/services/repo/team.dart';
-import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class AddEditTeamScreen extends StatefulWidget {
+  final int orgId;
   final int eventId;
   final Function() onUpdate;
   final int teamId;
 
   AddEditTeamScreen({
+    this.orgId,
     this.eventId,
     @required this.onUpdate,
     this.teamId,
@@ -110,7 +111,7 @@ class _AddEditTeamScreenState extends State<AddEditTeamScreen> {
 
     var future = _isEditing()
         ? TeamRepo.I.update(widget.teamId, _name)
-        : TeamRepo.I.addToEvent(Storage.I.orgId, widget.eventId, _name);
+        : TeamRepo.I.addToEvent(widget.orgId, widget.eventId, _name);
     future.then((_) {
       widget.onUpdate();
       Navigator.of(context).pop();

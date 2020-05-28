@@ -6,12 +6,12 @@ import 'package:gtoserviceapp/components/widgets/profile/referee_info.dart';
 import 'package:gtoserviceapp/components/widgets/shrunk_vertically.dart';
 import 'package:gtoserviceapp/services/repo/referee.dart';
 import 'package:gtoserviceapp/services/repo/trial.dart';
-import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class AddTrialRefereeScreen extends StatefulWidget {
+  final int orgId;
   final int eventId;
 
-  AddTrialRefereeScreen({@required this.eventId});
+  AddTrialRefereeScreen({@required this.orgId, @required this.eventId});
 
   @override
   _AddTrialRefereeScreenState createState() => _AddTrialRefereeScreenState();
@@ -47,7 +47,7 @@ class _AddTrialRefereeScreenState extends State<AddTrialRefereeScreen> {
 
   Widget _buildFutureRefereeSelector() {
     return FutureWidgetBuilder(
-      RefereeRepo.I.getAll(Storage.I.orgId),
+      RefereeRepo.I.getAll(widget.orgId),
       _buildRefereeSelector,
     );
   }

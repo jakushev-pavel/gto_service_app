@@ -4,14 +4,15 @@ import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/forms/text_date_picker.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
-import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class AddEditEventScreen extends StatefulWidget {
-  final int id;
+  final int orgId;
+  final int eventId;
   final void Function() onUpdate;
 
   AddEditEventScreen({
-    this.id,
+    this.orgId,
+    this.eventId,
     @required this.onUpdate,
   });
 
@@ -27,7 +28,7 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
   );
 
   bool get _isEditing {
-    return widget.id != null;
+    return widget.eventId != null;
   }
 
   @override
@@ -57,7 +58,7 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
 
   Widget _buildFutureForm() {
     return FutureWidgetBuilder(
-      EventRepo.I.get(Storage.I.orgId, widget.id),
+      EventRepo.I.get(widget.orgId, widget.eventId),
       (_, Event event) {
         _event = event;
         return _buildForm();
@@ -159,8 +160,8 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
     form.save();
 
     var future = _isEditing
-        ? EventRepo.I.update(Storage.I.orgId, _event)
-        : EventRepo.I.add(Storage.I.orgId, _event);
+        ? EventRepo.I.update(widget.orgId, _event)
+        : EventRepo.I.add(widget.orgId, _event);
     future.then((_) {
       widget.onUpdate();
       Navigator.of(context).pop();

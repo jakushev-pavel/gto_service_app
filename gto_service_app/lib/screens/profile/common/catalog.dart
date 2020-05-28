@@ -47,7 +47,7 @@ class _CatalogScreenState<T> extends State<CatalogScreen<T>> {
   }
 
   Widget _buildBody() {
-    return Column(
+    return ListView(
       children: <Widget>[
         _buildFutureList(),
       ],

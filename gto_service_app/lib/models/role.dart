@@ -7,7 +7,7 @@ enum Role {
 }
 
 extension RoleEx on Role {
-  static Role fromString(String str) {
+  static Role fromStr(String str) {
     return {
       "Глобальный администратор": Role.GlobalAdmin,
       "Локальный администратор": Role.LocalAdmin,

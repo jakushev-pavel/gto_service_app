@@ -1,19 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
-
-class FetchOrgsResponse {
-  List<Organisation> organisations;
-
-  FetchOrgsResponse.fromJson(List<dynamic> json) {
-    if (json != null) {
-      organisations = new List<Organisation>();
-      json.forEach((v) {
-        organisations.add(new Organisation.fromJson(v));
-      });
-    }
-  }
-}
+import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class Organisation {
   int id;
@@ -108,9 +96,9 @@ class OrgRepo {
     return Organisation.fromJson(json);
   }
 
-  Future<FetchOrgsResponse> getAll() async {
+  Future<List<Organisation>> getAll() async {
     var json = await API.I.get(Routes.Organizations.toStr());
-    return FetchOrgsResponse.fromJson(json); // TODO
+    return Utils.map(json, (json) => Organisation.fromJson(json));
   }
 
   Future update(Organisation org) async {

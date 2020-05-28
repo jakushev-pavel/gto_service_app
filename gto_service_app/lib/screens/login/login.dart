@@ -3,7 +3,7 @@ import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/widgets/navigation/tabs.dart';
-import 'package:gtoserviceapp/screens/profile/profile.dart';
+import 'package:gtoserviceapp/screens/profile/common/profile.dart';
 import 'package:gtoserviceapp/screens/register/register.dart';
 import 'package:gtoserviceapp/services/auth/auth.dart';
 

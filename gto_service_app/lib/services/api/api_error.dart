@@ -28,7 +28,7 @@ class APIErrors implements Exception {
 
   APIErrors.fromResponse(Response response)
       : this(
-          jsonDecode(response.body),
+          response.body.isNotEmpty ? jsonDecode(response.body) : {},
           statusCode: response.statusCode,
         );
 

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/profile/participant_info.dart';
-import 'package:gtoserviceapp/screens/common/catalog.dart';
-import 'package:gtoserviceapp/screens/profile/local_admin/add_team_participant.dart';
+import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
 import 'package:gtoserviceapp/services/repo/participant.dart';
 import 'package:gtoserviceapp/services/repo/team.dart';
+
+import 'add_team_participant.dart';
 
 class TeamParticipantsScreen extends StatefulWidget {
   final int teamId;

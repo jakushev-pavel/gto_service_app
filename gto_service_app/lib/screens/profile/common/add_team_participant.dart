@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/screens/common/invite_user.dart';
+import 'package:gtoserviceapp/screens/profile/common/invite_user.dart';
 import 'package:gtoserviceapp/services/repo/participant.dart';
 
 class AddTeamParticipantScreen extends StatelessWidget {

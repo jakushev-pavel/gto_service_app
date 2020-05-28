@@ -7,19 +7,20 @@ import 'package:gtoserviceapp/components/widgets/forms/text_date_time_picker.dar
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/services/repo/sport_object.dart';
 import 'package:gtoserviceapp/services/repo/trial.dart';
-import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class AddEventTrialScreen extends StatefulWidget {
+  final int orgId;
   final int eventId;
   final Future<List<EventTrial>> trials;
   final Future<List<SportObject>> sportObjects;
   final void Function() onUpdate;
 
   AddEventTrialScreen({
+    @required this.orgId,
     @required this.eventId,
     @required this.onUpdate,
   })  : trials = TrialRepo.I.getFreeTrialsFromEvent(eventId),
-        sportObjects = SportObjectRepo.I.getAll(Storage.I.orgId);
+        sportObjects = SportObjectRepo.I.getAll(orgId);
 
   @override
   _AddEventTrialScreenState createState() => _AddEventTrialScreenState();

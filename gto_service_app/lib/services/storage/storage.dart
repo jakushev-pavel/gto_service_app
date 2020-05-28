@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:gtoserviceapp/models/role.dart';
 import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,5 +32,14 @@ class Storage {
 
   int get orgId {
     return int.tryParse(read(Keys.orgId));
+  }
+
+  Role get role {
+    var str = read(Keys.role);
+    if (str == null) {
+      return null;
+    }
+
+    return RoleEx.fromStr(str);
   }
 }
