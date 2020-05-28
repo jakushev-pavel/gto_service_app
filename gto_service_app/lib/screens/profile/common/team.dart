@@ -3,18 +3,20 @@ import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/widgets/profile/team_info.dart';
+import 'package:gtoserviceapp/models/role.dart';
 import 'package:gtoserviceapp/screens/profile/common/team_leads.dart';
 import 'package:gtoserviceapp/screens/profile/common/team_participants.dart';
 import 'package:gtoserviceapp/services/repo/team.dart';
+import 'package:gtoserviceapp/services/storage/storage.dart';
 
 import 'add_edit_team.dart';
 
 class TeamScreen extends StatefulWidget {
-  final int id;
+  final int teamId;
   final void Function() onUpdate;
 
   TeamScreen({
-    @required this.id,
+    @required this.teamId,
     @required this.onUpdate,
   });
 
@@ -60,7 +62,7 @@ class _TeamScreenState extends State<TeamScreen> {
 
   FutureWidgetBuilder<Team> _buildFutureTeamInfo() {
     return FutureWidgetBuilder(
-      TeamRepo.I.get(widget.id),
+      TeamRepo.I.get(widget.teamId),
       _buildTeamInfo,
     );
   }
@@ -80,7 +82,7 @@ class _TeamScreenState extends State<TeamScreen> {
         child: Text("Тренеры"),
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-            return TeamLeadsScreen(teamId: widget.id);
+            return TeamLeadsScreen(teamId: widget.teamId);
           }));
         },
       ),
@@ -94,7 +96,7 @@ class _TeamScreenState extends State<TeamScreen> {
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (_) {
             return TeamParticipantsScreen(
-              teamId: widget.id,
+              teamId: widget.teamId,
               onUpdate: _onUpdate,
             );
           }));
@@ -111,7 +113,7 @@ class _TeamScreenState extends State<TeamScreen> {
   void _onEditPressed() {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return AddEditTeamScreen(
-        teamId: widget.id,
+        teamId: widget.teamId,
         onUpdate: _onUpdate,
       );
     }));

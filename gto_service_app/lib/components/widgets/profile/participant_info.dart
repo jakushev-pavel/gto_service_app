@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/text/caption.dart';
+import 'package:gtoserviceapp/models/role.dart';
 import 'package:gtoserviceapp/services/repo/participant.dart';
+import 'package:gtoserviceapp/services/storage/storage.dart';
 import 'package:gtoserviceapp/services/utils/utils.dart';
 
 class ParticipantInfo extends StatelessWidget {
@@ -38,7 +40,9 @@ class ParticipantInfo extends StatelessWidget {
   }
 
   _buildConfirmButton(context) {
-    if (participant.isConfirmed) {
+    bool canConfirm =
+        (Storage.I.role == Role.LocalAdmin || Storage.I.role == Role.Secretary);
+    if (!canConfirm || participant.isConfirmed) {
       return Container();
     }
 

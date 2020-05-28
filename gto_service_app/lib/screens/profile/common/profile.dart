@@ -12,6 +12,7 @@ import 'package:gtoserviceapp/screens/profile/local_admin/referee_catalog.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/secretary_catalog.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/sport_object_catalog.dart';
 import 'package:gtoserviceapp/screens/profile/secretary/events.dart';
+import 'package:gtoserviceapp/screens/profile/team_lead/teams.dart';
 import 'package:gtoserviceapp/services/auth/auth.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
@@ -60,6 +61,9 @@ class ProfileScreen extends StatelessWidget {
       buttons.add(_buildSecretaryEventsButton(context));
     }
 
+    if (role == Role.TeamLead) {
+      buttons.add(_buildTeamLeadTeamsButton(context));
+    }
     return buttons;
   }
 
@@ -124,6 +128,17 @@ class ProfileScreen extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return SecretaryEventsScreen();
+        }));
+      },
+    );
+  }
+
+  Widget _buildTeamLeadTeamsButton(context) {
+    return CardPadding(
+      child: Text("Мои команды"),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return TeamLeadTeamsScreen();
         }));
       },
     );

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/profile/participant_info.dart';
+import 'package:gtoserviceapp/models/role.dart';
 import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
 import 'package:gtoserviceapp/services/repo/participant.dart';
 import 'package:gtoserviceapp/services/repo/team.dart';
+import 'package:gtoserviceapp/services/storage/storage.dart';
 
 import 'add_team_participant.dart';
 
@@ -23,6 +25,9 @@ class TeamParticipantsScreen extends StatefulWidget {
 class _TeamParticipantsScreenState extends State<TeamParticipantsScreen> {
   @override
   Widget build(BuildContext context) {
+    bool canConfirm =
+        (Storage.I.role == Role.LocalAdmin || Storage.I.role == Role.Secretary);
+
     return CatalogScreen(
       title: "Участники",
       getData: () => ParticipantRepo.I.getAllFromTeam(widget.teamId),
@@ -32,7 +37,7 @@ class _TeamParticipantsScreenState extends State<TeamParticipantsScreen> {
       ),
       onFabPressed: _onFabPressed,
       onDeletePressed: _onDeletePressed,
-      actions: _buildActions(),
+      actions: canConfirm ? _buildActions() : null,
     );
   }
 

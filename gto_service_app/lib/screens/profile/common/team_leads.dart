@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/text/caption.dart';
 import 'package:gtoserviceapp/components/widgets/text/headline.dart';
+import 'package:gtoserviceapp/models/role.dart';
 import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
 import 'package:gtoserviceapp/services/repo/team_lead.dart';
+import 'package:gtoserviceapp/services/storage/storage.dart';
 import 'package:gtoserviceapp/services/utils/utils.dart';
 
 import 'add_team_lead.dart';
@@ -21,12 +23,15 @@ class TeamLeadsScreen extends StatefulWidget {
 class _TeamLeadsScreenState extends State<TeamLeadsScreen> {
   @override
   Widget build(BuildContext context) {
+    bool canEdit =
+        (Storage.I.role == Role.LocalAdmin || Storage.I.role == Role.Secretary);
+
     return CatalogScreen<TeamLead>(
       title: "Тренеры",
       getData: () => TeamLeadRepo.I.getAll(widget.teamId),
       buildInfo: _buildTeamLeadInfo,
-      onFabPressed: _onFabPressed,
-      onDeletePressed: _onDeletePressed,
+      onFabPressed: canEdit ? _onFabPressed : null,
+      onDeletePressed: canEdit ? _onDeletePressed : null,
     );
   }
 
