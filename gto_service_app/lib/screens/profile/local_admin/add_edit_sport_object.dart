@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/components/widgets/shrunk_vertically.dart';
 import 'package:gtoserviceapp/services/repo/sport_object.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
@@ -48,17 +49,20 @@ class _AddSportObjectScreenState extends State<AddSportObjectScreen> {
     return _buildForm();
   }
 
-  CardPadding _buildForm() {
-    return CardPadding(
-      child: Form(
-        key: _formKey,
-        child: ListView(
-          children: <Widget>[
-            _buildNameField(),
-            _buildAddressField(),
-            _buildDescriptionField(),
-            _buildSubmitButton(),
-          ],
+  Widget _buildForm() {
+    return ShrunkVertically(
+      child: CardPadding(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              _buildNameField(),
+              _buildAddressField(),
+              _buildDescriptionField(),
+              SizedBox(height: 16),
+              _buildSubmitButton(),
+            ],
+          ),
         ),
       ),
     );

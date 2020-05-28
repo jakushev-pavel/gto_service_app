@@ -4,6 +4,7 @@ import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/forms/selector.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
+import 'package:gtoserviceapp/components/widgets/shrunk_vertically.dart';
 import 'package:gtoserviceapp/services/repo/table.dart';
 
 class SelectTableScreen extends StatefulWidget {
@@ -32,14 +33,16 @@ class _SelectTableScreenState extends State<SelectTableScreen> {
   }
 
   Widget _buildBody() {
-    return ExpandedHorizontally(
-      child: CardPadding(
-        child: Column(
-          children: <Widget>[
-            _buildSelector(),
-            SizedBox(height: 16),
-            _buildSubmitButton(),
-          ],
+    return ShrunkVertically(
+      child: ExpandedHorizontally(
+        child: CardPadding(
+          child: Column(
+            children: <Widget>[
+              _buildSelector(),
+              SizedBox(height: 16),
+              _buildSubmitButton(),
+            ],
+          ),
         ),
       ),
     );
