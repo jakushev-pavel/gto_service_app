@@ -7,24 +7,26 @@ import 'package:gtoserviceapp/components/widgets/text/date.dart';
 import 'package:gtoserviceapp/components/widgets/text/headline.dart';
 import 'package:gtoserviceapp/models/event_state.dart';
 import 'package:gtoserviceapp/models/role.dart';
+import 'package:gtoserviceapp/screens/info/teams.dart';
 import 'package:gtoserviceapp/screens/profile/common/add_edit_event.dart';
 import 'package:gtoserviceapp/screens/profile/common/add_trial_referee.dart';
-import 'package:gtoserviceapp/screens/profile/common/teams.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/change_event_state.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/select_table.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/repo/table.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
+import '../profile/common/event_secretaries.dart';
 import 'event_participants.dart';
-import 'event_secretaries.dart';
 import 'event_trials.dart';
 
 class EventScreen extends StatefulWidget {
   final int orgId;
   final int eventId;
+  final bool editable;
 
-  EventScreen({@required this.orgId, @required this.eventId});
+  EventScreen({@required this.orgId, @required this.eventId, bool editable})
+      : editable = editable ?? true;
 
   @override
   _EventScreenState createState() => _EventScreenState();
@@ -49,14 +51,19 @@ class _EventScreenState extends State<EventScreen> {
   }
 
   AppBar _buildAppBar(BuildContext context) {
+    bool canEdit = widget.editable &&
+        (Storage.I.role == Role.LocalAdmin || Storage.I.role == Role.Secretary);
+
     return AppBar(
       title: Text("Мероприятие"),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: () => _onEditPressed(context),
-        ),
-      ],
+      actions: canEdit
+          ? <Widget>[
+              IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () => _onEditPressed(context),
+              ),
+            ]
+          : null,
     );
   }
 
@@ -94,16 +101,26 @@ class _EventScreenState extends State<EventScreen> {
     var buttons = <Widget>[];
 
     Role role = Storage.I.role;
-    print(role.toString());
-    if (role == Role.LocalAdmin) {
+    if (widget.editable && role == Role.LocalAdmin) {
       buttons.add(_buildChangeStateButton(context));
     }
-    buttons.add(_buildSelectTableButton(context));
+
+    if (widget.editable &&
+        (role == Role.LocalAdmin || role == Role.Secretary)) {
+      buttons.add(_buildSelectTableButton(context));
+    }
     buttons.add(_buildTrialsButton(context));
     buttons.add(_buildParticipantsButton(context));
     buttons.add(_buildTeamsButton(context));
-    buttons.add(_buildEventSecretaryCatalogButton(context));
-    buttons.add(_buildAddRefereeButton(context));
+
+    if (widget.editable && role == Role.LocalAdmin) {
+      buttons.add(_buildEventSecretaryCatalogButton(context));
+    }
+
+    if (widget.editable &&
+        (role == Role.LocalAdmin || role == Role.Secretary)) {
+      buttons.add(_buildAddRefereeButton(context));
+    }
 
     return buttons;
   }
@@ -166,6 +183,7 @@ class _EventScreenState extends State<EventScreen> {
           return EventTrialsScreen(
             orgId: widget.orgId,
             eventId: widget.eventId,
+            editable: widget.editable,
           );
         }));
       },
@@ -177,7 +195,10 @@ class _EventScreenState extends State<EventScreen> {
       child: Text("Участники"),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-          return EventParticipantsScreen(eventId: widget.eventId);
+          return EventParticipantsScreen(
+            eventId: widget.eventId,
+            editable: widget.editable,
+          );
         }));
       },
     );
@@ -188,7 +209,11 @@ class _EventScreenState extends State<EventScreen> {
       child: Text("Команды"),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-          return EventTeamsScreen(orgId: widget.orgId, eventId: widget.eventId);
+          return EventTeamsScreen(
+            orgId: widget.orgId,
+            eventId: widget.eventId,
+            editable: widget.editable,
+          );
         }));
       },
     );

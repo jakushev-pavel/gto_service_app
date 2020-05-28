@@ -19,7 +19,7 @@ class AddEditOrgScreen extends StatefulWidget {
 
 class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
   final _formKey = GlobalKey<FormState>();
-  var _org = Organisation();
+  var _org = Org();
 
   _AddEditOrgScreenState();
 
@@ -51,7 +51,7 @@ class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
 
     return FutureWidgetBuilder(
       OrgRepo.I.get(widget.orgId),
-      (_, Organisation org) {
+      (_, Org org) {
         _org = org;
         return _buildForm();
       },

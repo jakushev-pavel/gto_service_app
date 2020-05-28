@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/widgets/profile/referee_info.dart';
-import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
+import 'package:gtoserviceapp/components/widgets/info/referee_info.dart';
+import 'package:gtoserviceapp/screens/info/catalog.dart';
 import 'package:gtoserviceapp/screens/profile/common/invite_user.dart';
 import 'package:gtoserviceapp/services/repo/referee.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';

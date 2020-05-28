@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/screens/calculator/calculator.dart';
-import 'package:gtoserviceapp/screens/main/main_screen.dart';
+import 'package:gtoserviceapp/screens/info/main_screen.dart';
 import 'package:gtoserviceapp/screens/profile/common/profile.dart';
 
 import 'tabs.dart';

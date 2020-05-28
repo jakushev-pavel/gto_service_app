@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/widgets/profile/team_info.dart';
-import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
-import 'package:gtoserviceapp/screens/profile/common/team.dart';
+import 'package:gtoserviceapp/components/widgets/info/team_info.dart';
+import 'package:gtoserviceapp/screens/info/catalog.dart';
+import 'package:gtoserviceapp/screens/info/team.dart';
 import 'package:gtoserviceapp/services/repo/team.dart';
 
 class TeamLeadTeamsScreen extends StatefulWidget {

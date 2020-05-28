@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
-import 'package:gtoserviceapp/screens/main/main_screen.dart';
+import 'package:gtoserviceapp/screens/info/main_screen.dart';
 import 'package:gtoserviceapp/services/linking/linking.dart';
 import 'package:uni_links/uni_links.dart';
 

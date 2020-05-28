@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/widgets/profile/participant_info.dart';
-import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
+import 'package:gtoserviceapp/components/widgets/info/participant_info.dart';
+import 'package:gtoserviceapp/models/role.dart';
+import 'package:gtoserviceapp/screens/info/catalog.dart';
 import 'package:gtoserviceapp/services/repo/participant.dart';
+import 'package:gtoserviceapp/services/storage/storage.dart';
 
-import 'add_event_participant.dart';
+import '../profile/common/add_event_participant.dart';
 
 class EventParticipantsScreen extends StatefulWidget {
   final int eventId;
+  final bool editable;
 
-  EventParticipantsScreen({@required this.eventId});
+  EventParticipantsScreen({@required this.eventId, bool editable})
+      : editable = editable ?? true;
 
   @override
   _EventParticipantsScreenState createState() =>
@@ -18,15 +22,19 @@ class EventParticipantsScreen extends StatefulWidget {
 class _EventParticipantsScreenState extends State<EventParticipantsScreen> {
   @override
   Widget build(BuildContext context) {
+    bool canEdit = widget.editable &&
+        (Storage.I.role == Role.LocalAdmin || Storage.I.role == Role.Secretary);
+
     return CatalogScreen<Participant>(
       getData: () => ParticipantRepo.I.getAllFromEvent(widget.eventId),
       title: "Участники мероприятия",
       buildInfo: (participant) => ParticipantInfo(
         participant: participant,
         onUpdate: _onUpdate,
+        editable: widget.editable,
       ),
-      onDeletePressed: _onDeletePressed,
-      onFabPressed: _onFabPressed,
+      onDeletePressed: canEdit ? _onDeletePressed : null,
+      onFabPressed: canEdit ? _onFabPressed : null,
     );
   }
 

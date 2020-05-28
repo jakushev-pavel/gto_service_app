@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
+import 'package:gtoserviceapp/screens/info/catalog.dart';
+import 'package:gtoserviceapp/screens/info/org.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
-import 'package:gtoserviceapp/screens/profile/global_admin/org.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
 
 class OrgsScreen extends StatefulWidget {
@@ -12,7 +12,7 @@ class OrgsScreen extends StatefulWidget {
 class _OrgsScreenState extends State<OrgsScreen> {
   @override
   Widget build(BuildContext context) {
-    return CatalogScreen<Organisation>(
+    return CatalogScreen<Org>(
       title: "Организации",
       getData: () => OrgRepo.I.getAll(),
       buildInfo: (org) => _buildOrg(context, org),
@@ -22,7 +22,7 @@ class _OrgsScreenState extends State<OrgsScreen> {
     );
   }
 
-  Widget _buildOrg(BuildContext context, Organisation org) {
+  Widget _buildOrg(BuildContext context, Org org) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -42,13 +42,13 @@ class _OrgsScreenState extends State<OrgsScreen> {
     }));
   }
 
-  _onOrgTapped(context, Organisation org) {
+  _onOrgTapped(context, Org org) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => OrgScreen(org.id),
+      builder: (_) => OrgScreen(orgId: org.id),
     ));
   }
 
-  Future<void> _onDeletePressed(Organisation org) {
+  Future<void> _onDeletePressed(Org org) {
     return OrgRepo.I.delete(org.id);
   }
 

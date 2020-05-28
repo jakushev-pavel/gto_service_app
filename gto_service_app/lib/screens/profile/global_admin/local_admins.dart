@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/text/caption.dart';
-import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
+import 'package:gtoserviceapp/screens/info/catalog.dart';
 import 'package:gtoserviceapp/screens/profile/common/invite_user.dart';
 import 'package:gtoserviceapp/services/repo/local_admin.dart';
 

@@ -9,11 +9,13 @@ import 'package:gtoserviceapp/services/utils/utils.dart';
 class ParticipantInfo extends StatelessWidget {
   final Participant participant;
   final void Function() onUpdate;
+  final bool editable;
 
   ParticipantInfo({
     @required this.participant,
     @required this.onUpdate,
-  });
+    bool editable,
+  }) : editable = editable ?? true;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class ParticipantInfo extends StatelessWidget {
   }
 
   _buildConfirmButton(context) {
-    bool canConfirm =
+    bool canConfirm = editable &&
         (Storage.I.role == Role.LocalAdmin || Storage.I.role == Role.Secretary);
     if (!canConfirm || participant.isConfirmed) {
       return Container();

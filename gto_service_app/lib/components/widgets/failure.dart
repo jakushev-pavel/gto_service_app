@@ -15,11 +15,9 @@ class Failure extends StatelessWidget {
       children: <Widget>[
         Icon(Icons.error, color: Colors.red),
         SizedBox(width: 8),
-        Flexible(
-          child: Text(
-            Utils.errorToString(_error),
-            style: TextStyle(color: Colors.deepOrange),
-          ),
+        Text(
+          Utils.errorToString(_error),
+          style: TextStyle(color: Colors.deepOrange),
         ),
       ],
     );

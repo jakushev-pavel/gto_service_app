@@ -2,21 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
-import 'package:gtoserviceapp/components/widgets/profile/team_info.dart';
-import 'package:gtoserviceapp/screens/profile/common/team_leads.dart';
-import 'package:gtoserviceapp/screens/profile/common/team_participants.dart';
+import 'package:gtoserviceapp/components/widgets/info/team_info.dart';
+import 'package:gtoserviceapp/models/role.dart';
+import 'package:gtoserviceapp/screens/info/team_leads.dart';
+import 'package:gtoserviceapp/screens/info/team_participants.dart';
 import 'package:gtoserviceapp/services/repo/team.dart';
+import 'package:gtoserviceapp/services/storage/storage.dart';
 
-import 'add_edit_team.dart';
+import '../profile/common/add_edit_team.dart';
 
 class TeamScreen extends StatefulWidget {
   final int teamId;
   final void Function() onUpdate;
+  final bool editable;
 
   TeamScreen({
     @required this.teamId,
     @required this.onUpdate,
-  });
+    bool editable,
+  }) : editable = editable ?? true;
 
   @override
   _TeamScreenState createState() => _TeamScreenState();
@@ -25,10 +29,15 @@ class TeamScreen extends StatefulWidget {
 class _TeamScreenState extends State<TeamScreen> {
   @override
   Widget build(BuildContext context) {
+    bool canEdit = widget.editable &&
+        (Storage.I.role == Role.LocalAdmin ||
+            Storage.I.role == Role.Secretary ||
+            Storage.I.role == Role.TeamLead);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Команда"),
-        actions: _buildActions(),
+        actions: canEdit ? _buildActions() : null,
       ),
       body: _buildFutureBody(),
     );
@@ -80,7 +89,10 @@ class _TeamScreenState extends State<TeamScreen> {
         child: Text("Тренеры"),
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-            return TeamLeadsScreen(teamId: widget.teamId);
+            return TeamLeadsScreen(
+              teamId: widget.teamId,
+              editable: widget.editable,
+            );
           }));
         },
       ),
@@ -96,6 +108,7 @@ class _TeamScreenState extends State<TeamScreen> {
             return TeamParticipantsScreen(
               teamId: widget.teamId,
               onUpdate: _onUpdate,
+              editable: widget.editable,
             );
           }));
         },

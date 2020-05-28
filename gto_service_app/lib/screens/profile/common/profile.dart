@@ -5,9 +5,9 @@ import 'package:gtoserviceapp/components/widgets/navigation/tabs.dart';
 import 'package:gtoserviceapp/components/widgets/profile/app_bar.dart';
 import 'package:gtoserviceapp/components/widgets/profile/profile_user_info.dart';
 import 'package:gtoserviceapp/models/role.dart';
+import 'package:gtoserviceapp/screens/info/events.dart';
 import 'package:gtoserviceapp/screens/login/login.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/orgs.dart';
-import 'package:gtoserviceapp/screens/profile/local_admin/events.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/referee_catalog.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/secretary_catalog.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/sport_object_catalog.dart';
@@ -83,7 +83,7 @@ class ProfileScreen extends StatelessWidget {
       child: Text("Мероприятия"),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-          return EventsScreen();
+          return EventsScreen(orgId: Storage.I.orgId);
         }));
       },
     );

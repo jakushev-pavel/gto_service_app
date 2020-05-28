@@ -4,14 +4,18 @@ import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/field.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/widgets/text/headline.dart';
+import 'package:gtoserviceapp/models/role.dart';
+import 'package:gtoserviceapp/screens/info/events.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/add_edit_org.dart';
 import 'package:gtoserviceapp/screens/profile/global_admin/local_admins.dart';
 import 'package:gtoserviceapp/services/repo/org.dart';
+import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class OrgScreen extends StatefulWidget {
   final int orgId;
+  final bool editable;
 
-  OrgScreen(this.orgId);
+  OrgScreen({@required this.orgId, editable}) : editable = editable ?? true;
 
   @override
   _OrgScreenState createState() => _OrgScreenState();
@@ -27,32 +31,36 @@ class _OrgScreenState extends State<OrgScreen> {
   }
 
   AppBar _buildAppBar(BuildContext context) {
+    bool canEdit = widget.editable && Storage.I.role == Role.GlobalAdmin;
+
     return AppBar(
       title: Text("Организация"),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: () => _onEditPressed(context),
-        ),
-      ],
+      actions: canEdit
+          ? <Widget>[
+              IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () => _onEditPressed(context),
+              ),
+            ]
+          : null,
     );
   }
 
   Widget _buildBody(BuildContext context) {
     return ListView(
       children: <Widget>[
-        _buildFutureOrgCard(context),
-        _buildLocalAdminsButton(context),
+        _buildFutureOrgCard(),
+        ..._buildButtons(),
         SizedBox(height: 48),
       ],
     );
   }
 
-  Widget _buildFutureOrgCard(context) {
+  Widget _buildFutureOrgCard() {
     return FutureWidgetBuilder(OrgRepo.I.get(widget.orgId), _buildOrgCard);
   }
 
-  Widget _buildOrgCard(context, Organisation org) {
+  Widget _buildOrgCard(context, Org org) {
     return CardPadding(
       child: ExpandedHorizontally(
         child: Column(
@@ -75,7 +83,7 @@ class _OrgScreenState extends State<OrgScreen> {
     );
   }
 
-  Widget _buildName(Organisation org, context) {
+  Widget _buildName(Org org, context) {
     return HeadlineText(org.name ?? "");
   }
 
@@ -85,11 +93,11 @@ class _OrgScreenState extends State<OrgScreen> {
     }));
   }
 
-  _buildTotalEventsCount(Organisation org) {
+  _buildTotalEventsCount(Org org) {
     return Text("Всего мероприятий: ${org.countOfAllEvents}");
   }
 
-  _buildActiveEventsCount(Organisation org) {
+  _buildActiveEventsCount(Org org) {
     return Text("Активных мероприятий: ${org.countOfActiveEvents}");
   }
 
@@ -97,12 +105,35 @@ class _OrgScreenState extends State<OrgScreen> {
     setState(() {});
   }
 
-  Widget _buildLocalAdminsButton(BuildContext context) {
+  List<Widget> _buildButtons() {
+    var buttons = <Widget>[];
+
+    if (widget.editable && Storage.I.role == Role.GlobalAdmin) {
+      buttons.add(_buildLocalAdminsButton());
+    }
+
+    buttons.add(_buildEventsButton());
+
+    return buttons;
+  }
+
+  Widget _buildLocalAdminsButton() {
     return CardPadding(
       child: Text("Администраторы"),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return LocalAdminsScreen(orgId: widget.orgId);
+        }));
+      },
+    );
+  }
+
+  Widget _buildEventsButton() {
+    return CardPadding(
+      child: Text("Мероприятия"),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return EventsScreen(orgId: widget.orgId, editable: widget.editable);
         }));
       },
     );

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/screens/main/main_screen.dart';
+import 'package:gtoserviceapp/screens/info/main_screen.dart';
 import 'package:gtoserviceapp/screens/register/confirm.dart';
 import 'package:gtoserviceapp/services/navigation/navigation.dart';
 import 'package:uni_links/uni_links.dart';

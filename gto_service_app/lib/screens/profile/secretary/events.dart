@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/widgets/profile/event_info.dart';
-import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
-import 'package:gtoserviceapp/screens/profile/common/event.dart';
+import 'package:gtoserviceapp/components/widgets/info/event_info.dart';
+import 'package:gtoserviceapp/screens/info/catalog.dart';
+import 'package:gtoserviceapp/screens/info/event.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 
 class SecretaryEventsScreen extends StatelessWidget {

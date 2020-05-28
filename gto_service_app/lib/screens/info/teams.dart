@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/widgets/profile/team_info.dart';
-import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
-import 'package:gtoserviceapp/screens/profile/common/team.dart';
+import 'package:gtoserviceapp/components/widgets/info/team_info.dart';
+import 'package:gtoserviceapp/models/role.dart';
+import 'package:gtoserviceapp/screens/info/team.dart';
 import 'package:gtoserviceapp/services/repo/team.dart';
+import 'package:gtoserviceapp/services/storage/storage.dart';
 
-import 'add_edit_team.dart';
+import '../profile/common/add_edit_team.dart';
+import 'catalog.dart';
 
 class EventTeamsScreen extends StatefulWidget {
   final int orgId;
   final int eventId;
+  final bool editable;
 
-  EventTeamsScreen({@required this.orgId, @required this.eventId});
+  EventTeamsScreen({
+    @required this.orgId,
+    @required this.eventId,
+    bool editable,
+  }) : editable = editable ?? true;
 
   @override
   _EventTeamsScreenState createState() => _EventTeamsScreenState();
@@ -19,12 +26,15 @@ class EventTeamsScreen extends StatefulWidget {
 class _EventTeamsScreenState extends State<EventTeamsScreen> {
   @override
   Widget build(BuildContext context) {
+    bool canEdit = widget.editable &&
+        (Storage.I.role == Role.LocalAdmin || Storage.I.role == Role.Secretary);
+
     return CatalogScreen<Team>(
       title: "Команды",
       getData: () => TeamRepo.I.getAllFromEvent(widget.orgId, widget.eventId),
       buildInfo: (team) => TeamInfo(team: team),
-      onFabPressed: _onFabPressed,
-      onDeletePressed: _onDeletePressed,
+      onFabPressed: canEdit ? _onFabPressed : null,
+      onDeletePressed: canEdit ? _onDeletePressed : null,
       onTapped: _onTapped,
     );
   }
@@ -53,6 +63,7 @@ class _EventTeamsScreenState extends State<EventTeamsScreen> {
       return TeamScreen(
         teamId: team.id,
         onUpdate: _onUpdate,
+        editable: widget.editable,
       );
     }));
   }

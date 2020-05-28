@@ -3,7 +3,7 @@ import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/api/routes.dart';
 import 'package:gtoserviceapp/services/utils/utils.dart';
 
-class Organisation {
+class Org {
   int id;
   String name;
   String address;
@@ -17,7 +17,7 @@ class Organisation {
   int countOfAllEvents;
   int countOfActiveEvents;
 
-  Organisation(
+  Org(
       {this.id,
       this.name,
       this.address,
@@ -31,7 +31,7 @@ class Organisation {
       this.countOfAllEvents,
       this.countOfActiveEvents});
 
-  Organisation.fromJson(Map<String, dynamic> json) {
+  Org.fromJson(Map<String, dynamic> json) {
     id = int.tryParse(json['id']);
     name = json['name'];
     address = json['address'];
@@ -82,7 +82,7 @@ class OrgRepo {
     return GetIt.I<OrgRepo>();
   }
 
-  Future<CreateOrgResponse> add(Organisation org) async {
+  Future<CreateOrgResponse> add(Org org) async {
     var json = await API.I.post(
       Routes.Organizations.toStr(),
       args: org.toJson(),
@@ -91,17 +91,17 @@ class OrgRepo {
     return CreateOrgResponse.fromJson(json);
   }
 
-  Future<Organisation> get(int orgId) async {
+  Future<Org> get(int orgId) async {
     var json = await API.I.get(Routes.Organization.withArgs(orgId: orgId));
-    return Organisation.fromJson(json);
+    return Org.fromJson(json);
   }
 
-  Future<List<Organisation>> getAll() async {
+  Future<List<Org>> getAll() async {
     var json = await API.I.get(Routes.Organizations.toStr());
-    return Utils.map(json, (json) => Organisation.fromJson(json));
+    return Utils.map(json, (json) => Org.fromJson(json));
   }
 
-  Future update(Organisation org) async {
+  Future update(Org org) async {
     await API.I.put(Routes.Organization.withArgs(orgId: org.id), org.toJson());
   }
 

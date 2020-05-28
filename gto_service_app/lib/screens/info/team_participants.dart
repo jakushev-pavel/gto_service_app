@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
-import 'package:gtoserviceapp/components/widgets/profile/participant_info.dart';
+import 'package:gtoserviceapp/components/widgets/info/participant_info.dart';
 import 'package:gtoserviceapp/models/role.dart';
-import 'package:gtoserviceapp/screens/profile/common/catalog.dart';
 import 'package:gtoserviceapp/services/repo/participant.dart';
 import 'package:gtoserviceapp/services/repo/team.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
-import 'add_team_participant.dart';
+import '../profile/common/add_team_participant.dart';
+import 'catalog.dart';
 
 class TeamParticipantsScreen extends StatefulWidget {
   final int teamId;
   final void Function() onUpdate;
+  final bool editable;
 
   TeamParticipantsScreen({
     @required this.teamId,
     @required this.onUpdate,
-  });
+    bool editable,
+  }) : editable = editable ?? true;
 
   @override
   _TeamParticipantsScreenState createState() => _TeamParticipantsScreenState();
@@ -25,8 +27,10 @@ class TeamParticipantsScreen extends StatefulWidget {
 class _TeamParticipantsScreenState extends State<TeamParticipantsScreen> {
   @override
   Widget build(BuildContext context) {
-    bool canConfirm =
+    bool canConfirm = widget.editable &&
         (Storage.I.role == Role.LocalAdmin || Storage.I.role == Role.Secretary);
+    bool canEdit =
+        widget.editable && (canConfirm || Storage.I.role == Role.TeamLead);
 
     return CatalogScreen(
       title: "Участники",
@@ -34,9 +38,10 @@ class _TeamParticipantsScreenState extends State<TeamParticipantsScreen> {
       buildInfo: (participant) => ParticipantInfo(
         participant: participant,
         onUpdate: _onUpdate,
+        editable: widget.editable,
       ),
-      onFabPressed: _onFabPressed,
-      onDeletePressed: _onDeletePressed,
+      onFabPressed: canEdit ? _onFabPressed : null,
+      onDeletePressed: canEdit ? _onDeletePressed : null,
       actions: canConfirm ? _buildActions() : null,
     );
   }

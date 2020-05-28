@@ -11,24 +11,38 @@ class AddEditEventScreen extends StatefulWidget {
   final void Function() onUpdate;
 
   AddEditEventScreen({
-    this.orgId,
+    @required this.orgId,
     this.eventId,
     @required this.onUpdate,
   });
 
   @override
-  _AddEditEventScreenState createState() => _AddEditEventScreenState();
+  _AddEditEventScreenState createState() =>
+      _AddEditEventScreenState(orgId: orgId, eventId: eventId);
 }
 
 class _AddEditEventScreenState extends State<AddEditEventScreen> {
+  final int orgId;
+  final int eventId;
   final _formKey = GlobalKey<FormState>();
-  var _event = Event(
-    startDate: DateTime.now(),
-    expirationDate: DateTime.now(),
-  );
+  Future<Event> _futureEvent;
+  Event _event;
+
+  _AddEditEventScreenState({@required this.orgId, this.eventId}) {
+    if (eventId == null) {
+      _futureEvent = Future.value(
+        Event(
+          startDate: DateTime.now(),
+          expirationDate: DateTime.now(),
+        ),
+      );
+    } else {
+      _futureEvent = EventRepo.I.get(orgId, eventId);
+    }
+  }
 
   bool get _isEditing {
-    return widget.eventId != null;
+    return eventId != null;
   }
 
   @override
@@ -58,7 +72,7 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
 
   Widget _buildFutureForm() {
     return FutureWidgetBuilder(
-      EventRepo.I.get(widget.orgId, widget.eventId),
+      _futureEvent,
       (_, Event event) {
         _event = event;
         return _buildForm();
@@ -160,8 +174,8 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
     form.save();
 
     var future = _isEditing
-        ? EventRepo.I.update(widget.orgId, _event)
-        : EventRepo.I.add(widget.orgId, _event);
+        ? EventRepo.I.update(orgId, _event)
+        : EventRepo.I.add(orgId, _event);
     future.then((_) {
       widget.onUpdate();
       Navigator.of(context).pop();
