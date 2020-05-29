@@ -4,7 +4,7 @@ import 'package:gtoserviceapp/components/widgets/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/widgets/navigation/tabs.dart';
 import 'package:gtoserviceapp/components/widgets/shrunk_vertically.dart';
 import 'package:gtoserviceapp/models/gender.dart';
-import 'file:///C:/Users/Acer/Documents/Dev/gto_service_app/gto_service_app/lib/screens/calculator/result.dart';
+import 'package:gtoserviceapp/screens/calculator/result.dart';
 
 class CalculatorScreen extends StatefulWidget {
   @override
