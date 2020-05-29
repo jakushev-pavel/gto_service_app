@@ -2,34 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/card_list_view.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
-import 'package:gtoserviceapp/models/calculator.dart';
 import 'package:gtoserviceapp/models/gender.dart';
 import 'package:gtoserviceapp/services/repo/calculator.dart';
-import 'package:provider/provider.dart';
 
 class CalculatorResultScreen extends StatefulWidget {
+  final int age;
+  final Gender gender;
+
+  CalculatorResultScreen({@required this.age, @required this.gender});
+
   @override
-  _CalculatorResultScreenState createState() => _CalculatorResultScreenState();
+  _CalculatorResultScreenState createState() =>
+      _CalculatorResultScreenState(gender, age);
 }
 
 class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
-  Map<int, int> _primaryResults = {};
+  Future<Trials> _trials;
+  Map<int, String> _primaryResults = {};
+
+  _CalculatorResultScreenState(Gender gender, int age) {
+    _trials = CalculatorRepo.I.fetchTrials(age, gender);
+  }
 
   @override
   Widget build(BuildContext context) {
-    var calc = Provider.of<CalculatorModel>(context, listen: false);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(title: Text("Калькулятор")),
-        body: _buildBody(calc.age, calc.gender),
+        body: _buildBody(widget.age, widget.gender),
       ),
     );
   }
 
   Widget _buildBody(int age, Gender gender) {
     return FutureWidgetBuilder(
-      CalculatorRepo.I.fetchTrials(age, gender),
+      _trials,
       (_, Trials trials) => _buildTrials(trials, age, gender),
     );
   }
@@ -60,7 +68,6 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
   }
 
   Widget _buildTrialsList(Trials trials) {
-    // TODO
     return ListView.separated(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
@@ -79,7 +86,7 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
   }
 
   Widget _buildGroup(Group group) {
-    return CardListView(group.trials, _buildTrial);
+    return CardListView<Trial>(group.trials, _buildTrial);
   }
 
   Widget _buildTrial(BuildContext context, Trial trial) {
@@ -118,30 +125,20 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
   }
 
   Widget _buildPrimarySecondaryResults(Trial trial, BuildContext context) {
-    return Row(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(top: 14.0),
-          child: Text("Баллы: "),
-        ),
-        SizedBox(width: 8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Row(
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Text("Первичный: "),
-                _buildPrimaryResult(trial.id),
-              ],
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            _buildFutureSecondaryResult(context, trial.id),
-          ]..removeWhere((x) => x == null),
+            Text("Первичный результат: "),
+            _buildPrimaryResult(trial.id),
+          ],
         ),
-      ],
+        SizedBox(
+          height: 4,
+        ),
+        _buildFutureSecondaryResult(context, trial.id),
+      ]..removeWhere((x) => x == null),
     );
   }
 
@@ -149,13 +146,14 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
     return Row(
       children: <Widget>[
         SizedBox(
-          width: 32,
+          width: 96,
           height: 48,
           child: TextFormField(
             textAlign: TextAlign.center,
             initialValue: _primaryResults[trialId]?.toString(),
             onChanged: (value) => _onPrimaryResultChanged(trialId, value),
-            keyboardType: TextInputType.number,
+            onFieldSubmitted: (_) => _onPrimaryResultSubmitted(),
+            onEditingComplete: _onPrimaryResultSubmitted,
           ),
         ),
       ],
@@ -163,13 +161,16 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
   }
 
   _onPrimaryResultChanged(int trialId, String value) {
-    setState(() {
-      _primaryResults[trialId] = int.tryParse(value);
-    });
+    _primaryResults[trialId] = value;
+  }
+
+  _onPrimaryResultSubmitted() {
+    setState(() {});
   }
 
   Widget _buildFutureSecondaryResult(BuildContext context, int trialId) {
-    if (_primaryResults[trialId] == null) {
+    if (_primaryResults[trialId] == null ||
+        _primaryResults[trialId].trim().isEmpty) {
       return null;
     }
 
@@ -183,7 +184,7 @@ class _CalculatorResultScreenState extends State<CalculatorResultScreen> {
   Row _buildSecondaryResult(SecondaryResultResponse response) {
     return Row(
       children: <Widget>[
-        Text("Вторичный: "),
+        Text("Приведенный: "),
         Text(
           response.secondaryResult.toString(),
           style: TextStyle(

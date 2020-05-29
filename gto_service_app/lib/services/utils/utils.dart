@@ -45,6 +45,8 @@ class Utils {
       return error.toText();
     } else if (error is SocketException) {
       return "Не удалось подключиться к серверу";
+    } else if (error is FormatException) {
+      return "Ошибка сервера";
     } else {
       return error.toString();
     }

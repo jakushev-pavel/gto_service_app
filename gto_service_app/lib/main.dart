@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:gtoserviceapp/models/calculator.dart';
 import 'package:gtoserviceapp/screens/initial/initial.dart';
 import 'package:gtoserviceapp/services/api/api.dart';
 import 'package:gtoserviceapp/services/auth/auth.dart';
@@ -22,18 +21,12 @@ import 'package:gtoserviceapp/services/repo/trial.dart';
 import 'package:gtoserviceapp/services/repo/user.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 import 'package:gtoserviceapp/theme/theme.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
 
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider<CalculatorModel>(create: (_) => CalculatorModel()),
-    ],
-    child: GTOServiceApp(),
-  ));
+  runApp(GTOServiceApp());
 }
 
 class GTOServiceApp extends StatelessWidget {
