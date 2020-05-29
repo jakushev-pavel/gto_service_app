@@ -35,27 +35,13 @@ class _SelectorState<T, K> extends State<Selector<T, K>> {
   }
 
   List<DropdownMenuItem<K>> _buildItems() {
-    var items = List<DropdownMenuItem<K>>();
-    widget.data.forEach((T data) {
-      items.add(_buildItem(data));
-//      items.add(_buildDivider());
-    });
-
-//    items.removeLast();
-    return items;
+    return widget.data.map(_buildItem).toList();
   }
 
   DropdownMenuItem<K> _buildItem(T data) {
     return DropdownMenuItem<K>(
       value: widget.getKey(data),
       child: Container(child: widget.builder(data)),
-    );
-  }
-
-  DropdownMenuItem<K> _buildDivider() {
-    return DropdownMenuItem(
-      child: Divider(),
-      onTap: () {},
     );
   }
 }
