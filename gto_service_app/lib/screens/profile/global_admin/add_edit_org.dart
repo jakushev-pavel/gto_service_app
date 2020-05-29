@@ -14,14 +14,21 @@ class AddEditOrgScreen extends StatefulWidget {
   }) : orgId = orgId;
 
   @override
-  _AddEditOrgScreenState createState() => _AddEditOrgScreenState();
+  _AddEditOrgScreenState createState() => _AddEditOrgScreenState(orgId);
 }
 
 class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
   final _formKey = GlobalKey<FormState>();
-  var _org = Org();
+  Future<Org> _futureOrg;
+  var _org;
 
-  _AddEditOrgScreenState();
+  _AddEditOrgScreenState(int orgId) {
+    if (orgId != null) {
+      _futureOrg = OrgRepo.I.get(orgId);
+    } else {
+      _futureOrg = Future.value(Org());
+    }
+  }
 
   bool get _isEditing {
     return widget.orgId != null;
@@ -45,12 +52,8 @@ class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
   }
 
   Widget _buildBody() {
-    if (!_isEditing) {
-      return _buildForm();
-    }
-
     return FutureWidgetBuilder(
-      OrgRepo.I.get(widget.orgId),
+      _futureOrg,
       (_, Org org) {
         _org = org;
         return _buildForm();
