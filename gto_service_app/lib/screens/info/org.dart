@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gtoserviceapp/components/widgets/card_button.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/field.dart';
@@ -118,8 +119,9 @@ class _OrgScreenState extends State<OrgScreen> {
   }
 
   Widget _buildLocalAdminsButton() {
-    return CardPadding(
-      child: Text("Администраторы"),
+    return CardButton(
+      text: "Администраторы",
+      icon: Icons.person,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return LocalAdminsScreen(orgId: widget.orgId);
@@ -129,8 +131,9 @@ class _OrgScreenState extends State<OrgScreen> {
   }
 
   Widget _buildEventsButton() {
-    return CardPadding(
-      child: Text("Мероприятия"),
+    return CardButton(
+      text: "Мероприятия",
+      icon: Icons.event,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return EventsScreen(orgId: widget.orgId, editable: widget.editable);

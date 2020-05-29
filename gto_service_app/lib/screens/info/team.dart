@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gtoserviceapp/components/widgets/card_button.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
@@ -89,37 +90,35 @@ class _TeamScreenState extends State<TeamScreen> {
   }
 
   Widget _buildTeamLeadsButton() {
-    return ExpandedHorizontally(
-      child: CardPadding(
-        child: Text("Тренеры"),
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-            return TeamLeadsScreen(
-              teamId: widget.teamId,
-              editable: widget.editable,
-            );
-          }));
-        },
-      ),
+    return CardButton(
+      text: "Тренеры",
+      icon: Icons.person,
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return TeamLeadsScreen(
+            teamId: widget.teamId,
+            editable: widget.editable,
+          );
+        }));
+      },
     );
   }
 
   _buildParticipantsButton() {
-    return ExpandedHorizontally(
-      child: CardPadding(
-        child: Text("Участники"),
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-            return TeamParticipantsScreen(
-              eventId: widget.eventId,
-              teamId: widget.teamId,
-              onUpdate: _onUpdate,
-              editable: widget.editable,
-              resultsEditable: widget.resultsEditable,
-            );
-          }));
-        },
-      ),
+    return CardButton(
+      text: "Участники",
+      icon: Icons.person,
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return TeamParticipantsScreen(
+            eventId: widget.eventId,
+            teamId: widget.teamId,
+            onUpdate: _onUpdate,
+            editable: widget.editable,
+            resultsEditable: widget.resultsEditable,
+          );
+        }));
+      },
     );
   }
 

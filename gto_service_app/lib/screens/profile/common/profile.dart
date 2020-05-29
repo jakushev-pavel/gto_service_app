@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gtoserviceapp/components/widgets/card_padding.dart';
+import 'package:gtoserviceapp/components/widgets/card_button.dart';
 import 'package:gtoserviceapp/components/widgets/navigation/nav_bar.dart';
 import 'package:gtoserviceapp/components/widgets/navigation/tabs.dart';
 import 'package:gtoserviceapp/components/widgets/profile/app_bar.dart';
@@ -73,8 +73,9 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildOrgsButton(context) {
-    return CardPadding(
-      child: Text("Организации"),
+    return CardButton(
+      text: "Организации",
+      icon: Icons.group,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return OrgsScreen();
@@ -84,8 +85,9 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildEventsButton(context) {
-    return CardPadding(
-      child: Text("Мероприятия"),
+    return CardButton(
+      text: "Мероприятия",
+      icon: Icons.event,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return EventsScreen(orgId: Storage.I.orgId);
@@ -95,8 +97,9 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildSecretaryCatalogButton(context) {
-    return CardPadding(
-      child: Text("Секретари"),
+    return CardButton(
+      text: "Секретари",
+      icon: Icons.person,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return SecretaryCatalogScreen();
@@ -106,8 +109,9 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildRefereeCatalogButton(context) {
-    return CardPadding(
-      child: Text("Судьи"),
+    return CardButton(
+      text: "Судьи",
+      icon: Icons.person,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return RefereeCatalogScreen();
@@ -117,8 +121,9 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildSportObjectCatalogButton(context) {
-    return CardPadding(
-      child: Text("Спортивые объекты"),
+    return CardButton(
+      text: "Спортивые объекты",
+      icon: Icons.location_city,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return SportObjectCatalogScreen();
@@ -128,8 +133,9 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildSecretaryEventsButton(context) {
-    return CardPadding(
-      child: Text("Мои мероприятия"),
+    return CardButton(
+      text: "Мои мероприятия",
+      icon: Icons.event,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return SecretaryEventsScreen();
@@ -139,8 +145,9 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildTeamLeadTeamsButton(context) {
-    return CardPadding(
-      child: Text("Мои команды"),
+    return CardButton(
+      text: "Мои команды",
+      icon: Icons.group,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return TeamLeadTeamsScreen();
@@ -150,8 +157,9 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildUserEventsButton(context) {
-    return CardPadding(
-      child: Text("Мои мероприятия"),
+    return CardButton(
+      text: "Мои мероприятия",
+      icon: Icons.event,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return UserEventsScreen();

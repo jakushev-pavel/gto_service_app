@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gtoserviceapp/components/widgets/card_button.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/ok_dialog.dart';
@@ -133,6 +134,7 @@ class _EventScreenState extends State<EventScreen> {
       buttons.add(_buildApplyButton());
     }
 
+    buttons.add(SizedBox(height: 16));
     return buttons;
   }
 
@@ -159,8 +161,9 @@ class _EventScreenState extends State<EventScreen> {
   }
 
   Widget _buildChangeStateButton() {
-    return CardPadding(
-      child: Text("Изменить статус"),
+    return CardButton(
+      text: "Изменить статус",
+      icon: Icons.fast_forward,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return ChangeEventStateScreen(
@@ -173,8 +176,9 @@ class _EventScreenState extends State<EventScreen> {
   }
 
   Widget _buildSelectTableButton() {
-    return CardPadding(
-      child: Text("Выбрать таблицу перевода"),
+    return CardButton(
+      text: "Выбрать таблицу перевода",
+      icon: Icons.table_chart,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return SelectTableScreen(
@@ -187,8 +191,9 @@ class _EventScreenState extends State<EventScreen> {
   }
 
   Widget _buildTrialsButton(Event event) {
-    return CardPadding(
-      child: Text("Виды спорта"),
+    return CardButton(
+      text: "Виды спорта",
+      icon: Icons.directions_run,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return EventTrialsScreen(
@@ -203,8 +208,9 @@ class _EventScreenState extends State<EventScreen> {
   }
 
   Widget _buildParticipantsButton(Event event) {
-    return CardPadding(
-      child: Text("Участники"),
+    return CardButton(
+      text: "Участники",
+      icon: Icons.person,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return EventParticipantsScreen(
@@ -218,8 +224,9 @@ class _EventScreenState extends State<EventScreen> {
   }
 
   Widget _buildTeamsButton(Event event) {
-    return CardPadding(
-      child: Text("Команды"),
+    return CardButton(
+      text: "Команды",
+      icon: Icons.group,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return EventTeamsScreen(
@@ -234,8 +241,9 @@ class _EventScreenState extends State<EventScreen> {
   }
 
   Widget _buildEventSecretaryCatalogButton({bool editable = true}) {
-    return CardPadding(
-      child: Text("Секретари"),
+    return CardButton(
+      text: "Секретари",
+      icon: Icons.person,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return EventSecretaryCatalogScreen(
@@ -249,8 +257,9 @@ class _EventScreenState extends State<EventScreen> {
   }
 
   Widget _buildAddRefereeButton() {
-    return CardPadding(
-      child: Text("Добавить судью"),
+    return CardButton(
+      text: "Добавить судью",
+      icon: Icons.person_add,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return AddTrialRefereeScreen(
@@ -263,8 +272,9 @@ class _EventScreenState extends State<EventScreen> {
   }
 
   Widget _buildApplyButton() {
-    return CardPadding(
-      child: Text("Подать заявку на участие"),
+    return CardButton(
+      text: "Подать заявку на участие",
+      icon: Icons.check,
       onTap: () {
         if (!Auth.I.isLoggedIn) {
           Navigator.of(context).push(MaterialPageRoute(builder: (_) {
