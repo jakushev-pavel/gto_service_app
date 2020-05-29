@@ -61,6 +61,7 @@ class _EventTeamsScreenState extends State<EventTeamsScreen> {
   void _onTapped(BuildContext context, Team team) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return TeamScreen(
+        eventId: widget.eventId,
         teamId: team.id,
         onUpdate: _onUpdate,
         editable: widget.editable,

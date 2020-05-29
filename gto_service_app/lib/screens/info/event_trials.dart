@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/text/caption.dart';
 import 'package:gtoserviceapp/components/widgets/text/headline.dart';
 import 'package:gtoserviceapp/models/role.dart';
+import 'package:gtoserviceapp/screens/info/trial_results.dart';
 import 'package:gtoserviceapp/services/repo/referee.dart';
 import 'package:gtoserviceapp/services/repo/trial.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
@@ -36,6 +37,7 @@ class _EventTrialsScreenState extends State<EventTrialsScreen> {
       buildInfo: _buildInfo,
       onFabPressed: canEdit ? _onFabPressed : null,
       onDeletePressed: canEdit ? _onDeletePressed : null,
+      onTapped: _onTapped,
     );
   }
 
@@ -91,5 +93,11 @@ class _EventTrialsScreenState extends State<EventTrialsScreen> {
 
   void _onUpdate() {
     setState(() {});
+  }
+
+  void _onTapped(context, EventTrial eventTrial) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return TrialResultsScreen(trialInEventId: eventTrial.trialInEventId);
+    }));
   }
 }

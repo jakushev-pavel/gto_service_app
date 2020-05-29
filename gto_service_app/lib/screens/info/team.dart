@@ -12,11 +12,13 @@ import 'package:gtoserviceapp/services/storage/storage.dart';
 import '../profile/common/add_edit_team.dart';
 
 class TeamScreen extends StatefulWidget {
+  final int eventId;
   final int teamId;
   final void Function() onUpdate;
   final bool editable;
 
   TeamScreen({
+    @required this.eventId,
     @required this.teamId,
     @required this.onUpdate,
     bool editable,
@@ -106,6 +108,7 @@ class _TeamScreenState extends State<TeamScreen> {
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (_) {
             return TeamParticipantsScreen(
+              eventId: widget.eventId,
               teamId: widget.teamId,
               onUpdate: _onUpdate,
               editable: widget.editable,

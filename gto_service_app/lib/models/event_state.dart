@@ -7,7 +7,7 @@ enum EventState {
 
 extension EventStateEx on EventState {
   static EventState fromStr(String str) {
-    switch (str.toLowerCase()) {
+    switch (str?.toLowerCase()) {
       case "подготовка":
         return EventState.Preparation;
       case "готовность":

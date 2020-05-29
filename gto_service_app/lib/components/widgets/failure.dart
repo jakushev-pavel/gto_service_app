@@ -10,8 +10,7 @@ class Failure extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Wrap(
       children: <Widget>[
         Icon(Icons.error, color: Colors.red),
         SizedBox(width: 8),

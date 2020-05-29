@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/info/participant_info.dart';
 import 'package:gtoserviceapp/models/role.dart';
 import 'package:gtoserviceapp/screens/info/catalog.dart';
+import 'package:gtoserviceapp/screens/info/participant_results.dart';
 import 'package:gtoserviceapp/services/repo/participant.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
@@ -35,6 +36,7 @@ class _EventParticipantsScreenState extends State<EventParticipantsScreen> {
       ),
       onDeletePressed: canEdit ? _onDeletePressed : null,
       onFabPressed: canEdit ? _onFabPressed : null,
+      onTapped: _onTapped,
     );
   }
 
@@ -52,5 +54,15 @@ class _EventParticipantsScreenState extends State<EventParticipantsScreen> {
 
   void _onUpdate() {
     setState(() {});
+  }
+
+  void _onTapped(context, Participant participant) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return ParticipantResultsScreen(
+        eventId: widget.eventId,
+        userId: participant.userId,
+        editable: widget.editable,
+      );
+    }));
   }
 }

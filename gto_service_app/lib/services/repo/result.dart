@@ -65,9 +65,10 @@ class Trial {
   String firstResult;
   int secondResult;
   Badge badge;
-  int resultForBronze;
-  int resultForSilver;
-  int resultForGold;
+  String resultForBronze;
+  String resultForSilver;
+  String resultForGold;
+  int resultInTrialId;
 
   Trial(
       {this.trialName,
@@ -86,6 +87,7 @@ class Trial {
     typeTime = json['typeTime'];
     firstResult = json['firstResult'];
     secondResult = json['secondResult'];
+    resultInTrialId = json['resultTrialOnEventId'];
     badge = BadgeEx.fromString(json['badge']);
     resultForBronze = json['resultForBronze'];
     resultForSilver = json['resultForSilver'];
@@ -128,7 +130,7 @@ class Participant {
   DateTime dateOfBirth;
   Gender gender;
   String firstResult;
-  String secondResult;
+  int secondResult;
   Badge badge;
   int orgId;
   int eventId;

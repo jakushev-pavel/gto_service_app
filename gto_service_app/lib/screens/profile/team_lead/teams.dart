@@ -22,7 +22,7 @@ class _TeamLeadTeamsScreenState extends State<TeamLeadTeamsScreen> {
 
   void _onTapped(context, Team team) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return TeamScreen(teamId: team.id, onUpdate: _onUpdate);
+      return TeamScreen(eventId: null, teamId: team.id, onUpdate: _onUpdate);
     }));
   }
 

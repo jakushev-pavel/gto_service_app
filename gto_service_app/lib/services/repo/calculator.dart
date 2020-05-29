@@ -86,7 +86,7 @@ class CalculatorRepo {
 
   Future<SecondaryResultResponse> fetchSecondaryResult(
     int trialId,
-    int primaryResult,
+    String primaryResult,
   ) async {
     var json = await API.I.get(Routes.TrialSecondaryResult.withArgs(
       trialId: trialId,

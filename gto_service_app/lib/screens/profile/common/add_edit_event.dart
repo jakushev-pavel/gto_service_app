@@ -63,10 +63,6 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
   }
 
   Widget _buildBody() {
-    if (!_isEditing) {
-      return _buildForm();
-    }
-
     return _buildFutureForm();
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/info/participant_info.dart';
 import 'package:gtoserviceapp/models/role.dart';
+import 'package:gtoserviceapp/screens/info/participant_results.dart';
 import 'package:gtoserviceapp/services/repo/participant.dart';
 import 'package:gtoserviceapp/services/repo/team.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
@@ -10,11 +11,13 @@ import '../profile/common/add_team_participant.dart';
 import 'catalog.dart';
 
 class TeamParticipantsScreen extends StatefulWidget {
+  final int eventId;
   final int teamId;
   final void Function() onUpdate;
   final bool editable;
 
   TeamParticipantsScreen({
+    @required this.eventId,
     @required this.teamId,
     @required this.onUpdate,
     bool editable,
@@ -43,6 +46,7 @@ class _TeamParticipantsScreenState extends State<TeamParticipantsScreen> {
       onFabPressed: canEdit ? _onFabPressed : null,
       onDeletePressed: canEdit ? _onDeletePressed : null,
       actions: canConfirm ? _buildActions() : null,
+      onTapped: widget.eventId != null ? _onTapped : null,
     );
   }
 
@@ -81,5 +85,15 @@ class _TeamParticipantsScreenState extends State<TeamParticipantsScreen> {
     }).catchError((error) {
       showDialog(context: context, child: ErrorDialog.fromError(error));
     });
+  }
+
+  void _onTapped(context, Participant participant) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return ParticipantResultsScreen(
+        eventId: widget.eventId,
+        userId: participant.userId,
+        editable: widget.editable,
+      );
+    }));
   }
 }
