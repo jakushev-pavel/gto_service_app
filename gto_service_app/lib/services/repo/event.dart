@@ -104,7 +104,10 @@ class EventRepo {
   }
 
   Future apply(int eventId) {
-    return API.I.post(Routes.EventApply.withArgs(eventId: eventId));
+    return API.I.post(
+      Routes.EventApply.withArgs(eventId: eventId),
+      auth: true,
+    );
   }
 
   Future unsubscribe(int eventId) {

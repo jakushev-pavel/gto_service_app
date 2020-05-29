@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
+import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
+import 'package:gtoserviceapp/components/widgets/dialogs/ok_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/field.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
@@ -8,10 +10,12 @@ import 'package:gtoserviceapp/components/widgets/text/headline.dart';
 import 'package:gtoserviceapp/models/event_state.dart';
 import 'package:gtoserviceapp/models/role.dart';
 import 'package:gtoserviceapp/screens/info/teams.dart';
+import 'package:gtoserviceapp/screens/login/login.dart';
 import 'package:gtoserviceapp/screens/profile/common/add_edit_event.dart';
 import 'package:gtoserviceapp/screens/profile/common/add_trial_referee.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/change_event_state.dart';
 import 'package:gtoserviceapp/screens/profile/local_admin/select_table.dart';
+import 'package:gtoserviceapp/services/auth/auth.dart';
 import 'package:gtoserviceapp/services/repo/event.dart';
 import 'package:gtoserviceapp/services/repo/table.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
@@ -121,6 +125,7 @@ class _EventScreenState extends State<EventScreen> {
         (role == Role.LocalAdmin || role == Role.Secretary)) {
       buttons.add(_buildAddRefereeButton(context));
     }
+    buttons.add(_buildApplyButton(context));
 
     return buttons;
   }
@@ -245,6 +250,35 @@ class _EventScreenState extends State<EventScreen> {
         }));
       },
     );
+  }
+
+  Widget _buildApplyButton(context) {
+    return CardPadding(
+      child: Text("Подать заявку на участие"),
+      onTap: () {
+        if (!Auth.I.isLoggedIn) {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+            return LoginScreen(callback: () => _onApplyPressed(context));
+          }));
+        } else {
+          _onApplyPressed(context);
+        }
+      },
+    );
+  }
+
+  void _onApplyPressed(context) {
+    EventRepo.I.apply(widget.eventId).then((_) {
+      setState(() {});
+      showDialog(
+          context: context,
+          child: OkDialog(
+            "Успешно",
+            text: "Заявка отправлена",
+          ));
+    }).catchError((error) {
+      showDialog(context: context, child: ErrorDialog.fromError(error));
+    });
   }
 
   _onUpdate() {

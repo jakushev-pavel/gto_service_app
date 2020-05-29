@@ -8,6 +8,10 @@ import 'package:gtoserviceapp/screens/register/register.dart';
 import 'package:gtoserviceapp/services/auth/auth.dart';
 
 class LoginScreen extends StatefulWidget {
+  final void Function() callback;
+
+  LoginScreen({this.callback});
+
   @override
   State<StatefulWidget> createState() => LoginScreenState();
 }
@@ -110,6 +114,12 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   _onSuccess(context) {
+    if (widget.callback != null) {
+      Navigator.of(context).pop();
+      widget.callback();
+      return;
+    }
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
