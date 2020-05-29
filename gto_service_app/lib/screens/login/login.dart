@@ -48,12 +48,14 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return ListView(
       children: <Widget>[
-        SizedBox(
-          height: 250,
-          child: Image.asset("assets/images/logo.png"),
+        Padding(
+          padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+          child: SizedBox(
+            height: 250,
+            child: Image.asset("assets/images/logo.png"),
+          ),
         ),
         CardPadding(
           child: Column(
