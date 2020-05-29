@@ -8,8 +8,11 @@ import 'add_event_secretary.dart';
 class EventSecretaryCatalogScreen extends StatelessWidget {
   final int orgId;
   final int eventId;
+  final bool editable;
 
-  EventSecretaryCatalogScreen({@required this.orgId, @required this.eventId});
+  EventSecretaryCatalogScreen(
+      {@required this.orgId, @required this.eventId, editable})
+      : editable = editable ?? true;
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +20,8 @@ class EventSecretaryCatalogScreen extends StatelessWidget {
       title: "Секретари мероприятия",
       getData: () => SecretaryRepo.I.getFromEvent(orgId, eventId),
       buildInfo: (Secretary secretary) => SecretaryInfo(secretary),
-      onFabPressed: _onFabPressed,
-      onDeletePressed: _onDeletePressed,
+      onFabPressed: editable ? _onFabPressed : null,
+      onDeletePressed: editable ? _onDeletePressed : null,
     );
   }
 

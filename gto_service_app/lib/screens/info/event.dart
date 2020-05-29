@@ -39,23 +39,31 @@ class EventScreen extends StatefulWidget {
 class _EventScreenState extends State<EventScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: _buildBody(context),
+    return FutureWidgetBuilder(
+      EventRepo.I.get(widget.orgId, widget.eventId),
+      _build,
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Scaffold _build(_, Event event) {
+    return Scaffold(
+      appBar: _buildAppBar(event),
+      body: _buildBody(event),
+    );
+  }
+
+  Widget _buildBody(Event event) {
     return ListView(
       children: <Widget>[
-        _buildFutureEventCard(context),
-        ..._buildButtons(context),
+        _buildEventCard(event),
+        ..._buildButtons(event),
       ],
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(Event event) {
     bool canEdit = widget.editable &&
+        _canEdit(event) &&
         (Storage.I.role == Role.LocalAdmin || Storage.I.role == Role.Secretary);
 
     return AppBar(
@@ -64,21 +72,14 @@ class _EventScreenState extends State<EventScreen> {
           ? <Widget>[
               IconButton(
                 icon: Icon(Icons.edit),
-                onPressed: () => _onEditPressed(context),
+                onPressed: () => _onEditPressed(),
               ),
             ]
           : null,
     );
   }
 
-  Widget _buildFutureEventCard(context) {
-    return FutureWidgetBuilder(
-      EventRepo.I.get(widget.orgId, widget.eventId),
-      _buildEventCard,
-    );
-  }
-
-  Widget _buildEventCard(context, Event event) {
+  Widget _buildEventCard(Event event) {
     return ExpandedHorizontally(
       child: CardPadding(
         child: Column(
@@ -101,31 +102,36 @@ class _EventScreenState extends State<EventScreen> {
     );
   }
 
-  List<Widget> _buildButtons(BuildContext context) {
+  List<Widget> _buildButtons(Event event) {
     var buttons = <Widget>[];
 
     Role role = Storage.I.role;
+    if (widget.editable && role == Role.LocalAdmin && _canChangeState(event)) {
+      buttons.add(_buildChangeStateButton());
+    }
+
+    var canEdit = _canEdit(event);
+    if (widget.editable &&
+        (role == Role.LocalAdmin || role == Role.Secretary) &&
+        canEdit) {
+      buttons.add(_buildSelectTableButton());
+    }
+    buttons.add(_buildTrialsButton(event));
+    buttons.add(_buildParticipantsButton(event));
+    buttons.add(_buildTeamsButton(event));
+
     if (widget.editable && role == Role.LocalAdmin) {
-      buttons.add(_buildChangeStateButton(context));
+      buttons.add(_buildEventSecretaryCatalogButton(editable: canEdit));
     }
 
     if (widget.editable &&
-        (role == Role.LocalAdmin || role == Role.Secretary)) {
-      buttons.add(_buildSelectTableButton(context));
+        (role == Role.LocalAdmin || role == Role.Secretary) &&
+        canEdit) {
+      buttons.add(_buildAddRefereeButton());
     }
-    buttons.add(_buildTrialsButton(context));
-    buttons.add(_buildParticipantsButton(context));
-    buttons.add(_buildTeamsButton(context));
-
-    if (widget.editable && role == Role.LocalAdmin) {
-      buttons.add(_buildEventSecretaryCatalogButton(context));
+    if (canEdit) {
+      buttons.add(_buildApplyButton());
     }
-
-    if (widget.editable &&
-        (role == Role.LocalAdmin || role == Role.Secretary)) {
-      buttons.add(_buildAddRefereeButton(context));
-    }
-    buttons.add(_buildApplyButton(context));
 
     return buttons;
   }
@@ -142,7 +148,7 @@ class _EventScreenState extends State<EventScreen> {
     );
   }
 
-  _onEditPressed(BuildContext context) {
+  _onEditPressed() {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return AddEditEventScreen(
         orgId: widget.orgId,
@@ -152,7 +158,7 @@ class _EventScreenState extends State<EventScreen> {
     }));
   }
 
-  Widget _buildChangeStateButton(BuildContext context) {
+  Widget _buildChangeStateButton() {
     return CardPadding(
       child: Text("Изменить статус"),
       onTap: () {
@@ -166,7 +172,7 @@ class _EventScreenState extends State<EventScreen> {
     );
   }
 
-  Widget _buildSelectTableButton(BuildContext context) {
+  Widget _buildSelectTableButton() {
     return CardPadding(
       child: Text("Выбрать таблицу перевода"),
       onTap: () {
@@ -180,7 +186,7 @@ class _EventScreenState extends State<EventScreen> {
     );
   }
 
-  Widget _buildTrialsButton(BuildContext context) {
+  Widget _buildTrialsButton(Event event) {
     return CardPadding(
       child: Text("Виды спорта"),
       onTap: () {
@@ -188,28 +194,30 @@ class _EventScreenState extends State<EventScreen> {
           return EventTrialsScreen(
             orgId: widget.orgId,
             eventId: widget.eventId,
-            editable: widget.editable,
+            editable: _canEdit(event) && widget.editable,
+            resultsEditable: _canChangeResults(event) && widget.editable,
           );
         }));
       },
     );
   }
 
-  Widget _buildParticipantsButton(BuildContext context) {
+  Widget _buildParticipantsButton(Event event) {
     return CardPadding(
       child: Text("Участники"),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return EventParticipantsScreen(
             eventId: widget.eventId,
-            editable: widget.editable,
+            editable: _canEdit(event) && widget.editable,
+            resultsEditable: _canChangeResults(event) && widget.editable,
           );
         }));
       },
     );
   }
 
-  Widget _buildTeamsButton(BuildContext context) {
+  Widget _buildTeamsButton(Event event) {
     return CardPadding(
       child: Text("Команды"),
       onTap: () {
@@ -217,14 +225,15 @@ class _EventScreenState extends State<EventScreen> {
           return EventTeamsScreen(
             orgId: widget.orgId,
             eventId: widget.eventId,
-            editable: widget.editable,
+            editable: _canEdit(event) && widget.editable,
+            resultsEditable: _canChangeResults(event) && widget.editable,
           );
         }));
       },
     );
   }
 
-  Widget _buildEventSecretaryCatalogButton(context) {
+  Widget _buildEventSecretaryCatalogButton({bool editable = true}) {
     return CardPadding(
       child: Text("Секретари"),
       onTap: () {
@@ -232,13 +241,14 @@ class _EventScreenState extends State<EventScreen> {
           return EventSecretaryCatalogScreen(
             orgId: widget.orgId,
             eventId: widget.eventId,
+            editable: editable,
           );
         }));
       },
     );
   }
 
-  Widget _buildAddRefereeButton(context) {
+  Widget _buildAddRefereeButton() {
     return CardPadding(
       child: Text("Добавить судью"),
       onTap: () {
@@ -252,22 +262,22 @@ class _EventScreenState extends State<EventScreen> {
     );
   }
 
-  Widget _buildApplyButton(context) {
+  Widget _buildApplyButton() {
     return CardPadding(
       child: Text("Подать заявку на участие"),
       onTap: () {
         if (!Auth.I.isLoggedIn) {
           Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-            return LoginScreen(callback: () => _onApplyPressed(context));
+            return LoginScreen(callback: () => _onApplyPressed());
           }));
         } else {
-          _onApplyPressed(context);
+          _onApplyPressed();
         }
       },
     );
   }
 
-  void _onApplyPressed(context) {
+  void _onApplyPressed() {
     EventRepo.I.apply(widget.eventId).then((_) {
       setState(() {});
       showDialog(
@@ -283,5 +293,17 @@ class _EventScreenState extends State<EventScreen> {
 
   _onUpdate() {
     setState(() {});
+  }
+
+  bool _canEdit(Event event) {
+    return event.state == EventState.Preparation;
+  }
+
+  bool _canChangeState(Event event) {
+    return event.state != EventState.Finished;
+  }
+
+  bool _canChangeResults(Event event) {
+    return event.state == EventState.InProgress;
   }
 }

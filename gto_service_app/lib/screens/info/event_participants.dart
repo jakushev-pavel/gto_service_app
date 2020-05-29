@@ -11,9 +11,14 @@ import '../profile/common/add_event_participant.dart';
 class EventParticipantsScreen extends StatefulWidget {
   final int eventId;
   final bool editable;
+  final bool resultsEditable;
 
-  EventParticipantsScreen({@required this.eventId, bool editable})
-      : editable = editable ?? true;
+  EventParticipantsScreen({
+    @required this.eventId,
+    bool editable,
+    bool resultsEditable,
+  })  : editable = editable ?? true,
+        resultsEditable = resultsEditable ?? true;
 
   @override
   _EventParticipantsScreenState createState() =>
@@ -61,7 +66,7 @@ class _EventParticipantsScreenState extends State<EventParticipantsScreen> {
       return ParticipantResultsScreen(
         eventId: widget.eventId,
         userId: participant.userId,
-        editable: widget.editable,
+        editable: widget.resultsEditable,
       );
     }));
   }

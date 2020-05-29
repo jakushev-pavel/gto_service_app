@@ -16,13 +16,16 @@ class TeamScreen extends StatefulWidget {
   final int teamId;
   final void Function() onUpdate;
   final bool editable;
+  final bool resultsEditable;
 
   TeamScreen({
     @required this.eventId,
     @required this.teamId,
     @required this.onUpdate,
     bool editable,
-  }) : editable = editable ?? true;
+    bool resultsEditable,
+  })  : editable = editable ?? true,
+        resultsEditable = resultsEditable ?? true;
 
   @override
   _TeamScreenState createState() => _TeamScreenState();
@@ -112,6 +115,7 @@ class _TeamScreenState extends State<TeamScreen> {
               teamId: widget.teamId,
               onUpdate: _onUpdate,
               editable: widget.editable,
+              resultsEditable: widget.resultsEditable,
             );
           }));
         },

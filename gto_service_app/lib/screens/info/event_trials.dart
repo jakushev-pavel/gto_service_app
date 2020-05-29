@@ -15,17 +15,21 @@ class EventTrialsScreen extends StatefulWidget {
   final int orgId;
   final int eventId;
   final bool editable;
+  final bool resultsEditable;
 
   EventTrialsScreen(
-      {@required this.orgId, @required this.eventId, bool editable})
-      : editable = editable ?? true;
+      {@required this.orgId,
+      @required this.eventId,
+      bool editable,
+      bool resultsEditable})
+      : editable = editable ?? true,
+        resultsEditable = resultsEditable ?? true;
 
   @override
   _EventTrialsScreenState createState() => _EventTrialsScreenState();
 }
 
 class _EventTrialsScreenState extends State<EventTrialsScreen> {
-
   @override
   Widget build(BuildContext context) {
     bool canEdit = widget.editable &&
@@ -97,7 +101,10 @@ class _EventTrialsScreenState extends State<EventTrialsScreen> {
 
   void _onTapped(context, EventTrial eventTrial) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return TrialResultsScreen(trialInEventId: eventTrial.trialInEventId);
+      return TrialResultsScreen(
+        trialInEventId: eventTrial.trialInEventId,
+        editable: widget.resultsEditable,
+      );
     }));
   }
 }
