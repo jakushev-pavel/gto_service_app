@@ -16,4 +16,14 @@ extension RoleEx on Role {
       "Тренер": Role.TeamLead,
     }[str];
   }
+
+  String toText() {
+    return {
+      Role.GlobalAdmin: "Глобальный администратор",
+      Role.LocalAdmin: "Локальный администратор",
+      Role.User: "Участник",
+      Role.Secretary: "Секретарь",
+      Role.TeamLead: "Тренер",
+    }[this];
+  }
 }

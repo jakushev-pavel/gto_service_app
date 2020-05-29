@@ -60,7 +60,10 @@ class EventRepo {
   }
 
   Future<List<Event>> getAllForUser() async {
-    List<dynamic> json = await API.I.get(Routes.UserEvents.toStr());
+    List<dynamic> json = await API.I.get(
+      Routes.UserEvents.toStr(),
+      auth: true,
+    );
     return Utils.map(json, (json) => Event.fromJson(json));
   }
 

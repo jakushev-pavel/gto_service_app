@@ -4,8 +4,8 @@ import 'package:gtoserviceapp/components/widgets/expanded_horizontally.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
 import 'package:gtoserviceapp/components/widgets/text/caption.dart';
 import 'package:gtoserviceapp/components/widgets/text/headline.dart';
+import 'package:gtoserviceapp/models/role.dart';
 import 'package:gtoserviceapp/services/repo/user.dart';
-import 'package:gtoserviceapp/services/storage/keys.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 import 'package:gtoserviceapp/services/utils/utils.dart';
 
@@ -30,15 +30,8 @@ class ProfileUserInfo extends StatelessWidget {
         HeadlineText(response.name),
         CaptionText(response.email),
         CaptionText(Utils.formatDate(response.dateOfBirth)),
-        _buildRole(context),
+        CaptionText(Storage.I.role.toText()),
       ],
-    );
-  }
-
-  Widget _buildRole(context) {
-    return Text(
-      Storage.I.read(Keys.role),
-      style: Theme.of(context).textTheme.caption,
     );
   }
 }
