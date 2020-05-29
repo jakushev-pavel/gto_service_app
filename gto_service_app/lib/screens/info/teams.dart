@@ -54,7 +54,6 @@ class _EventTeamsScreenState extends State<EventTeamsScreen> {
   }
 
   Future<void> _onDeletePressed(Team team) {
-    print(team.toJson());
     return TeamRepo.I.delete(team.id);
   }
 

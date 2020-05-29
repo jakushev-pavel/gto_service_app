@@ -105,7 +105,6 @@ class _ParticipantResultsScreenState extends State<ParticipantResultsScreen> {
   }
 
   _buildFirstResultField(Trial t) {
-    print(t.resultInTrialId.toString());
     return SizedBox(
       width: 96,
       child: TextFormField(

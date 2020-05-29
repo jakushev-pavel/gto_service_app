@@ -73,7 +73,6 @@ class EventTrial {
     data['sportObjectAddress'] = this.sportObjectAddress;
     data['sportObjectDescription'] = this.sportObjectDescription;
     data['startDateTime'] = Utils.dateTimeToJson(this.startDateTime);
-    print(data['startDateTime']);
     if (this.referees != null) {
       data['referies'] = this.referees.map((v) => v.toJson()).toList();
     }

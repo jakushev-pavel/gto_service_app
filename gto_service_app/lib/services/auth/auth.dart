@@ -20,8 +20,6 @@ class Auth {
   Future<void> login(String email, String password) async {
     var response = await UserRepo.I.login(email, password);
 
-    print(response.orgId);
-
     return Future.wait([
       Storage.I.write(Keys.accessToken, response.accessToken),
       Storage.I.write(Keys.refreshToken, response.refreshToken),
