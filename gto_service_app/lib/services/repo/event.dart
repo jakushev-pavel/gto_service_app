@@ -103,6 +103,11 @@ class EventRepo {
     );
   }
 
+  Future<bool> isAppliedFor(int eventId) async {
+    var events = await getAllForUser();
+    return events.where((element) => element.id == eventId).isNotEmpty;
+  }
+
   Future apply(int eventId) {
     return API.I.post(
       Routes.EventApply.withArgs(eventId: eventId),
@@ -111,7 +116,10 @@ class EventRepo {
   }
 
   Future unsubscribe(int eventId) {
-    return API.I.post(Routes.EventUnsubscribe.withArgs(eventId: eventId));
+    return API.I.post(
+      Routes.EventUnsubscribe.withArgs(eventId: eventId),
+      auth: true,
+    );
   }
 
   Future delete(int orgId, int eventId) async {

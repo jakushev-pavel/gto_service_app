@@ -131,7 +131,7 @@ class _EventScreenState extends State<EventScreen> {
       buttons.add(_buildAddRefereeButton());
     }
     if (canEdit) {
-      buttons.add(_buildApplyButton());
+      buttons.add(_buildApplyUnsubscribeButton());
     }
 
     buttons.add(SizedBox(height: 16));
@@ -271,7 +271,24 @@ class _EventScreenState extends State<EventScreen> {
     );
   }
 
-  Widget _buildApplyButton() {
+  Widget _buildApplyUnsubscribeButton() {
+    if (!Auth.I.isLoggedIn) {
+      return _buildApplyButton();
+    }
+
+    return FutureWidgetBuilder(
+      EventRepo.I.isAppliedFor(widget.eventId),
+      (context, bool applied) {
+        if (applied) {
+          return _buildUnsubscribeButton();
+        } else {
+          return _buildApplyButton();
+        }
+      },
+    );
+  }
+
+  CardButton _buildApplyButton() {
     return CardButton(
       text: "Подать заявку на участие",
       icon: Icons.check,
@@ -287,7 +304,16 @@ class _EventScreenState extends State<EventScreen> {
     );
   }
 
+  CardButton _buildUnsubscribeButton() {
+    return CardButton(
+      text: "Отменить заявку",
+      icon: Icons.close,
+      onTap: _onUnsubscribePressed,
+    );
+  }
+
   void _onApplyPressed() {
+    setState(() {});
     EventRepo.I.apply(widget.eventId).then((_) {
       setState(() {});
       showDialog(
@@ -295,6 +321,20 @@ class _EventScreenState extends State<EventScreen> {
           child: OkDialog(
             "Успешно",
             text: "Заявка отправлена",
+          ));
+    }).catchError((error) {
+      showDialog(context: context, child: ErrorDialog.fromError(error));
+    });
+  }
+
+  void _onUnsubscribePressed() {
+    EventRepo.I.unsubscribe(widget.eventId).then((_) {
+      setState(() {});
+      showDialog(
+          context: context,
+          child: OkDialog(
+            "Успешно",
+            text: "Заявка отменена",
           ));
     }).catchError((error) {
       showDialog(context: context, child: ErrorDialog.fromError(error));
