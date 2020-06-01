@@ -62,24 +62,30 @@ class _AddEditOrgScreenState extends State<AddEditOrgScreen> {
   }
 
   Widget _buildForm() {
-    return CardPadding(
-      child: Form(
-        key: _formKey,
-        child: ListView(
-          children: <Widget>[
-            _buildNameField(),
-            _buildAddressField(),
-            _buildLeaderField(),
-            _buildPhoneNumberField(),
-            _buildOqrnField(),
-            _buildPaymentAccountField(),
-            _buildBranchField(),
-            _buildBikField(),
-            _buildCorrespondentAccountField(),
-            _buildSubmitButton(),
-          ],
+    return ListView(
+      children: <Widget>[
+        CardPadding(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                _buildNameField(),
+                _buildAddressField(),
+                _buildLeaderField(),
+                _buildPhoneNumberField(),
+                _buildOqrnField(),
+                _buildPaymentAccountField(),
+                _buildBranchField(),
+                _buildBikField(),
+                _buildCorrespondentAccountField(),
+                SizedBox(height: 16),
+                _buildSubmitButton(),
+              ],
+            ),
+          ),
         ),
-      ),
+        SizedBox(height: 16),
+      ],
     );
   }
 
