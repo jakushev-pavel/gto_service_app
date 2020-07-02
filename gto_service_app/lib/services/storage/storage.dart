@@ -34,6 +34,10 @@ class Storage {
     return int.tryParse(read(Keys.orgId));
   }
 
+  int get userId {
+    return int.tryParse(read(Keys.userId));
+  }
+
   Role get role {
     var str = read(Keys.role);
     if (str == null) {

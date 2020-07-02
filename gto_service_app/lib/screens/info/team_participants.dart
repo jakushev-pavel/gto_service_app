@@ -16,6 +16,7 @@ class TeamParticipantsScreen extends StatefulWidget {
   final void Function() onUpdate;
   final bool editable;
   final bool resultsEditable;
+  final bool canModerate;
 
   TeamParticipantsScreen({
     @required this.eventId,
@@ -23,8 +24,10 @@ class TeamParticipantsScreen extends StatefulWidget {
     @required this.onUpdate,
     bool editable,
     bool resultsEditable,
+    bool canModerate,
   })  : editable = editable ?? true,
-        resultsEditable = resultsEditable ?? true;
+        resultsEditable = resultsEditable ?? true,
+        canModerate = canModerate ?? true;
 
   @override
   _TeamParticipantsScreenState createState() => _TeamParticipantsScreenState();
@@ -94,8 +97,9 @@ class _TeamParticipantsScreenState extends State<TeamParticipantsScreen> {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return ParticipantResultsScreen(
         eventId: widget.eventId,
-        userId: participant.userId,
+        participant: participant,
         editable: widget.resultsEditable,
+        canModerate: widget.canModerate,
       );
     }));
   }

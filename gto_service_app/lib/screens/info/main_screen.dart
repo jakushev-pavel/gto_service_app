@@ -35,7 +35,11 @@ class MainScreen extends StatelessWidget {
 
   void _onTap(context, Org org) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return OrgScreen(orgId: org.id, editable: false);
+      return OrgScreen(
+        orgId: org.id,
+        editable: false,
+        canModerate: false,
+      );
     }));
   }
 }

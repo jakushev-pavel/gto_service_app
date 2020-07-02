@@ -44,7 +44,10 @@ class _OrgsScreenState extends State<OrgsScreen> {
 
   _onOrgTapped(context, Org org) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => OrgScreen(orgId: org.id),
+      builder: (_) => OrgScreen(
+        orgId: org.id,
+        canModerate: false,
+      ),
     ));
   }
 

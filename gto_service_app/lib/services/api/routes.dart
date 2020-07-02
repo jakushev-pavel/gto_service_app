@@ -80,6 +80,13 @@ enum Routes {
   EventFreeTrials,
   EventTrials,
   EventTrial,
+
+  // Photo
+  AddUserPhoto,
+  UpdateUserPhoto,
+  DeleteUserPhoto,
+  GetUserPhoto,
+  FindFaceOnPhoto,
 }
 
 extension RoutesEx on Routes {
@@ -203,6 +210,17 @@ extension RoutesEx on Routes {
         return "/event/{eventId}/trial";
       case Routes.EventTrial:
         return "/trialInEvent/{trialInEventId}";
+      // Photo
+      case Routes.AddUserPhoto:
+        return "/addPhoto/user/{userId}";
+      case Routes.UpdateUserPhoto:
+        return "/updatePhoto/user/{userId}";
+      case Routes.DeleteUserPhoto:
+        return "/deletePhoto/user/{userId}";
+      case Routes.GetUserPhoto:
+        return "/getPhoto/user/{userId}";
+      case Routes.FindFaceOnPhoto:
+        return "/findFaceOnPhoto";
       // Default - забыли добавить сюда путь?
       default:
         throw Exception("Invlid route");

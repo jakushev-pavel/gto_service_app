@@ -1,21 +1,34 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:gtoserviceapp/components/widgets/card_padding.dart';
 import 'package:gtoserviceapp/components/widgets/dialogs/error_dialog.dart';
 import 'package:gtoserviceapp/components/widgets/future_widget_builder.dart';
+import 'package:gtoserviceapp/components/widgets/info/participant_info.dart';
 import 'package:gtoserviceapp/components/widgets/text/caption.dart';
 import 'package:gtoserviceapp/models/badge.dart';
 import 'package:gtoserviceapp/models/role.dart';
+import 'package:gtoserviceapp/screens/profile/photo/camera.dart';
+import 'package:gtoserviceapp/services/repo/participant.dart';
+import 'package:gtoserviceapp/services/repo/photo.dart';
 import 'package:gtoserviceapp/services/repo/result.dart';
 import 'package:gtoserviceapp/services/storage/storage.dart';
 
 class ParticipantResultsScreen extends StatefulWidget {
   final int eventId;
-  final int userId;
+  final Participant participant;
   final bool editable;
+  final bool canModerate;
 
   ParticipantResultsScreen(
-      {@required this.eventId, @required this.userId, bool editable})
-      : editable = editable ?? true;
+      {@required this.eventId,
+      @required this.participant,
+      bool editable,
+      bool canModerate})
+      : editable = editable ?? true,
+        canModerate = canModerate ?? true;
 
   @override
   _ParticipantResultsScreenState createState() =>
@@ -25,15 +38,35 @@ class ParticipantResultsScreen extends StatefulWidget {
 class _ParticipantResultsScreenState extends State<ParticipantResultsScreen> {
   @override
   Widget build(BuildContext context) {
+    bool canModerate = widget.canModerate &&
+        (Storage.I.role == Role.LocalAdmin || Storage.I.role == Role.Secretary);
+
     return Scaffold(
-      appBar: AppBar(title: Text("Результаты")),
+      appBar: AppBar(
+        title: Text("Результаты участника"),
+        actions: canModerate ? _buildActions() : null,
+      ),
       body: _buildFutureBody(),
     );
   }
 
+  List<Widget> _buildActions() {
+    return <Widget>[
+      IconButton(
+        icon: Icon(Icons.image),
+        onPressed: _onAddPhotoImagePressed,
+      ),
+      IconButton(
+        icon: Icon(Icons.add_a_photo),
+        onPressed: _onAddPhotoCameraPressed,
+      ),
+    ];
+  }
+
   Widget _buildFutureBody() {
     return FutureWidgetBuilder<Result>(
-      ResultRepo.I.getEventUserResult(widget.eventId, widget.userId),
+      ResultRepo.I
+          .getEventUserResult(widget.eventId, widget.participant.userId),
       _buildBody,
     );
   }
@@ -41,9 +74,17 @@ class _ParticipantResultsScreenState extends State<ParticipantResultsScreen> {
   Widget _buildBody(context, Result result) {
     return ListView(
       children: <Widget>[
+        _buildInfo(),
         _buildHeader(result),
         ..._buildGroups(result),
       ],
+    );
+  }
+
+  CardPadding _buildInfo() {
+    return CardPadding(
+      child: ParticipantInfo(
+          participant: widget.participant, onUpdate: this._onUpdate),
     );
   }
 
@@ -133,5 +174,32 @@ class _ParticipantResultsScreenState extends State<ParticipantResultsScreen> {
         Text(t.secondResult.toString())
       ],
     );
+  }
+
+  void _onUpdate() {
+    setState(() {});
+  }
+
+  void _onAddPhotoCameraPressed() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return CameraScreen(
+        onPhotoTaken: _uploadPhoto,
+      );
+    }));
+  }
+
+  void _onAddPhotoImagePressed() async {
+    File photo = await FilePicker.getFile(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png'],
+    );
+
+    _uploadPhoto(photo.readAsBytesSync());
+  }
+
+  void _uploadPhoto(Uint8List photo) async {
+    var future = PhotoRepo.I.add(widget.participant.userId, photo);
+    ErrorDialog.showOnFutureError(context, future);
+    await future;
   }
 }

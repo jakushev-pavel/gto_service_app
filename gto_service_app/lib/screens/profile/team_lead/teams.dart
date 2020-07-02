@@ -27,6 +27,7 @@ class _TeamLeadTeamsScreenState extends State<TeamLeadTeamsScreen> {
         teamId: team.id,
         onUpdate: _onUpdate,
         resultsEditable: false,
+        canModerate: false,
       );
     }));
   }

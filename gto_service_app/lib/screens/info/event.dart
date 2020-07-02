@@ -29,9 +29,15 @@ class EventScreen extends StatefulWidget {
   final int orgId;
   final int eventId;
   final bool editable;
+  final bool canModerate;
 
-  EventScreen({@required this.orgId, @required this.eventId, bool editable})
-      : editable = editable ?? true;
+  EventScreen(
+      {@required this.orgId,
+      @required this.eventId,
+      bool editable,
+      bool canModerate})
+      : editable = editable ?? true,
+        canModerate = canModerate ?? true;
 
   @override
   _EventScreenState createState() => _EventScreenState();
@@ -216,6 +222,7 @@ class _EventScreenState extends State<EventScreen> {
           return EventParticipantsScreen(
             eventId: widget.eventId,
             editable: _canEdit(event) && widget.editable,
+            canModerate: widget.canModerate,
             resultsEditable: _canChangeResults(event) && widget.editable,
           );
         }));
@@ -234,6 +241,7 @@ class _EventScreenState extends State<EventScreen> {
             eventId: widget.eventId,
             editable: _canEdit(event) && widget.editable,
             resultsEditable: _canChangeResults(event) && widget.editable,
+            canModerate: widget.canModerate,
           );
         }));
       },

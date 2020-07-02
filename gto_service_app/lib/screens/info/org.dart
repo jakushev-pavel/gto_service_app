@@ -15,8 +15,11 @@ import 'package:gtoserviceapp/services/storage/storage.dart';
 class OrgScreen extends StatefulWidget {
   final int orgId;
   final bool editable;
+  final bool canModerate;
 
-  OrgScreen({@required this.orgId, editable}) : editable = editable ?? true;
+  OrgScreen({@required this.orgId, bool editable, bool canModerate})
+      : editable = editable ?? true,
+        canModerate = canModerate ?? true;
 
   @override
   _OrgScreenState createState() => _OrgScreenState();
@@ -136,7 +139,11 @@ class _OrgScreenState extends State<OrgScreen> {
       icon: Icons.event,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-          return EventsScreen(orgId: widget.orgId, editable: widget.editable);
+          return EventsScreen(
+            orgId: widget.orgId,
+            editable: widget.editable,
+            canModerate: widget.canModerate,
+          );
         }));
       },
     );

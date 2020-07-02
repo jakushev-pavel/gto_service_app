@@ -17,7 +17,10 @@ class SecretaryEventsScreen extends StatelessWidget {
 
   void _onTapped(context, Event event) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return EventScreen(orgId: event.orgId, eventId: event.id);
+      return EventScreen(
+        orgId: event.orgId,
+        eventId: event.id,
+      );
     }));
   }
 }

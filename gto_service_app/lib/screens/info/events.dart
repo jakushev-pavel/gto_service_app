@@ -11,9 +11,11 @@ import 'event.dart';
 class EventsScreen extends StatefulWidget {
   final int orgId;
   final bool editable;
+  final bool canModerate;
 
-  EventsScreen({@required this.orgId, bool editable})
-      : editable = editable ?? true;
+  EventsScreen({@required this.orgId, bool editable, bool canModerate})
+      : editable = editable ?? true,
+        canModerate = canModerate ?? true;
 
   @override
   _EventsScreenState createState() => _EventsScreenState();
@@ -40,6 +42,7 @@ class _EventsScreenState extends State<EventsScreen> {
         eventId: event.id,
         orgId: widget.orgId,
         editable: widget.editable,
+        canModerate: widget.canModerate,
       );
     }));
   }

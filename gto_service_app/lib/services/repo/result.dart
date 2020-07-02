@@ -96,7 +96,7 @@ class Trial {
 }
 
 class Results {
-  List<Participant> participants;
+  List<ParticipantResult> participants;
   String trialName;
   bool isTypeTime;
   String eventStatus;
@@ -110,9 +110,9 @@ class Results {
 
   Results.fromJson(Map<String, dynamic> json) {
     if (json['participants'] != null) {
-      participants = new List<Participant>();
+      participants = new List<ParticipantResult>();
       json['participants'].forEach((v) {
-        participants.add(new Participant.fromJson(v));
+        participants.add(new ParticipantResult.fromJson(v));
       });
     }
     trialName = json['trialName'];
@@ -121,7 +121,7 @@ class Results {
   }
 }
 
-class Participant {
+class ParticipantResult {
   int userId;
   int resultOfTrialInEventId;
   String userName;
@@ -135,7 +135,7 @@ class Participant {
   int orgId;
   int eventId;
 
-  Participant({
+  ParticipantResult({
     this.userId,
     this.resultOfTrialInEventId,
     this.userName,
@@ -150,7 +150,7 @@ class Participant {
     this.eventId,
   });
 
-  Participant.fromJson(Map<String, dynamic> json) {
+  ParticipantResult.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
     resultOfTrialInEventId = json['resultOfTrialInEventId'];
     userName = json['userName'];

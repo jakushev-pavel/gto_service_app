@@ -13,14 +13,17 @@ class EventTeamsScreen extends StatefulWidget {
   final int eventId;
   final bool editable;
   final bool resultsEditable;
+  final bool canModerate;
 
   EventTeamsScreen({
     @required this.orgId,
     @required this.eventId,
     bool editable,
     bool resultsEditable,
+    bool canModerate,
   })  : editable = editable ?? true,
-        resultsEditable = resultsEditable ?? true;
+        resultsEditable = resultsEditable ?? true,
+        canModerate = canModerate ?? true;
 
   @override
   _EventTeamsScreenState createState() => _EventTeamsScreenState();
@@ -68,6 +71,7 @@ class _EventTeamsScreenState extends State<EventTeamsScreen> {
         onUpdate: _onUpdate,
         editable: widget.editable,
         resultsEditable: widget.resultsEditable,
+        canModerate: widget.canModerate,
       );
     }));
   }

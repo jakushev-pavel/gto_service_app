@@ -56,7 +56,7 @@ class _TrialResultsScreenState extends State<TrialResultsScreen> {
     return results.participants.map(_buildUserResult).toList();
   }
 
-  Widget _buildUserResult(Participant participant) {
+  Widget _buildUserResult(ParticipantResult participant) {
     return CardPadding(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +82,7 @@ class _TrialResultsScreenState extends State<TrialResultsScreen> {
     );
   }
 
-  Widget _buildResult(Participant p) {
+  Widget _buildResult(ParticipantResult p) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -92,7 +92,7 @@ class _TrialResultsScreenState extends State<TrialResultsScreen> {
     );
   }
 
-  Widget _buildFirstResult(Participant p) {
+  Widget _buildFirstResult(ParticipantResult p) {
     bool canEdit = widget.editable &&
         (Storage.I.role == Role.LocalAdmin || Storage.I.role == Role.Secretary);
     if (!canEdit && p.firstResult == null) {
@@ -107,7 +107,7 @@ class _TrialResultsScreenState extends State<TrialResultsScreen> {
     );
   }
 
-  _buildFirstResultField(Participant p) {
+  _buildFirstResultField(ParticipantResult p) {
     return SizedBox(
       width: 96,
       child: TextFormField(
@@ -129,7 +129,7 @@ class _TrialResultsScreenState extends State<TrialResultsScreen> {
     });
   }
 
-  Widget _buildSecondResult(Participant p) {
+  Widget _buildSecondResult(ParticipantResult p) {
     return Row(
       children: <Widget>[
         CaptionText("Приведенный: "),

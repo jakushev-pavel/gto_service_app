@@ -13,6 +13,10 @@ class APIErrors implements Exception {
     this.statusCode = statusCode;
     errors = new List<APIError>();
 
+    if (json['description'] != null) {
+      // TODO: используется в микросервисе фотографий
+      errors.add(APIError.fromJson(json));
+    }
     if (json['error'] != null) {
       // TODO: недокументировано
       errors.add(APIError.fromJson(json['error']));
@@ -58,7 +62,7 @@ class APIError {
   String description;
 
   APIError.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
+    type = json['type'] ?? "ERROR";
     description = json['description'];
   }
 
